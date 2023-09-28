@@ -1,4 +1,4 @@
-# dataclass <img src='img/logo.png' align="right" height="140" />
+# visionary <img src='img/logo.png' align="right" height="140" />
 
 ## Perform Image Classification using a C++ Based Neural Network
 

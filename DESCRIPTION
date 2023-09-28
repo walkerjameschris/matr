@@ -1,6 +1,6 @@
 Package: visionary
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Perform Image Classification using a C++ Based Neural Network
 Version: 0.1.0
 Authors@R: c(person(
             "Chris", "Walker",
@@ -13,4 +13,13 @@ Description: A from-scratch implementation of a neural network in C++ and R used
     live video streaming classification using Rcpp and fswebcam.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Imports:
+  Rcpp (>= 1.0.11),
+  tibble,
+  dplyr,
+  purrr,
+  jpeg,
+  cli
+LinkingTo: Rcpp
 LazyData: true
+RoxygenNote: 7.2.3
