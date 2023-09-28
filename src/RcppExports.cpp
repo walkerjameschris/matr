@@ -10,19 +10,19 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _visionary_rcpp_hello_world() {
+// fit_network_internal
+int fit_network_internal();
+RcppExport SEXP _visionary_fit_network_internal() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    rcpp_result_gen = Rcpp::wrap(fit_network_internal());
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_visionary_rcpp_hello_world", (DL_FUNC) &_visionary_rcpp_hello_world, 0},
+    {"_visionary_fit_network_internal", (DL_FUNC) &_visionary_fit_network_internal, 0},
     {NULL, NULL, 0}
 };
 

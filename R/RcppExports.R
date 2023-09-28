@@ -2,7 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @useDynLib visionary, .registration=TRUE
-rcpp_hello_world <- function() {
-    .Call(`_visionary_rcpp_hello_world`)
+fit_network_internal <- function() {
+    .Call(`_visionary_fit_network_internal`)
 }
 

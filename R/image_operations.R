@@ -87,14 +87,15 @@ load_images <- function(path,
 #' @export
 live_stream <- function(model, device = NULL) {
   
+  cli::cli_inform(c("i" = "This will loop until the escape key is pressed."))
+  Sys.sleep(3)
+  
   path <- tempfile(fileext = ".jpg")
   
   while (TRUE) {
-    
     capture_images(path, 1, device)
     image <- load_images(path)
     print(predict(model, newdata = image))
     file.remove(path)
-    
   }
 }
