@@ -1,11 +1,16 @@
-Package: blurry_vision
+Package: visionary
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
+Authors@R: c(person(
+            "Chris", "Walker",
+            role = c("aut", "cre", "cph"),
+            email = "walkerjameschris@gmail.com"
+          ))
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Description: A from-scratch implementation of a neural network in C++ and R used
+    for image classification. Created for ISYE 6740 at Georgia Tech. Allows for
+    live video streaming classification using Rcpp and fswebcam.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
