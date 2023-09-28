@@ -24,15 +24,15 @@ capture_images <- function(path, n = 50, device = NULL) {
       
       command <-
         glue::glue(
-          "fswebcam -d {devide} ",
-          "--no-banner --greyscale",
+          "fswebcam -d {device} ",
+          "--no-banner --greyscale ",
           path, "img_{i}.jpg"
         )
       
       system(
         command = command,
         ignore.stdout = TRUE,
-        ignore.stderr = FALSE,
+        ignore.stderr = TRUE,
         intern = TRUE
       )
     })
@@ -50,6 +50,7 @@ capture_images <- function(path, n = 50, device = NULL) {
 #'
 #' @import purrr fs jpeg tibble dplyr
 #' @return A tibble
+#' @export
 load_images <- function(path,
                         label = 1,
                         x_range = seq(140, 499, 10),
@@ -90,12 +91,13 @@ live_stream <- function(model, device = NULL) {
   cli::cli_inform(c("i" = "This will loop until the escape key is pressed."))
   Sys.sleep(3)
   
-  path <- tempfile(fileext = ".jpg")
+  dir <- glue::glue(tempdir(), "/")
+  img <- glue::glue("{dir}img_1.jpg")
   
   while (TRUE) {
-    capture_images(path, 1, device)
-    image <- load_images(path)
+    capture_images(dir, 1, device)
+    image <- load_images(img)
     print(predict(model, newdata = image))
-    file.remove(path)
+    file.remove(img)
   }
 }

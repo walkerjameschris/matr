@@ -4,5 +4,5 @@
 
 A from-scratch implementation of a neural network in C++ and R used
 for image classification. Includes functionality for live streaming video
-feeds to. Designed for linux based systems (leverages the fswebcam package).
+feeds. Designed for linux based systems (leverages the fswebcam package).
 Originally designed as my project of ISYE 6740.

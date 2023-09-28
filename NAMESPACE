@@ -3,6 +3,7 @@
 export(capture_images)
 export(fit_network)
 export(live_stream)
+export(load_images)
 import(dplyr)
 import(fs)
 import(jpeg)
