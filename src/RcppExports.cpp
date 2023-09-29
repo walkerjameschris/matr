@@ -139,6 +139,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// compute_loss
+double compute_loss(NumericMatrix X, NumericMatrix Y);
+RcppExport SEXP _visionary_compute_loss(SEXP XSEXP, SEXP YSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type Y(YSEXP);
+    rcpp_result_gen = Rcpp::wrap(compute_loss(X, Y));
+    return rcpp_result_gen;
+END_RCPP
+}
 // propagate_back
 List propagate_back(List network, NumericMatrix Y, double alpha);
 RcppExport SEXP _visionary_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP alphaSEXP) {
@@ -165,6 +177,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_visionary_activation", (DL_FUNC) &_visionary_activation, 1},
     {"_visionary_initialize", (DL_FUNC) &_visionary_initialize, 3},
     {"_visionary_feed_forward", (DL_FUNC) &_visionary_feed_forward, 1},
+    {"_visionary_compute_loss", (DL_FUNC) &_visionary_compute_loss, 2},
     {"_visionary_propagate_back", (DL_FUNC) &_visionary_propagate_back, 3},
     {NULL, NULL, 0}
 };

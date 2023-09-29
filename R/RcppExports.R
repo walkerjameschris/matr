@@ -48,6 +48,10 @@ feed_forward <- function(network) {
     .Call(`_visionary_feed_forward`, network)
 }
 
+compute_loss <- function(X, Y) {
+    .Call(`_visionary_compute_loss`, X, Y)
+}
+
 propagate_back <- function(network, Y, alpha) {
     .Call(`_visionary_propagate_back`, network, Y, alpha)
 }
