@@ -2,23 +2,53 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @useDynLib visionary, .registration=TRUE
-fit_network_internal <- function() {
-    .Call(`_visionary_fit_network_internal`)
+NULL
+
+normal_matrix <- function(row, col) {
+    .Call(`_visionary_normal_matrix`, row, col)
+}
+
+dot <- function(X, Y) {
+    .Call(`_visionary_dot`, X, Y)
+}
+
+transpose <- function(X) {
+    .Call(`_visionary_transpose`, X)
+}
+
+multiply <- function(X, Y) {
+    .Call(`_visionary_multiply`, X, Y)
+}
+
+subtract <- function(X, Y) {
+    .Call(`_visionary_subtract`, X, Y)
+}
+
+sub_scalar <- function(x, Y) {
+    .Call(`_visionary_sub_scalar`, x, Y)
+}
+
+mul_scalar <- function(x, Y) {
+    .Call(`_visionary_mul_scalar`, x, Y)
 }
 
 add_ones <- function(X) {
     .Call(`_visionary_add_ones`, X)
 }
 
-initialize <- function(X, labels, hidden_neurons = 5L) {
-    .Call(`_visionary_initialize`, X, labels, hidden_neurons)
+activation <- function(X) {
+    .Call(`_visionary_activation`, X)
 }
 
-dot_product <- function(X, Y) {
-    .Call(`_visionary_dot_product`, X, Y)
+initialize <- function(X, Y, neurons) {
+    .Call(`_visionary_initialize`, X, Y, neurons)
 }
 
 feed_forward <- function(network) {
     .Call(`_visionary_feed_forward`, network)
+}
+
+propagate_back <- function(network, Y, alpha) {
+    .Call(`_visionary_propagate_back`, network, Y, alpha)
 }
 

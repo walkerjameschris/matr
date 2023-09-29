@@ -4,7 +4,18 @@
 \alias{fit_network}
 \title{Fit a Neural Network}
 \usage{
-fit_network()
+fit_network(X, Y, neurons = 5L, epoch = 10000L, alpha = 0.001)
+}
+\arguments{
+\item{X}{Training data}
+
+\item{Y}{Training labels one hot encoded}
+
+\item{neurons}{Hidden layer neurons}
+
+\item{epoch}{Number of epochs}
+
+\item{alpha}{Learning rate}
 }
 \value{
 Neural network
