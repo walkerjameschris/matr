@@ -147,7 +147,6 @@ NumericMatrix add_ones(NumericMatrix X) {
   return result;
 }
 
-
 //// Neural Network Operations ////
 
 // [[Rcpp::export]]
@@ -211,6 +210,24 @@ List feed_forward(List network) {
 }
 
 // [[Rcpp::export]]
+double compute_loss(NumericMatrix X, NumericMatrix Y) {
+  
+  int row = X.nrow();
+  int col = X.ncol();
+  
+  double result = 0;
+  
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      result += pow(X(i, j) - Y(i, j), 2);
+    }
+  }
+  
+  result = pow(result, 0.5);
+  return result;
+}
+
+// [[Rcpp::export]]
 List propagate_back(List network,
                     NumericMatrix Y,
                     double alpha) {
@@ -221,9 +238,7 @@ List propagate_back(List network,
   NumericMatrix X  = network["before"];
   NumericMatrix w1 = network["hidden"];
   NumericMatrix w2 = network["output"];
-  NumericMatrix z1 = feed["z1"];
   NumericMatrix a1 = feed["a1"];
-  NumericMatrix z2 = feed["z2"];
   NumericMatrix a2 = feed["a2"];
   
   // Differences
@@ -245,10 +260,14 @@ List propagate_back(List network,
   // Update parameters
   NumericMatrix w1_new = subtract(w1, mul_scalar(alpha, w1_adj));
   NumericMatrix w2_new = subtract(w2, mul_scalar(alpha, w2_adj));
-      
+  
+  // Compute loss
+  double loss = compute_loss(d2, Y);
+  
   return List::create(
     Named("before") = X,
     Named("hidden") = w1_new,
-    Named("output") = w2_new
+    Named("output") = w2_new,
+    Named("loss")   = loss
   );
 }
