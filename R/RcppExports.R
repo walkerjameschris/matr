@@ -6,3 +6,19 @@ fit_network_internal <- function() {
     .Call(`_visionary_fit_network_internal`)
 }
 
+add_ones <- function(X) {
+    .Call(`_visionary_add_ones`, X)
+}
+
+initialize <- function(X, labels, hidden_neurons = 5L) {
+    .Call(`_visionary_initialize`, X, labels, hidden_neurons)
+}
+
+dot_product <- function(X, Y) {
+    .Call(`_visionary_dot_product`, X, Y)
+}
+
+feed_forward <- function(network) {
+    .Call(`_visionary_feed_forward`, network)
+}
+

@@ -88,7 +88,11 @@ load_images <- function(path,
 #' @export
 live_stream <- function(model, device = NULL) {
   
-  cli::cli_inform(c("i" = "This will loop until the escape key is pressed."))
+  cli::cli_inform(c(
+    "i" = "This will loop until the escape key is pressed.",
+    "v" = "Streaming in 3 seconds..."
+  ))
+  
   Sys.sleep(3)
   
   dir <- glue::glue(tempdir(), "/")

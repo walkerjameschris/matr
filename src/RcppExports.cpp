@@ -20,9 +20,60 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// add_ones
+NumericMatrix add_ones(NumericMatrix X);
+RcppExport SEXP _visionary_add_ones(SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(add_ones(X));
+    return rcpp_result_gen;
+END_RCPP
+}
+// initialize
+List initialize(NumericMatrix X, NumericVector labels, int hidden_neurons);
+RcppExport SEXP _visionary_initialize(SEXP XSEXP, SEXP labelsSEXP, SEXP hidden_neuronsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type labels(labelsSEXP);
+    Rcpp::traits::input_parameter< int >::type hidden_neurons(hidden_neuronsSEXP);
+    rcpp_result_gen = Rcpp::wrap(initialize(X, labels, hidden_neurons));
+    return rcpp_result_gen;
+END_RCPP
+}
+// dot_product
+NumericMatrix dot_product(NumericMatrix X, NumericMatrix Y);
+RcppExport SEXP _visionary_dot_product(SEXP XSEXP, SEXP YSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type Y(YSEXP);
+    rcpp_result_gen = Rcpp::wrap(dot_product(X, Y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// feed_forward
+NumericMatrix feed_forward(List network);
+RcppExport SEXP _visionary_feed_forward(SEXP networkSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type network(networkSEXP);
+    rcpp_result_gen = Rcpp::wrap(feed_forward(network));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_visionary_fit_network_internal", (DL_FUNC) &_visionary_fit_network_internal, 0},
+    {"_visionary_add_ones", (DL_FUNC) &_visionary_add_ones, 1},
+    {"_visionary_initialize", (DL_FUNC) &_visionary_initialize, 3},
+    {"_visionary_dot_product", (DL_FUNC) &_visionary_dot_product, 2},
+    {"_visionary_feed_forward", (DL_FUNC) &_visionary_feed_forward, 1},
     {NULL, NULL, 0}
 };
 
