@@ -58,7 +58,9 @@ predict.visionary_network <- function(x, newdata, ...) {
     x$before <- add_ones(newdata)
   }
   
-  tibble::as_tibble(feed_forward(x)$a2)
+  feed_forward(x)$a2 |>
+    as.data.frame() |>
+    tibble::as_tibble()
 }
 
 #' @export
@@ -67,18 +69,16 @@ predict.visionary_network <- function(x, newdata, ...) {
 print.visionary_network <- function(x, ...) {
   
   dimensions <-
-    network[1:3] |>
-    purrr::map(ncol) |>
+    purrr::map(x[1:3], ncol) |>
     glue::glue_collapse("-")
   
   details <-
     list(
-      "Final Loss: {x$loss}",
-      "Elapsed Time: {x$time} Minutes",
-      "Network Dimensions: {dimensions}"
+      "*" = "Final Loss: {x$loss}",
+      "*" = "Elapsed Time: {x$time} Minutes",
+      "*" = "Network Dimensions: {dimensions}"
     ) |>
-    purrr::map_chr(glue::glue) |>
-    purrr::set_names("*")
+    purrr::map_chr(~ glue::glue(.x, x = x))
   
   cli::cli_h1("A Visionary Neural Network")
   cli::cli_h2("Network Information:")
