@@ -50,7 +50,7 @@ capture_images <- function(path, n = 50, device = NULL) {
 #' @return A tibble
 #' @export
 load_images <- function(path,
-                        label = 1,
+                        label = NULL,
                         x_range = seq(140, 499, 10),
                         y_range = seq(001, 360, 10),
                         pattern = ".jpg$") {
@@ -64,7 +64,8 @@ load_images <- function(path,
       )
   }
   
-  path |>
+  images <-
+    path |>
     purrr::map(jpeg::readJPEG) |>
     purrr::map(~ .x[y_range, x_range, 1]) |>
     purrr::map(as.vector) |>
@@ -73,9 +74,15 @@ load_images <- function(path,
       args = _
     ) |>
     as.data.frame() |>
-    tibble::as_tibble() |>
-    dplyr::mutate(label) |>
-    dplyr::relocate(label)
+    tibble::as_tibble()
+  
+  if (!is.null(label)) {
+    images <-
+      dplyr::mutate(images, label) |>
+      dplyr::relocate(label)
+  }
+  
+  images
 }
 
 #' Initialize a Live Video Stream
@@ -84,7 +91,13 @@ load_images <- function(path,
 #' @param device Path to linux image device
 #'
 #' @export
-live_stream <- function(model, device = NULL) {
+live_stream <- function(model,
+                        fun = NULL,
+                        device = NULL) {
+  
+  if (is.null(fun)) {
+    fun <- function(x) x
+  }
   
   cli::cli_inform(c(
     "i" = "This will loop until the escape key is pressed.",
@@ -98,8 +111,8 @@ live_stream <- function(model, device = NULL) {
   
   while (TRUE) {
     capture_images(dir, 1, device)
-    image <- load_images(img)
-    print(predict(model, newdata = image))
+    image <- as.matrix(load_images(img))
+    print(fun(predict(model, newdata = image)))
     file.remove(img)
   }
 }
