@@ -183,7 +183,7 @@ List initialize(NumericMatrix X, NumericMatrix Y, int neurons) {
   
   NumericMatrix before = add_ones(X);
   NumericMatrix hidden = normal_matrix(X_col, neurons);
-  NumericMatrix output = normal_matrix(neurons, Y_col);
+  NumericMatrix output = normal_matrix(neurons + 1, Y_col);
   
   return List::create(
     Named("before") = before,
@@ -196,7 +196,7 @@ List initialize(NumericMatrix X, NumericMatrix Y, int neurons) {
 List feed_forward(List network) {
 
   NumericMatrix z1 = dot(network["before"], network["hidden"]);
-  NumericMatrix a1 = activation(z1);
+  NumericMatrix a1 = add_ones(activation(z1));
   
   NumericMatrix z2 = dot(a1, network["output"]);
   NumericMatrix a2 = activation(z2);
@@ -224,6 +224,8 @@ double compute_loss(NumericMatrix X, NumericMatrix Y) {
   }
   
   result = pow(result, 0.5);
+  result = round(result);
+  
   return result;
 }
 
@@ -268,6 +270,6 @@ List propagate_back(List network,
     Named("before") = X,
     Named("hidden") = w1_new,
     Named("output") = w2_new,
-    Named("loss")   = loss
+    Named("loss") = loss
   );
 }

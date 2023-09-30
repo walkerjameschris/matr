@@ -1,30 +1,29 @@
-#### Setup ####
-
-# model_tools.R
-# Chris Walker
-
-# Functions for estimating neural networks
-
-#' Fit a Neural Network
+#' Fit a Neural Network Classifier
+#' 
+#' Fits a neural network using C++ backend.
 #'
-#' @param X Training data
-#' @param Y Training labels one hot encoded
-#' @param neurons Hidden layer neurons
-#' @param epoch Number of epochs
+#' @param X Matrix of training data
+#' @param Y Matrix of training labels
+#' @param neurons Number of hidden layer neurons
+#' @param epoch Number of learning epochs
 #' @param alpha Learning rate
-#'
-#' @return Neural network
+#' 
+#' @import cli withr
+#' @return A list as class visionary neural network
 #' @export
 fit_network <- function(X, Y,
-                        neurons = 5L,
+                        neurons = 3L,
                         epoch = 10000L,
-                        alpha = 0.001) {
+                        alpha = 0.001,
+                        seed = 123) {
   
   start <- Sys.time()
-  network <- initialize(X, Y, neurons)
-  loss <- numeric(epoch)
   
-  cli::cli_alert_success("Network initialized")
+  network <-
+    withr::with_seed( 
+      code = initialize(X, Y, neurons),
+      seed = seed
+    )
   
   cli::cli_progress_bar(
     name = "Training network",
@@ -34,43 +33,54 @@ fit_network <- function(X, Y,
   
   for (i in seq(epoch)) {
     network <- propagate_back(network, Y, alpha)
-    loss[i] <- network$loss
-    cli::cli_progress_update()
+    cli::cli_progress_update(status = network$loss)
   }
   
-  cli::cli_process_done()
+  network$time <-
+    difftime(
+      time1 = Sys.time(),
+      time2 = start,
+      units = "mins"
+    ) |>
+    as.numeric() |>
+    round(2)
   
-  network$loss <- loss
-  network$time <- as.numeric(difftime(Sys.time(), x, units = "mins"))
   attr(network, "class") <- "visionary_network"
   network
 }
 
-#' @method predict visionary_network
 #' @export
+#' @import tibble
+#' @method predict visionary_network
 predict.visionary_network <- function(x, newdata, ...) {
   
   if (!missing(newdata)) {
     x$before <- add_ones(newdata)
   }
   
-  feed_forward(x) |>
-    purrr::pluck("a2") |>
-    as.data.frame() |>
-    tibble::as_tibble()
+  tibble::as_tibble(feed_forward(x)$a2)
 }
 
-#' @method print visionary_network
 #' @export
+#' @import purrr cli glue
+#' @method print visionary_network
 print.visionary_network <- function(x, ...) {
   
-  cli::cli_h1("A Visionary Neural Network")
-  cli::cli_h2("Final Loss: {round(tail(x$loss, 1), 2)}")
-  cli::cli_h2("Elapsed Minutes: {round(x$time, 2)}")
+  dimensions <-
+    network[1:3] |>
+    purrr::map(ncol) |>
+    glue::glue_collapse("-")
   
-  cli::cli_inform(c(
-    "*" = glue::glue("{nrow(x$before)} Input Neurons"),
-    "*" = glue::glue("{nrow(x$hidden)} Hidden Neurons"),
-    "*" = glue::glue("{nrow(x$output)} Output Neurons")
-  ))
+  details <-
+    list(
+      "Final Loss: {x$loss}",
+      "Elapsed Time: {x$time} Minutes",
+      "Network Dimensions: {dimensions}"
+    ) |>
+    purrr::map_chr(glue::glue) |>
+    purrr::set_names("*")
+  
+  cli::cli_h1("A Visionary Neural Network")
+  cli::cli_h2("Network Information:")
+  cli::cli_inform(details)
 }
