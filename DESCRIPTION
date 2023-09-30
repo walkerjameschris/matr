@@ -18,8 +18,10 @@ Imports:
   tibble,
   dplyr,
   purrr,
+  withr,
   jpeg,
-  cli
+  cli,
+  fs
 LinkingTo: Rcpp
 LazyData: true
 RoxygenNote: 7.2.3

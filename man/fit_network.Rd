@@ -7,9 +7,9 @@
 fit_network(X, Y, neurons = 5L, epoch = 10000L, alpha = 0.001)
 }
 \arguments{
-\item{X}{Training data}
+\item{X}{Matrix of training data}
 
-\item{Y}{Training labels one hot encoded}
+\item{Y}{Matrix of training labels}
 
 \item{neurons}{Hidden layer neurons}
 
@@ -21,5 +21,6 @@ fit_network(X, Y, neurons = 5L, epoch = 10000L, alpha = 0.001)
 Neural network
 }
 \description{
-Fit a Neural Network
+\eqn{x = 2}
+\deqn{x = 3}
 }

@@ -1,17 +1,13 @@
-#### Setup ####
-
-# image_operations.R
-# Chris Walker
-
-# Functions for capturing, loading, and working with images
-
 #' Capture Images from a Webcam
+#'
+#' Uses `fswebcam` to capture images in a loop and save to a directory
 #'
 #' @param path Where the images will be stored
 #' @param n The number of images to capture
+#' @param device Path to linux image device
 #' 
-#' @import purrr
-#' @return TRUE if successful
+#' @import purrr glue
+#' @return TRUE
 #' @export
 capture_images <- function(path, n = 50, device = NULL) {
   
@@ -41,11 +37,13 @@ capture_images <- function(path, n = 50, device = NULL) {
 }
 
 #' Load Images from a Directory as Data
+#' 
+#' Load images from a directory or specific path
 #'
 #' @param path A path to an image or directory of images
 #' @param label A label (true label) for training
-#' @param x_range Subset of x axis pixels for training
-#' @param y_range Subset of y axis pixels for training
+#' @param x_range Subset of x axis pixels to load
+#' @param y_range Subset of y axis pixels to load
 #' @param pattern A regex pattern for file matching
 #'
 #' @import purrr fs jpeg tibble dplyr
@@ -83,8 +81,8 @@ load_images <- function(path,
 #' Initialize a Live Video Stream
 #'
 #' @param model A neural network model
+#' @param device Path to linux image device
 #'
-#' @return Nothing
 #' @export
 live_stream <- function(model, device = NULL) {
   
