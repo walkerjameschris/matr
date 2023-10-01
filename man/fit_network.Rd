@@ -8,9 +8,9 @@ fit_network(
   X,
   Y,
   neurons = 3L,
-  epoch = 1000L,
+  epoch = 100L,
   learn_rate = 0.01,
-  stop_tol = 1e-04,
+  stop_tol = -Inf,
   seed = 123
 )
 }
@@ -26,6 +26,8 @@ fit_network(
 \item{learn_rate}{Learning rate}
 
 \item{stop_tol}{The convergence tolerance limit}
+
+\item{seed}{Random seed value}
 }
 \value{
 A list as class deepspace neural network

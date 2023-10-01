@@ -8,15 +8,16 @@
 #' @param epoch Number of learning epochs
 #' @param learn_rate Learning rate
 #' @param stop_tol The convergence tolerance limit
+#' @param seed Random seed value
 #' 
 #' @import cli withr
 #' @return A list as class deepspace neural network
 #' @export
 fit_network <- function(X, Y,
                         neurons = 3L,
-                        epoch = 1000L,
+                        epoch = 100L,
                         learn_rate = 0.01,
-                        stop_tol = 0.0001,
+                        stop_tol = -Inf,
                         seed = 123) {
   
   start <- Sys.time()
