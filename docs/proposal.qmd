@@ -6,7 +6,7 @@ editor: visual
 ---
 
 ```{r, echo=FALSE}
-github <- "https://github.com/walkerjameschris/visionary"
+github <- "https://github.com/walkerjameschris/deepspace"
 ```
 
 # Problem Statement and Introduction
@@ -56,4 +56,3 @@ I will train several neural networks using my vectorized images. This will invol
 While several methods exist to measure the performance of classification models with multiple class outcomes, I expect to generally use accuracy (the share of correctly labeled classes over all testing observations) to assess and compare neural networks. I will recommend a pre-trained model in the final report which best distinguishes between signs in a wide variety of lighting environments while also adhering to the parsimony principle. That is, what is the smallest model which provides the best performance across a range of inputs?
 
 One other measure of success for this project is the speed in which the algorithm can feed forward new images to obtain a prediction. Even if the model is reasonably performant at classifying images, it must also be able to generate new predictions quickly. This would allow it to classify and translate ASL in situations where speed is critical, such as live streaming video and FaceTime settings. While predictive accuracy is my primary concern, I also plan to utilize computer science techniques to better optimize algorithim peroformance at scale.
-

@@ -10,7 +10,7 @@
 #' @param stop_tol The convergence tolerance limit
 #' 
 #' @import cli withr
-#' @return A list as class visionary neural network
+#' @return A list as class deepspace neural network
 #' @export
 fit_network <- function(X, Y,
                         neurons = 3L,
@@ -52,14 +52,14 @@ fit_network <- function(X, Y,
     as.numeric() |>
     round(2)
   
-  attr(network, "class") <- "visionary_network"
+  attr(network, "class") <- "deepspace_network"
   network
 }
 
 #' @export
 #' @import tibble
-#' @method predict visionary_network
-predict.visionary_network <- function(x, newdata, ...) {
+#' @method predict deepspace_network
+predict.deepspace_network <- function(x, newdata, ...) {
   
   if (!missing(newdata)) {
     x$before <- add_ones(newdata)
@@ -72,8 +72,8 @@ predict.visionary_network <- function(x, newdata, ...) {
 
 #' @export
 #' @import purrr cli glue
-#' @method print visionary_network
-print.visionary_network <- function(x, ...) {
+#' @method print deepspace_network
+print.deepspace_network <- function(x, ...) {
   
   dimensions <-
     purrr::map(x[1:3], ncol) |>
@@ -87,7 +87,7 @@ print.visionary_network <- function(x, ...) {
     ) |>
     purrr::map_chr(~ glue::glue(.x, x = x))
   
-  cli::cli_h1("A Visionary Neural Network")
+  cli::cli_h1("A Deepspace Neural Network")
   cli::cli_h2("Network Information:")
   cli::cli_inform(details)
 }
