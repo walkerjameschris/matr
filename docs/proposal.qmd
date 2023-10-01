@@ -11,54 +11,23 @@ github <- "https://github.com/walkerjameschris/visionary"
 
 # Problem Statement and Introduction
 
-Machine learning plays a unique role in improving accessibility in digital
-communication. This includes services like text-to-speech, language translation,
-and alt-text generation. Machine learning can also be used to detect American
-Sign Language (ASL) signs and convert them to text data. Imagine if FaceTime was
-able to convert signs to text in real time. This could allow ASL users and
-non-users alike to better communicate. With this concept in mind, I set out to
-create a primitive sign language detection model by implementing the learning
-algorithms from scratch. 
+Machine learning plays a unique role in improving accessibility in digital communication. This includes services like text-to-speech, language translation, and alt-text generation. Machine learning can also be used to detect American Sign Language (ASL) signs and convert them to text data. Imagine if FaceTime was able to convert signs to text in real time. This could allow ASL users and non-users alike to better communicate. With this concept in mind, I set out to create a primitive sign language detection model by implementing the learning algorithms from scratch.
 
-The ideal output from this project is a package of C++ and R code combined with
-a final report that details how the data was collected, how the algorithm was 
-implemented, and most importantly how it performs over a range of test cases. I
-also want to set reasonable expectations for this class project; while a fully
-featured model would capture the entirety of ASL, I aim to classify at least
-several letters of the ASL alphabet as a proof of concept.
+The ideal output from this project is a package of C++ and R code combined with a final report that details how the data was collected, how the algorithm was implemented, and most importantly how it performs over a range of test cases. I also want to set reasonable expectations for this class project; while a fully featured model would capture the entirety of ASL, I aim to classify at least several letters of the ASL alphabet as a proof of concept.
 
 # Data Sources
 
-This model will be exclusively trained on images I capture using a webcam. I
-will select a few signs to begin with and will sign them in a variety of
-lighting conditions and background environments. This will likely comprise
-several thousand photos. These images will be saved as directories of `.jpeg`
-files each representing a given letter in the ASL alphabet.
+This model will be exclusively trained on images I capture using a webcam. I will select a few signs to begin with and will sign them in a variety of lighting conditions and background environments. This will likely comprise several thousand photos. These images will be saved as directories of `.jpeg` files each representing a given letter in the ASL alphabet.
 
-Like other assignments from this semester, I will vectorize the images into 
-two-dimensional matrices paired with an associated labels vector which will be 
-one-hot encoded for training in the neural network.
+Like other assignments from this semester, I will vectorize the images into two-dimensional matrices paired with an associated labels vector which will be one-hot encoded for training in the neural network.
 
 # Methodology
 
-To capture and process these images, I have created a new R package with a
-handful of helpful functions. This package will also include functions for
-fitting and evaluating the neural network using a linking library called `Rcpp`
-which allows me to write very performant C++ functions (i.e.,  implementing feed 
-forwards, back propagation, and other linear algebra tools) while calling them
-from a scripting language like R. I will host and document this package on my
-personal GitHub profile. [You can see the initial package here](`r github`).
+To capture and process these images, I have created a new R package with a handful of helpful functions. This package will also include functions for fitting and evaluating the neural network using a linking library called `Rcpp` which allows me to write very performant C++ functions (i.e., implementing feed forwards, back propagation, and other linear algebra tools) while calling them from a scripting language like R. I will host and document this package on my personal GitHub profile. [You can see the initial package here](%60r%20github%60).
 
-As part of this process I also want to better understand the mathematics behind
-neural networks, specifically the process of back propagation through the
-network while training. While there are plenty of well known neural network
-implementations in R, Python, and MATLAB, I want to come out of this experience
-with a better working knowledge of how these networks learn. As an example,
-rather than rely on a pre-built implementation of matrix dot products, I will
-program even basic linear algebra operations myself to build up a foundational 
-understanding:
+As part of this process I also want to better understand the mathematics behind neural networks, specifically the process of back propagation through the network while training. While there are plenty of well known neural network implementations in R, Python, and MATLAB, I want to come out of this experience with a better working knowledge of how these networks learn. As an example, rather than rely on a pre-built implementation of matrix dot products, I will program even basic linear algebra operations myself to build up a foundational understanding:
 
-```cpp
+``` cpp
 // [[Rcpp::export]]
 NumericMatrix dot(NumericMatrix X, NumericMatrix Y) {
 
@@ -82,20 +51,9 @@ NumericMatrix dot(NumericMatrix X, NumericMatrix Y) {
 
 # Evaluation and Final Results
 
-I will train several neural networks using my vectorized images. This will
-involve several rounds of hyper parameter tuning (i.e, the number of hidden
-layer neurons) in addition to preprocessing/feature engineering experiments to
-see which methodology performs the best. For example, does reducing the number
-of pixels degrade model performance *or* does training a model over the
-covariance matrix improve performance for non-centered testing observations?
-This may also involve testing different activation functions such as the
-logistic, softmax, and ReLU. I expect to refine my neural network implementation
-to enhance its robustness and convergence speed.
+I will train several neural networks using my vectorized images. This will involve several rounds of hyper parameter tuning (i.e, the number of hidden layer neurons) in addition to preprocessing/feature engineering experiments to see which methodology performs the best. For example, does reducing the number of pixels degrade model performance *or* does training a model over the covariance matrix improve performance for non-centered testing observations? This may also involve testing different activation functions such as the logistic, softmax, and ReLU. I expect to refine my neural network implementation to enhance its robustness and convergence speed.
 
-While several methods exist to measure the performance of classification models
-with multiple class outcomes, I expect to generally use accuracy (the share of
-correctly labeled classes over all testing observations) to assess and compare
-neural networks. I will recommend a pre-trained model in the final report which
-best distinguishes between signs in a wide variety of lighting environments
-while also adhering to the parsimony principle. That is, what is the smallest
-model which provides the best performance across a range of inputs?
+While several methods exist to measure the performance of classification models with multiple class outcomes, I expect to generally use accuracy (the share of correctly labeled classes over all testing observations) to assess and compare neural networks. I will recommend a pre-trained model in the final report which best distinguishes between signs in a wide variety of lighting environments while also adhering to the parsimony principle. That is, what is the smallest model which provides the best performance across a range of inputs?
+
+One other measure of success for this project is the speed in which the algorithm can feed forward new images to obtain a prediction. Even if the model is reasonably performant at classifying images, it must also be able to generate new predictions quickly. This would allow it to classify and translate ASL in situations where speed is critical, such as live streaming video and FaceTime settings. While predictive accuracy is my primary concern, I also plan to utilize computer science techniques to better optimize algorithim peroformance at scale.
+
