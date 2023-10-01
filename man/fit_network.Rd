@@ -2,25 +2,24 @@
 % Please edit documentation in R/model_tools.R
 \name{fit_network}
 \alias{fit_network}
-\title{Fit a Neural Network}
+\title{Fit a Neural Network Classifier}
 \usage{
-fit_network(X, Y, neurons = 5L, epoch = 10000L, alpha = 0.001)
+fit_network(X, Y, neurons = 3L, epoch = 1000L, alpha = 0.01, seed = 123)
 }
 \arguments{
 \item{X}{Matrix of training data}
 
 \item{Y}{Matrix of training labels}
 
-\item{neurons}{Hidden layer neurons}
+\item{neurons}{Number of hidden layer neurons}
 
-\item{epoch}{Number of epochs}
+\item{epoch}{Number of learning epochs}
 
 \item{alpha}{Learning rate}
 }
 \value{
-Neural network
+A list as class visionary neural network
 }
 \description{
-\eqn{x = 2}
-\deqn{x = 3}
+Fits a neural network using C++ backend.
 }

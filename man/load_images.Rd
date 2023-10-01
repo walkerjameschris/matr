@@ -6,7 +6,7 @@
 \usage{
 load_images(
   path,
-  label = 1,
+  label = NULL,
   x_range = seq(140, 499, 10),
   y_range = seq(1, 360, 10),
   pattern = ".jpg$"
@@ -17,9 +17,9 @@ load_images(
 
 \item{label}{A label (true label) for training}
 
-\item{x_range}{Subset of x axis pixels for training}
+\item{x_range}{Subset of x axis pixels to load}
 
-\item{y_range}{Subset of y axis pixels for training}
+\item{y_range}{Subset of y axis pixels to load}
 
 \item{pattern}{A regex pattern for file matching}
 }
@@ -27,5 +27,5 @@ load_images(
 A tibble
 }
 \description{
-Load Images from a Directory as Data
+Load images from a directory or specific path
 }

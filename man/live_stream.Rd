@@ -4,13 +4,12 @@
 \alias{live_stream}
 \title{Initialize a Live Video Stream}
 \usage{
-live_stream(model, device = NULL)
+live_stream(model, fun = NULL, device = NULL)
 }
 \arguments{
 \item{model}{A neural network model}
-}
-\value{
-Nothing
+
+\item{device}{Path to linux image device}
 }
 \description{
 Initialize a Live Video Stream

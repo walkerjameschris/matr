@@ -13,8 +13,8 @@
 #' @export
 fit_network <- function(X, Y,
                         neurons = 3L,
-                        epoch = 10000L,
-                        alpha = 0.001,
+                        epoch = 1000L,
+                        alpha = 0.01,
                         seed = 123) {
   
   start <- Sys.time()
