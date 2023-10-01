@@ -1,4 +1,4 @@
-# visionary <img src='img/logo.png' align="right" height="140" />
+# deepspace <img src='img/logo.png' align="right" height="140" />
 
 ###  A Simple R Package for Estimating Neural Network Clasifiers
 
@@ -17,7 +17,7 @@ performed using `fswebcam`). Originally designed as my project for ISYE 6740.
 To get started simply install the package from GitHub:
 
 ```r
-devtools::install_github("https://github.com/walkerjameschris/visionary")
+devtools::install_github("https://github.com/walkerjameschris/deepspace")
 ```
 
 To train a network, load the package and data. The `fit_network()` function
@@ -26,7 +26,7 @@ the number of hidden layer neurons (`neurons`) in addition to the learning rate
 (`alpha`) , max number of iterations (`epoch`), and a random seed.
 
 ```r
-visionary::fit_network(
+deepspace::fit_network(
   X = train,
   Y = labels,
   neurons = 3L,
