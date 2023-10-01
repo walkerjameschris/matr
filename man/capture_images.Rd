@@ -10,10 +10,12 @@ capture_images(path, n = 50, device = NULL)
 \item{path}{Where the images will be stored}
 
 \item{n}{The number of images to capture}
+
+\item{device}{Path to linux image device}
 }
 \value{
-TRUE if successful
+TRUE
 }
 \description{
-Capture Images from a Webcam
+Uses `fswebcam` to capture images in a loop and save to a directory
 }

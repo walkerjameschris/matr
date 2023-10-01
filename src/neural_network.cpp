@@ -202,9 +202,7 @@ List feed_forward(List network) {
   NumericMatrix a2 = activation(z2);
   
   return List::create(
-    Named("z1") = z1,
     Named("a1") = a1,
-    Named("z2") = z2,
     Named("a2") = a2
   );
 }
@@ -232,7 +230,7 @@ double compute_loss(NumericMatrix X, NumericMatrix Y) {
 // [[Rcpp::export]]
 List propagate_back(List network,
                     NumericMatrix Y,
-                    double alpha) {
+                    double learn_rate) {
   
   List feed = feed_forward(network);
   
@@ -260,8 +258,8 @@ List propagate_back(List network,
   NumericMatrix w2_adj = dot(transpose(a1), d2);
     
   // Update parameters
-  NumericMatrix w1_new = subtract(w1, mul_scalar(alpha, w1_adj));
-  NumericMatrix w2_new = subtract(w2, mul_scalar(alpha, w2_adj));
+  NumericMatrix w1_new = subtract(w1, mul_scalar(learn_rate, w1_adj));
+  NumericMatrix w2_new = subtract(w2, mul_scalar(learn_rate, w2_adj));
   
   // Compute loss
   double loss = compute_loss(d2, Y);

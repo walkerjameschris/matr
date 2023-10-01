@@ -52,7 +52,7 @@ compute_loss <- function(X, Y) {
     .Call(`_visionary_compute_loss`, X, Y)
 }
 
-propagate_back <- function(network, Y, alpha) {
-    .Call(`_visionary_propagate_back`, network, Y, alpha)
+propagate_back <- function(network, Y, learn_rate) {
+    .Call(`_visionary_propagate_back`, network, Y, learn_rate)
 }
 

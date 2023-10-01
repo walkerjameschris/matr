@@ -6,18 +6,21 @@
 #' @param Y Matrix of training labels
 #' @param neurons Number of hidden layer neurons
 #' @param epoch Number of learning epochs
-#' @param alpha Learning rate
+#' @param learn_rate Learning rate
+#' @param stop_tol The convergence tolerance limit
 #' 
 #' @import cli withr
 #' @return A list as class visionary neural network
 #' @export
 fit_network <- function(X, Y,
                         neurons = 3L,
-                        epoch = 10000L,
-                        alpha = 0.001,
+                        epoch = 1000L,
+                        learn_rate = 0.01,
+                        stop_tol = 0.0001,
                         seed = 123) {
   
   start <- Sys.time()
+  loss  <- Inf
   
   network <-
     withr::with_seed( 
@@ -32,9 +35,13 @@ fit_network <- function(X, Y,
   )
   
   for (i in seq(epoch)) {
-    network <- propagate_back(network, Y, alpha)
+    network <- propagate_back(network, Y, learn_rate)
     cli::cli_progress_update(status = network$loss)
+    if (loss - network$loss < stop_tol) break
+    loss <- network$loss
   }
+  
+  cli::cli_progress_done()
   
   network$time <-
     difftime(

@@ -152,15 +152,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // propagate_back
-List propagate_back(List network, NumericMatrix Y, double alpha);
-RcppExport SEXP _visionary_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP alphaSEXP) {
+List propagate_back(List network, NumericMatrix Y, double learn_rate);
+RcppExport SEXP _visionary_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP learn_rateSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< List >::type network(networkSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type Y(YSEXP);
-    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
-    rcpp_result_gen = Rcpp::wrap(propagate_back(network, Y, alpha));
+    Rcpp::traits::input_parameter< double >::type learn_rate(learn_rateSEXP);
+    rcpp_result_gen = Rcpp::wrap(propagate_back(network, Y, learn_rate));
     return rcpp_result_gen;
 END_RCPP
 }
