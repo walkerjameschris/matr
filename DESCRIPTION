@@ -1,4 +1,4 @@
-Package: visionary
+Package: deepspace
 Type: Package
 Title: Perform Image Classification using a C++ Based Neural Network
 Version: 0.1.0

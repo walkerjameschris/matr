@@ -7,20 +7,18 @@
 #' @param neurons Number of hidden layer neurons
 #' @param epoch Number of learning epochs
 #' @param learn_rate Learning rate
-#' @param stop_tol The convergence tolerance limit
+#' @param seed Random seed value
 #' 
 #' @import cli withr
-#' @return A list as class visionary neural network
+#' @return A list as class deepspace neural network
 #' @export
 fit_network <- function(X, Y,
                         neurons = 3L,
-                        epoch = 1000L,
-                        learn_rate = 0.01,
-                        stop_tol = 0.0001,
+                        epoch = 100L,
+                        learn_rate = 0.0001,
                         seed = 123) {
   
   start <- Sys.time()
-  loss  <- Inf
   
   network <-
     withr::with_seed( 
@@ -37,8 +35,6 @@ fit_network <- function(X, Y,
   for (i in seq(epoch)) {
     network <- propagate_back(network, Y, learn_rate)
     cli::cli_progress_update(status = network$loss)
-    if (loss - network$loss < stop_tol) break
-    loss <- network$loss
   }
   
   cli::cli_progress_done()
@@ -52,14 +48,14 @@ fit_network <- function(X, Y,
     as.numeric() |>
     round(2)
   
-  attr(network, "class") <- "visionary_network"
+  attr(network, "class") <- "deepspace_network"
   network
 }
 
 #' @export
 #' @import tibble
-#' @method predict visionary_network
-predict.visionary_network <- function(x, newdata, ...) {
+#' @method predict deepspace_network
+predict.deepspace_network <- function(x, newdata, ...) {
   
   if (!missing(newdata)) {
     x$before <- add_ones(newdata)
@@ -72,8 +68,8 @@ predict.visionary_network <- function(x, newdata, ...) {
 
 #' @export
 #' @import purrr cli glue
-#' @method print visionary_network
-print.visionary_network <- function(x, ...) {
+#' @method print deepspace_network
+print.deepspace_network <- function(x, ...) {
   
   dimensions <-
     purrr::map(x[1:3], ncol) |>
@@ -87,7 +83,7 @@ print.visionary_network <- function(x, ...) {
     ) |>
     purrr::map_chr(~ glue::glue(.x, x = x))
   
-  cli::cli_h1("A Visionary Neural Network")
+  cli::cli_h1("A Deepspace Neural Network")
   cli::cli_h2("Network Information:")
   cli::cli_inform(details)
 }

@@ -4,7 +4,7 @@
 \alias{fit_network}
 \title{Fit a Neural Network Classifier}
 \usage{
-fit_network(X, Y, neurons = 3L, epoch = 1000L, alpha = 0.01, seed = 123)
+fit_network(X, Y, neurons = 3L, epoch = 100L, learn_rate = 1e-04, seed = 123)
 }
 \arguments{
 \item{X}{Matrix of training data}
@@ -15,10 +15,12 @@ fit_network(X, Y, neurons = 3L, epoch = 1000L, alpha = 0.01, seed = 123)
 
 \item{epoch}{Number of learning epochs}
 
-\item{alpha}{Learning rate}
+\item{learn_rate}{Learning rate}
+
+\item{seed}{Random seed value}
 }
 \value{
-A list as class visionary neural network
+A list as class deepspace neural network
 }
 \description{
 Fits a neural network using C++ backend.

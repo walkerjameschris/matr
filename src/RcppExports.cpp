@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // normal_matrix
 NumericMatrix normal_matrix(int row, int col);
-RcppExport SEXP _visionary_normal_matrix(SEXP rowSEXP, SEXP colSEXP) {
+RcppExport SEXP _deepspace_normal_matrix(SEXP rowSEXP, SEXP colSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -24,7 +24,7 @@ END_RCPP
 }
 // dot
 NumericMatrix dot(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _visionary_dot(SEXP XSEXP, SEXP YSEXP) {
+RcppExport SEXP _deepspace_dot(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -36,7 +36,7 @@ END_RCPP
 }
 // transpose
 NumericMatrix transpose(NumericMatrix X);
-RcppExport SEXP _visionary_transpose(SEXP XSEXP) {
+RcppExport SEXP _deepspace_transpose(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // multiply
 NumericMatrix multiply(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _visionary_multiply(SEXP XSEXP, SEXP YSEXP) {
+RcppExport SEXP _deepspace_multiply(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -59,7 +59,7 @@ END_RCPP
 }
 // subtract
 NumericMatrix subtract(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _visionary_subtract(SEXP XSEXP, SEXP YSEXP) {
+RcppExport SEXP _deepspace_subtract(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -71,7 +71,7 @@ END_RCPP
 }
 // sub_scalar
 NumericMatrix sub_scalar(double x, NumericMatrix Y);
-RcppExport SEXP _visionary_sub_scalar(SEXP xSEXP, SEXP YSEXP) {
+RcppExport SEXP _deepspace_sub_scalar(SEXP xSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -83,7 +83,7 @@ END_RCPP
 }
 // mul_scalar
 NumericMatrix mul_scalar(double x, NumericMatrix Y);
-RcppExport SEXP _visionary_mul_scalar(SEXP xSEXP, SEXP YSEXP) {
+RcppExport SEXP _deepspace_mul_scalar(SEXP xSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -95,7 +95,7 @@ END_RCPP
 }
 // add_ones
 NumericMatrix add_ones(NumericMatrix X);
-RcppExport SEXP _visionary_add_ones(SEXP XSEXP) {
+RcppExport SEXP _deepspace_add_ones(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -106,7 +106,7 @@ END_RCPP
 }
 // activation
 NumericMatrix activation(NumericMatrix X);
-RcppExport SEXP _visionary_activation(SEXP XSEXP) {
+RcppExport SEXP _deepspace_activation(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -117,7 +117,7 @@ END_RCPP
 }
 // initialize
 List initialize(NumericMatrix X, NumericMatrix Y, int neurons);
-RcppExport SEXP _visionary_initialize(SEXP XSEXP, SEXP YSEXP, SEXP neuronsSEXP) {
+RcppExport SEXP _deepspace_initialize(SEXP XSEXP, SEXP YSEXP, SEXP neuronsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -130,7 +130,7 @@ END_RCPP
 }
 // feed_forward
 List feed_forward(List network);
-RcppExport SEXP _visionary_feed_forward(SEXP networkSEXP) {
+RcppExport SEXP _deepspace_feed_forward(SEXP networkSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -141,7 +141,7 @@ END_RCPP
 }
 // compute_loss
 double compute_loss(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _visionary_compute_loss(SEXP XSEXP, SEXP YSEXP) {
+RcppExport SEXP _deepspace_compute_loss(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -153,7 +153,7 @@ END_RCPP
 }
 // propagate_back
 List propagate_back(List network, NumericMatrix Y, double learn_rate);
-RcppExport SEXP _visionary_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP learn_rateSEXP) {
+RcppExport SEXP _deepspace_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP learn_rateSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -166,23 +166,23 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_visionary_normal_matrix", (DL_FUNC) &_visionary_normal_matrix, 2},
-    {"_visionary_dot", (DL_FUNC) &_visionary_dot, 2},
-    {"_visionary_transpose", (DL_FUNC) &_visionary_transpose, 1},
-    {"_visionary_multiply", (DL_FUNC) &_visionary_multiply, 2},
-    {"_visionary_subtract", (DL_FUNC) &_visionary_subtract, 2},
-    {"_visionary_sub_scalar", (DL_FUNC) &_visionary_sub_scalar, 2},
-    {"_visionary_mul_scalar", (DL_FUNC) &_visionary_mul_scalar, 2},
-    {"_visionary_add_ones", (DL_FUNC) &_visionary_add_ones, 1},
-    {"_visionary_activation", (DL_FUNC) &_visionary_activation, 1},
-    {"_visionary_initialize", (DL_FUNC) &_visionary_initialize, 3},
-    {"_visionary_feed_forward", (DL_FUNC) &_visionary_feed_forward, 1},
-    {"_visionary_compute_loss", (DL_FUNC) &_visionary_compute_loss, 2},
-    {"_visionary_propagate_back", (DL_FUNC) &_visionary_propagate_back, 3},
+    {"_deepspace_normal_matrix", (DL_FUNC) &_deepspace_normal_matrix, 2},
+    {"_deepspace_dot", (DL_FUNC) &_deepspace_dot, 2},
+    {"_deepspace_transpose", (DL_FUNC) &_deepspace_transpose, 1},
+    {"_deepspace_multiply", (DL_FUNC) &_deepspace_multiply, 2},
+    {"_deepspace_subtract", (DL_FUNC) &_deepspace_subtract, 2},
+    {"_deepspace_sub_scalar", (DL_FUNC) &_deepspace_sub_scalar, 2},
+    {"_deepspace_mul_scalar", (DL_FUNC) &_deepspace_mul_scalar, 2},
+    {"_deepspace_add_ones", (DL_FUNC) &_deepspace_add_ones, 1},
+    {"_deepspace_activation", (DL_FUNC) &_deepspace_activation, 1},
+    {"_deepspace_initialize", (DL_FUNC) &_deepspace_initialize, 3},
+    {"_deepspace_feed_forward", (DL_FUNC) &_deepspace_feed_forward, 1},
+    {"_deepspace_compute_loss", (DL_FUNC) &_deepspace_compute_loss, 2},
+    {"_deepspace_propagate_back", (DL_FUNC) &_deepspace_propagate_back, 3},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_visionary(DllInfo *dll) {
+RcppExport void R_init_deepspace(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
