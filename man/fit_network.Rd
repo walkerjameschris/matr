@@ -4,15 +4,7 @@
 \alias{fit_network}
 \title{Fit a Neural Network Classifier}
 \usage{
-fit_network(
-  X,
-  Y,
-  neurons = 3L,
-  epoch = 100L,
-  learn_rate = 0.01,
-  stop_tol = -Inf,
-  seed = 123
-)
+fit_network(X, Y, neurons = 3L, epoch = 100L, learn_rate = 1e-04, seed = 123)
 }
 \arguments{
 \item{X}{Matrix of training data}
@@ -24,8 +16,6 @@ fit_network(
 \item{epoch}{Number of learning epochs}
 
 \item{learn_rate}{Learning rate}
-
-\item{stop_tol}{The convergence tolerance limit}
 
 \item{seed}{Random seed value}
 }
