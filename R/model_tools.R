@@ -61,7 +61,7 @@ predict.deepspace_network <- function(x, newdata, ...) {
     x$before <- add_ones(newdata)
   }
   
-  feed_forward(x)$a2 |>
+  feed_forward(x)$a3 |>
     as.data.frame() |>
     tibble::as_tibble()
 }

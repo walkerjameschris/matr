@@ -52,6 +52,10 @@ compute_loss <- function(X, Y) {
     .Call(`_deepspace_compute_loss`, X, Y)
 }
 
+gradient <- function(W, D, A) {
+    .Call(`_deepspace_gradient`, W, D, A)
+}
+
 propagate_back <- function(network, Y, learn_rate) {
     .Call(`_deepspace_propagate_back`, network, Y, learn_rate)
 }

@@ -151,6 +151,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// gradient
+NumericMatrix gradient(NumericMatrix W, NumericMatrix D, NumericMatrix A);
+RcppExport SEXP _deepspace_gradient(SEXP WSEXP, SEXP DSEXP, SEXP ASEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type W(WSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type D(DSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type A(ASEXP);
+    rcpp_result_gen = Rcpp::wrap(gradient(W, D, A));
+    return rcpp_result_gen;
+END_RCPP
+}
 // propagate_back
 List propagate_back(List network, NumericMatrix Y, double learn_rate);
 RcppExport SEXP _deepspace_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP learn_rateSEXP) {
@@ -178,6 +191,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_deepspace_initialize", (DL_FUNC) &_deepspace_initialize, 3},
     {"_deepspace_feed_forward", (DL_FUNC) &_deepspace_feed_forward, 1},
     {"_deepspace_compute_loss", (DL_FUNC) &_deepspace_compute_loss, 2},
+    {"_deepspace_gradient", (DL_FUNC) &_deepspace_gradient, 3},
     {"_deepspace_propagate_back", (DL_FUNC) &_deepspace_propagate_back, 3},
     {NULL, NULL, 0}
 };
