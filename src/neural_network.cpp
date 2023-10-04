@@ -201,7 +201,7 @@ List feed_forward(List network) {
   NumericMatrix a1 = add_ones(activation(z1));
   
   NumericMatrix z2 = dot(a1, network["hide_b"]);
-  NumericMatrix a2 = activation(z2);
+  NumericMatrix a2 = add_ones(activation(z2));
   
   NumericMatrix z3 = dot(a2, network["output"]);
   NumericMatrix a3 = activation(z3);
