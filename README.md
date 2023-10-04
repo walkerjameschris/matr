@@ -26,12 +26,16 @@ the number of hidden layer neurons (`neurons`) in addition to the learning rate
 (`alpha`) , max number of iterations (`epoch`), and a random seed.
 
 ```r
-deepspace::fit_network(
-  X = train,
-  Y = labels,
-  neurons = 3L,
-  epoch = 1000L,
-  alpha = 0.01,
-  seed = 123
-)
+data <- deepspace:::mnist
+
+network <-
+  deepspace::fit_network(
+    X = data$X,
+    Y = data$Y,
+    neurons = 5,
+    epoch = 1000,
+    learn_rate = 0.0001
+  )
+
+predict(network)
 ```

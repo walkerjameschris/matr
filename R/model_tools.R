@@ -11,6 +11,20 @@
 #' 
 #' @import cli withr
 #' @return A list as class deepspace neural network
+#' @examples
+#' data <- deepspace:::mnist
+#' 
+#' network <-
+#'   deepspace::fit_network(
+#'     X = data$X,
+#'     Y = data$Y,
+#'     neurons = 5,
+#'     epoch = 1000,
+#'     learn_rate = 0.0001
+#'   )
+#' 
+#' predict(network)
+#' 
 #' @export
 fit_network <- function(X, Y,
                         neurons = 3L,
