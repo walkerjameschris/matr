@@ -7,7 +7,6 @@ Authors@R: c(person(
             role = c("aut", "cre", "cph"),
             email = "walkerjameschris@gmail.com"
           ))
-Maintainer: The package maintainer <yourself@somewhere.net>
 Description: A from-scratch implementation of a neural network in C++ and R used
     for image classification. Created for ISYE 6740 at Georgia Tech. Allows for
     live video streaming classification using Rcpp and fswebcam.
@@ -15,7 +14,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
   Rcpp (>= 1.0.11),
+  ggplot2,
   tibble,
+  tidyr,
   dplyr,
   purrr,
   withr,

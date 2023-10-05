@@ -38,4 +38,9 @@ network <-
   )
 
 predict(network)
+
+plot(network)
 ```
+
+<img src='img/nn_plot.jpg'" />
+

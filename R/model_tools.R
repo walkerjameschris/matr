@@ -131,15 +131,6 @@ plot.deepspace_network <- function(x, ...) {
       edge_id = dplyr::row_number(),
       weight = abs(weight)
     ) |>
-    dplyr::group_by(curr_id) |>
-    dplyr::mutate(
-      curr_neuron = curr_neuron - mean(curr_neuron)
-    ) |>
-    dplyr::ungroup() |>
-    dplyr::group_by(prev_id) |>
-    dplyr::mutate(
-      prev_neuron = prev_neuron - mean(prev_neuron)
-    ) |>
     ggplot2::ggplot(
       ggplot2::aes(
         x = prev_id,
