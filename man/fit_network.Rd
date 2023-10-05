@@ -25,3 +25,18 @@ A list as class deepspace neural network
 \description{
 Fits a neural network using C++ backend.
 }
+\examples{
+data <- deepspace:::mnist
+
+network <-
+  deepspace::fit_network(
+    X = data$X,
+    Y = data$Y,
+    neurons = 5,
+    epoch = 1000,
+    learn_rate = 0.0001
+  )
+
+predict(network)
+
+}

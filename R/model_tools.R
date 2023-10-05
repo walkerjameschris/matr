@@ -101,3 +101,79 @@ print.deepspace_network <- function(x, ...) {
   cli::cli_h2("Network Information:")
   cli::cli_inform(details)
 }
+
+#' @export
+#' @import tibble dplyr tidyr
+#' @method plot deepspace_network
+plot.deepspace_network <- function(x, ...) {
+  
+  purrr::set_names(x[2:4], NULL) |>
+    purrr::imap(function(layer, id) {
+      as.data.frame(layer) |>
+        dplyr::mutate(
+          curr_id = id + 1,
+          prev_id = id,
+          prev_neuron = dplyr::row_number()
+        ) |>
+        tidyr::pivot_longer(
+          cols = dplyr::starts_with("V"),
+          names_to = "curr_neuron",
+          values_to = "weight"
+        ) |>
+        dplyr::mutate(
+          curr_neuron =
+            stringr::str_sub(curr_neuron, 2) |>
+            as.numeric()
+        )
+    }) |>
+    dplyr::bind_rows() |>
+    dplyr::mutate(
+      edge_id = dplyr::row_number(),
+      weight = abs(weight)
+    ) |>
+    dplyr::group_by(curr_id) |>
+    dplyr::mutate(
+      curr_neuron = curr_neuron - mean(curr_neuron)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::group_by(prev_id) |>
+    dplyr::mutate(
+      prev_neuron = prev_neuron - mean(prev_neuron)
+    ) |>
+    ggplot2::ggplot(
+      ggplot2::aes(
+        x = prev_id,
+        y = prev_neuron,
+        color = weight
+      )
+    ) +
+    ggplot2::geom_segment(
+      ggplot2::aes(
+        xend = curr_id,
+        yend = curr_neuron,
+        group = edge_id,
+        alpha = weight
+      )
+    ) +
+    ggplot2::geom_point(
+      size = 5
+    ) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      panel.grid = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_blank(),
+      plot.title = ggplot2::element_text(face = "bold")
+    ) +
+    ggplot2::labs(
+      title = "A Deepspace Neural Network",
+      subtitle = "4-Layer Deep Learning Network",
+      y = "Neuron",
+      x = "Layer",
+      alpha = "Weight",
+      color = "Weight"
+    ) +
+    ggplot2::scale_color_distiller(
+      palette = "Blues",
+      direction = 1
+    )
+}
