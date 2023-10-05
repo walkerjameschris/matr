@@ -42,5 +42,5 @@ predict(network)
 plot(network)
 ```
 
-<img src='img/nn_plot.jpg'" />
+<img src='img/nn_plot.jpg' height="350"/>
 
