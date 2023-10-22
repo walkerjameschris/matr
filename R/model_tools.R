@@ -86,7 +86,7 @@ predict.deepspace_network <- function(x, newdata, ...) {
 print.deepspace_network <- function(x, ...) {
   
   dimensions <-
-    purrr::map(x[1:3], ncol) |>
+    purrr::map(x[1:4], ncol) |>
     glue::glue_collapse("-")
   
   details <-

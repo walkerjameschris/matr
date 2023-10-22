@@ -127,15 +127,17 @@ $$
 
 #### `feed_forward(X)`
 
-The concept of *feeding forward* is an important concept in neural network fitting and prediction. The core concept it is to take the dot product of the weight matrix with data from the prior step. The resulting matrix will have the same rows as the input matrix and the same number of columns as there are classes in our training label matrix (one-hot encoded). The `deepspace` package fits neural networks with and two hidden layers each with an arbitrary number of neurons.
+The concept of *feeding forward* is an important concept in neural network fitting and prediction. The core concept it is to take the dot product of the weight matrix with data from the prior step. The resulting matrix will have the same rows as the input matrix and the same number of columns as there are classes in our training label matrix (one-hot encoded). The `deepspace` package fits neural networks with two hidden layers each with an arbitrary number of neurons.
 
-Let our training data be denoted as $X$, the weights for hidden layer one as $H_1$, the weights for hidden layer two as $H_2$, the weight for the final layer as $W$. We also need to denote function $f()$ which corresponds to `activation()` from above.
+Let our training data be denoted as $X$, the weights for hidden layer one as $H_1$, the weights for hidden layer two as $H_2$, the weight for the final layer as $W$. Where $f()$ corresponds to `add_ones()` from above.
 
-$$f(f(f(XH_1)H_2)W)$$
+$$
+f(f(f(XH_1)H_2)W)
+$$
 
 #### `gradient()`
 
-This function is the heart of the back propagation algorithm. It is used to compute the gradient such that the weights and biases can be adjusted to maximize \<what are we maximizing?\> through the process of gradient descent. It represents the derivative of the cost function with respect to each term in the network. If a gradient can be found, we *subtract* the gradient from the current matrix of weights to better the model fit. Let $W$ be a matrix of weights for the current layer, $D$ is a matrix of differences, and $A$ is the activation matrix from the current layer. This gradient is derived from the cross-entropy loss function.
+This function is the heart of the back propagation algorithm. It is used to compute the gradient such that the weights and biases can be adjusted to maximize cross product entropy through the process of gradient descent. It represents the derivative of the cost function with respect to each term in the network. If a gradient can be found, we *subtract* the gradient from the current matrix of weights to better the model fit. Let $W$ be a matrix of weights for the current layer, $D$ is a matrix of differences, and $A$ is the activation matrix from the current layer. This gradient is derived from the cross-entropy loss function.
 
 $$
 L = -\sum_{i=1}^m y_i\log a
@@ -196,6 +198,26 @@ $$
 $$
 W_3 = W_3 - \gamma A_2^TD_3
 $$
+
+The package allows for printing of neural networks such that each weight is encoded as a line and each bias is encoded as a circle. In the example above we defined a 7-3-3-2 matrix. While we have 6 predictors, the network has one additional predictor (the bias) moving to 7 predictors.
+
+```{=tex}
+\begin{center}
+
+Figure 1. Neural Network Diagram
+
+\end{center}
+```
+```{r, echo=FALSE, fig.height=3, fig.width=4, fig.align='center'}
+library(deepspace, quietly = TRUE)
+
+X <- matrix(seq(6), nrow = 1)
+Y <- matrix(seq(2), nrow = 1)
+
+nx <- deepspace::fit_network(X, Y)
+
+plot(nx)
+```
 
 # Hypothesis
 
