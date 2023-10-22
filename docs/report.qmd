@@ -33,9 +33,11 @@ While the code package only contains four core functions used for image capture 
 
 #### `normal_matrix(row, col)`
 
-This function initializes a matrix with dimensions *row* and *col* such that each element is randomly drawn from a normal distribution with mean zero and a standard deviation of one. While other methods exist to initialize a neural network for training, I find that randomly distributed noise works well in many cases. I also supply a random seed which ensures I can reproduce random noise and achieve the same estimations given the same training data and hyperparameter configurations.
+This function initializes a matrix with dimensions *row* and *col* such that each element is randomly drawn from a normal distribution with mean zero and a standard deviation of one. While other methods exist to initialize a neural network for training, I find that randomly distributed noise works well in many cases. I also supply a random seed which ensures I can reproduce random noise and achieve the same estimations given the same training data and hyperparameter configurations. Let $X$ be a matrix with $i$ rows and $j$ columns.
 
-\<insert representation of matrix with normally distributed values\>
+$$
+X_{ij}\approx\mathcal{N}(0, 1)
+$$
 
 #### `dot(X, Y)`
 
@@ -87,9 +89,15 @@ $$
 
 #### `add_ones(X)`
 
-This function does not implement a standard linear algebra operation but is rather a convenience functionality used during network feed-forward to introduce a new column vector of ones to a matrix of arbitrary dimensions. This is needed to allow for a *bias* to be estimated for each layer in the network as we will see in later sections.
+This function does not implement a standard linear algebra operation but is rather a convenience functionality used during network feed-forward to introduce a new column vector of ones to a matrix of arbitrary dimensions. This is needed to allow for a *bias* to be estimated for each layer in the network as we will see in later sections. Let $X$ be a matrix with $i$ rows and $j$ columns. Matrix $Y$ represents matrix $X$ with a column vector of ones appended to the right side.
 
-\<show how to add a column vector of ones to matrix\>
+$$
+Y =\begin{bmatrix}
+X_{11} & \dots & X_{1j} & 1\\
+\vdots & \ddots & \vdots & 1\\
+X_{i1} & \dots & X_{ij} & 1
+\end{bmatrix}
+$$
 
 #### `activation(X)`
 
@@ -105,18 +113,11 @@ $$
 X_a=\max(X, 0)
 $$
 
-\<implement this for testing\>
-
 #### `feed_forward(X)`
 
 The concept of *feeding forward* is an important concept in neural network fitting and prediction. The core concept it is to take the dot product of the weight matrix with data from the prior step. The resulting matrix will have the same rows as the input matrix and the same number of columns as there are classes in our training label matrix (one-hot encoded). The `deepspace` package fits neural networks with and two hidden layers each with an arbitrary number of neurons.
 
-Let our training data be denoted as $X$, the weights for hidden layer one as $H_1$, the weights for hidden layer two as $H_2$, post activation matrices are denoted as $A_1$ and $A_2$, and finally the weights for the output layer as $W$. We want to *compute* a prediction matrix denoted as $P$. Finally, we also need to denote functions $F()$ which corresponds to `add_ones()` from above. Other functions such as `activation()` and `dot()` are also used in this operation in code but those have been obscured by the notation here. $$Z_1 = XH_1$$
-$$A_1 = \frac{e^{F(Z_1)}}{1 + e^{F(Z_1)}}$$
-$$Z_2 = A_1H_2$$
-$$A_2 = \frac{e^{F(Z_1)}}{1 + e^{F(Z_1)}}$$
-$$Z_3 = A_2W$$
-$$P = \frac{e^{F(Z_3)}}{1 + e^{F(Z_3)}}$$
+Let our training data be denoted as $X$, the weights for hidden layer one as $H_1$, the weights for hidden layer two as $H_2$, post activation matrices are denoted as $A_1$ and $A_2$, and finally the weights for the output layer as $W$. We want to *compute* a prediction matrix denoted as $P$. Finally, we also need to denote functions $F()$ which corresponds to `add_ones()` from above. Other functions such as `activation()` and `dot()` are also used in this operation in code but those have been obscured by the notation here. $$Z_1 = XH_1$$ $$A_1 = \frac{e^{F(Z_1)}}{1 + e^{F(Z_1)}}$$ $$Z_2 = A_1H_2$$ $$A_2 = \frac{e^{F(Z_1)}}{1 + e^{F(Z_1)}}$$ $$Z_3 = A_2W$$ $$P = \frac{e^{F(Z_3)}}{1 + e^{F(Z_3)}}$$
 
 #### `gradient()`
 
