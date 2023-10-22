@@ -22,15 +22,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// dot
-NumericMatrix dot(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _deepspace_dot(SEXP XSEXP, SEXP YSEXP) {
+// mul
+NumericMatrix mul(NumericMatrix X, NumericMatrix Y);
+RcppExport SEXP _deepspace_mul(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type Y(YSEXP);
-    rcpp_result_gen = Rcpp::wrap(dot(X, Y));
+    rcpp_result_gen = Rcpp::wrap(mul(X, Y));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -180,7 +180,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_deepspace_normal_matrix", (DL_FUNC) &_deepspace_normal_matrix, 2},
-    {"_deepspace_dot", (DL_FUNC) &_deepspace_dot, 2},
+    {"_deepspace_mul", (DL_FUNC) &_deepspace_mul, 2},
     {"_deepspace_transpose", (DL_FUNC) &_deepspace_transpose, 1},
     {"_deepspace_multiply", (DL_FUNC) &_deepspace_multiply, 2},
     {"_deepspace_subtract", (DL_FUNC) &_deepspace_subtract, 2},

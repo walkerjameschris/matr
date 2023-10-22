@@ -8,8 +8,8 @@ normal_matrix <- function(row, col) {
     .Call(`_deepspace_normal_matrix`, row, col)
 }
 
-dot <- function(X, Y) {
-    .Call(`_deepspace_dot`, X, Y)
+mul <- function(X, Y) {
+    .Call(`_deepspace_mul`, X, Y)
 }
 
 transpose <- function(X) {

@@ -20,7 +20,7 @@ NumericMatrix normal_matrix(int row, int col) {
 }
 
 // [[Rcpp::export]]
-NumericMatrix dot(NumericMatrix X, NumericMatrix Y) {
+NumericMatrix mul(NumericMatrix X, NumericMatrix Y) {
 
   int X_row = X.nrow();
   int X_col = X.ncol();
@@ -197,13 +197,13 @@ List initialize(NumericMatrix X, NumericMatrix Y, int neurons) {
 // [[Rcpp::export]]
 List feed_forward(List network) {
 
-  NumericMatrix z1 = dot(network["before"], network["hide_a"]);
+  NumericMatrix z1 = mul(network["before"], network["hide_a"]);
   NumericMatrix a1 = add_ones(activation(z1));
   
-  NumericMatrix z2 = dot(a1, network["hide_b"]);
+  NumericMatrix z2 = mul(a1, network["hide_b"]);
   NumericMatrix a2 = add_ones(activation(z2));
   
-  NumericMatrix z3 = dot(a2, network["output"]);
+  NumericMatrix z3 = mul(a2, network["output"]);
   NumericMatrix a3 = activation(z3);
   
   return List::create(
@@ -240,7 +240,7 @@ NumericMatrix gradient(NumericMatrix W,
   
   // (W @ D.T).T * (A * (1 - A))
   return multiply(
-    transpose(dot(W, transpose(D))),
+    transpose(mul(W, transpose(D))),
     multiply(A, sub_scalar(1, A))
   );
 }
@@ -269,9 +269,9 @@ List propagate_back(List network,
   NumericMatrix d1 = gradient(w2, d2, a1);
   
   // Gradients
-  NumericMatrix w1_adj = dot(transpose(X),  d1);
-  NumericMatrix w2_adj = dot(transpose(a1), d2);
-  NumericMatrix w3_adj = dot(transpose(a2), d3);
+  NumericMatrix w1_adj = mul(transpose(X),  d1);
+  NumericMatrix w2_adj = mul(transpose(a1), d2);
+  NumericMatrix w3_adj = mul(transpose(a2), d3);
     
   // Update parameters
   NumericMatrix w1_new = subtract(w1, mul_scalar(learn_rate, w1_adj));
