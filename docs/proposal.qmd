@@ -25,11 +25,11 @@ Like other assignments from this semester, I will vectorize the images into two-
 
 To capture and process these images, I have created a new R package with a handful of helpful functions. This package will also include functions for fitting and evaluating the neural network using a linking library called `Rcpp` which allows me to write very performant C++ functions (i.e., implementing feed forwards, back propagation, and other linear algebra functions) while calling them from a scripting language like R. I will host and document this package on my personal GitHub profile. [You can see the package here.](https://github.com/walkerjameschris/deepspace).
 
-As part of this process I also want to better understand the mathematics behind neural networks, specifically the process of back propagation through the network while training. While there are plenty of well known neural network implementations in R, Python, and MATLAB, I want to come out of this experience with a better working knowledge of how these networks learn. As an example, rather than rely on a pre-built implementation of matrix dot products, I will program even basic linear algebra operations myself to build up a foundational understanding:
+As part of this process I also want to better understand the mathematics behind neural networks, specifically the process of back propagation through the network while training. While there are plenty of well known neural network implementations in R, Python, and MATLAB, I want to come out of this experience with a better working knowledge of how these networks learn. As an example, rather than rely on a pre-built implementation of matrix multiplication, I will program even basic linear algebra operations myself to build up a foundational understanding:
 
 ``` cpp
 // [[Rcpp::export]]
-NumericMatrix dot(NumericMatrix X, NumericMatrix Y) {
+NumericMatrix mul(NumericMatrix X, NumericMatrix Y) {
 
   int X_row = X.nrow();
   int X_col = X.ncol();

@@ -5,6 +5,25 @@ format: pdf
 editor: visual
 ---
 
+```{r setup, echo=FALSE}
+library(deepspace, quietly = TRUE)
+
+add_caption <- function(plot, text) {
+  
+  id <- as.numeric(Sys.getenv(".id"))
+  id <- dplyr::coalesce(id + 1, 1)
+  Sys.setenv(".id" = id)
+
+  plot +
+    ggplot2::labs(
+      caption = glue::glue("Figure {id}: {text}")
+    ) +
+    ggplot2::theme(
+      plot.caption = ggplot2::element_text(hjust = 0.5)
+    )
+}
+```
+
 # Problem Statement and Introduction
 
 Machine learning plays a unique role in improving accessibility in digital communication. This includes services like text-to-speech, language translation, and alt-text generation. Machine learning could also be used to detect American Sign Language (ASL) signs and convert them to text data. **Sign language detection is not currently implemented into the modern ecosystem of video call tools.** Imagine if FaceTime was able to convert signs to text in real time. An ASL user could sign into the camera, convert their message to text, and have it read back as text-to-speech. This could create more natural telecommunication for people with a hearing disability. With this concept in mind, I set out to create a primitive sign language detection model by implementing the learning algorithms from scratch.
@@ -19,7 +38,106 @@ This model was exclusively trained on images captured using my webcam. At the ti
 
 Stemming from other assignments this semester, I *vectorized* all images captured by the webcam. I can point to a directory which corresponds to a given sign using `deepspace::load_images()`. This function loads, vectorizes, and labels all images as R matrices for use in training. The matrices of images were split into training and testing for validation.
 
-\<discuss image dimensions here\>
+```{r, echo=FALSE, fig.align='center', fig.height=1.5, fig.width=6}
+images <-
+  tibble::tibble(
+    x = seq(3)
+  ) |>
+  tidyr::uncount(
+    weights = 3,
+    .id = "y"
+  ) |>
+  tidyr::uncount(
+    weights = 3,
+    .id = "image"
+  ) |>
+  dplyr::mutate(
+    image = (image - 1) * 0.2,
+    x = x + image,
+    y = y + image
+  ) |>
+  dplyr::arrange(
+    desc(image)
+  )
+
+matrices <-
+  tibble::tibble(
+    x = seq(9) + 5
+  ) |>
+  tidyr::uncount(
+    weights = 3,
+    .id = "y"
+  ) |>
+  dplyr::mutate(
+    image = (y - 1) * 0.2
+  )
+
+matrix_plot <-
+  dplyr::bind_rows(
+    images,
+    matrices
+  ) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = x,
+      y = y,
+      group = image,
+      alpha = image
+    )
+  ) +
+  ggplot2::geom_point(
+    shape = 15,
+    size = 5,
+    color = "navy"
+  ) +
+  ggplot2::coord_fixed() +
+  ggplot2::scale_y_continuous(
+    limits = c(0.5, 5)
+  ) +
+  ggplot2::scale_x_continuous(
+    limits = c(0.5, 15)
+  ) +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "none",
+    panel.grid = ggplot2::element_blank(),
+    axis.text = ggplot2::element_blank(),
+    axis.title = ggplot2::element_blank()
+  ) +
+  ggplot2::geom_curve(
+    data = tibble::tibble(x = 4),
+    inherit.aes = FALSE,
+    curvature = -0.2,
+    ggplot2::aes(
+      x = x,
+      y = 4.5,
+      xend = 7,
+      yend = 4
+    ),
+    arrow = ggplot2::arrow(
+      length = ggplot2::unit(0.1, "inches"),
+      type = "closed"
+    )
+  ) +
+  ggplot2::geom_text(
+    inherit.aes = FALSE,
+    ggplot2::aes(
+      x = x,
+      y = y,
+      label = label
+    ),
+    data = tibble::tibble(
+      x = c(2.5, 9.9),
+      y = c(4.5, 4.0),
+      label = c("Images", "Vectorized")
+    )
+  )
+
+add_caption(
+  plot = matrix_plot,
+  text = "Image vectorization"
+)
+```
 
 # Methodology
 
@@ -51,7 +169,7 @@ $$
 
 #### `transpose(X)`
 
-Like dot-products, the transpose operation is a core linear algebra operation. This function simply considers matrix $X$ and returns a new matrix which has as many rows as $X$ has columns and as many columns as $X$ has rows. It inverts the positions of row-column pairs as iterates across the matrix.
+Like matrix multiplication, the transpose operation is a core linear algebra operation. This function simply considers matrix $X$ and returns a new matrix which has as many rows as $X$ has columns and as many columns as $X$ has rows. It inverts the positions of row-column pairs as iterates across the matrix.
 
 $$
 X^T
@@ -59,7 +177,7 @@ $$
 
 #### `multiply(X, Y)`
 
-Unlike the dot-product, this function performs element-wise multiplication of two matrices (Hadamard product). Because this is an element level multiplication, matrices $X$ and $Y$ must share the same dimensions. As such, this function returns a new matrix with the same dimensions as the input matrices.
+Unlike matrix multiplication, this function performs element-wise multiplication of two matrices (Hadamard product). Because this is an element level multiplication, matrices $X$ and $Y$ must share the same dimensions. As such, this function returns a new matrix with the same dimensions as the input matrices.
 
 $$
 X \odot Y
@@ -127,7 +245,7 @@ $$
 
 #### `feed_forward(X)`
 
-The concept of *feeding forward* is an important concept in neural network fitting and prediction. The core concept it is to take the dot product of the weight matrix with data from the prior step. The resulting matrix will have the same rows as the input matrix and the same number of columns as there are classes in our training label matrix (one-hot encoded). The `deepspace` package fits neural networks with two hidden layers each with an arbitrary number of neurons.
+The concept of *feeding forward* is an important concept in neural network fitting and prediction. The core concept it is to multiply the result of the prior step with the weight matrix at the current step. The resulting matrix will have the same rows as the input matrix and the same number of columns as there are classes in our training label matrix (one-hot encoded). The `deepspace` package fits neural networks with two hidden layers each with an arbitrary number of neurons.
 
 Let our training data be denoted as $X$, the weights for hidden layer one as $H_1$, the weights for hidden layer two as $H_2$, the weight for the final layer as $W$. Where $f()$ corresponds to `add_ones()` from above.
 
@@ -201,13 +319,6 @@ $$
 
 The package allows for printing of neural networks such that each weight is encoded as a line and each bias is encoded as a circle. In the example above we defined a 7-3-3-2 matrix. While we have 6 predictors, the network has one additional predictor (the bias) moving to 7 predictors.
 
-```{=tex}
-\begin{center}
-
-Figure 1. Neural Network Diagram
-
-\end{center}
-```
 ```{r, echo=FALSE, fig.height=3, fig.width=4, fig.align='center'}
 library(deepspace, quietly = TRUE)
 
@@ -216,7 +327,10 @@ Y <- matrix(seq(2), nrow = 1)
 
 nx <- deepspace::fit_network(X, Y)
 
-plot(nx)
+add_caption(
+  plot = plot(nx),
+  text = "An example neural network"
+)
 ```
 
 # Hypothesis
