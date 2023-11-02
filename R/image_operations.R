@@ -51,8 +51,8 @@ capture_images <- function(path, n = 50, device = NULL) {
 #' @export
 load_images <- function(path,
                         label = NULL,
-                        x_range = seq(140, 499, 10),
-                        y_range = seq(001, 360, 10),
+                        x_range = seq(201, 400),
+                        y_range = seq(101, 300),
                         pattern = ".jpg$") {
   
   if (fs::is_dir(path)) {

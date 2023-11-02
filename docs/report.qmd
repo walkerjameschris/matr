@@ -7,6 +7,7 @@ editor: visual
 
 ```{r setup, echo=FALSE}
 library(deepspace, quietly = TRUE)
+library(ggplot2, quietly = TRUE)
 
 add_caption <- function(plot, text) {
   
@@ -82,13 +83,12 @@ matrix_plot <-
       x = x,
       y = y,
       group = image,
-      alpha = image
+      color = 0 - image
     )
   ) +
   ggplot2::geom_point(
     shape = 15,
-    size = 5,
-    color = "navy"
+    size = 5
   ) +
   ggplot2::coord_fixed() +
   ggplot2::scale_y_continuous(
@@ -320,15 +320,21 @@ $$
 The package allows for printing of neural networks such that each weight is encoded as a line and each bias is encoded as a circle. In the example above we defined a 7-3-3-2 matrix. While we have 6 predictors, the network has one additional predictor (the bias) moving to 7 predictors.
 
 ```{r, echo=FALSE, fig.height=3, fig.width=4, fig.align='center'}
-library(deepspace, quietly = TRUE)
-
 X <- matrix(seq(6), nrow = 1)
 Y <- matrix(seq(2), nrow = 1)
 
 nx <- deepspace::fit_network(X, Y)
 
+graph <-
+  plot(nx) +
+  ggplot2::theme(
+    legend.position = "none",
+    plot.title = element_blank(),
+    plot.subtitle = element_blank()
+  )
+
 add_caption(
-  plot = plot(nx),
+  plot = graph,
   text = "An example neural network"
 )
 ```
