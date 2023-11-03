@@ -36,7 +36,7 @@ fit_network <- function(X, Y,
   
   network <-
     withr::with_seed( 
-      code = initialize(X, Y, neurons),
+      code = deepspace:::initialize(X, Y, neurons),
       seed = seed
     )
   
