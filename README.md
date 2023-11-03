@@ -7,10 +7,8 @@
 This R package provides a simple API for estimating neural network classifiers
 in R. The neural network itself is implemented using a C++ backend and is linked
 to R via Rcpp. While this implementation can be used for a wide variety of
-classification problems, this package contains functions for capturing and
-loading images captured using a webcam for the purpose of training a model.
-The package is designed to work with linux based systems (image capture is
-performed using `fswebcam`). Originally designed as my project for ISYE 6740.
+classification problems, this package was originally designed as my project for
+ISYE 6740 and was used to classify images of ASL signs.
 
 ## Getting Started
 
