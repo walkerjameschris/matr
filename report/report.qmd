@@ -33,11 +33,66 @@ Beyond this report, this project is an R package (called `deepspace`) with a C++
 
 # Data Sources
 
-This model was exclusively trained on images captured using my webcam. At the time of capture, I pre-select a sign which I was going to perform. I called a function called `deepspace::capture_images()` which launches a webcam session and captures $n$ images in rapid succession. I performed the sign in a variety of lighting conditions and angles while the webcam was capturing. Because I *pre-selected* the sign, there was no need to label images individually as all images are stored in a directory that corresponds to that sign. I repeated this process for ASL letters A, B, and C.
+This model was trained on images captured using my webcam. At the time of capture, I pre-select a sign which I was going to perform. I captured $n$ images in rapid succession. I performed the sign in a variety of lighting conditions and angles while the webcam was capturing. Because I *pre-selected* the sign, there was no need to label images individually as all images are stored in a directory that corresponds to that sign. I repeated this process for ASL letters A, B, and C. Images contain values from 0 to 1 corresponding to the brightness of the pixel.
 
-\<insert example images here\>
+```{r echo=FALSE, fig.align='center', fig.height=2, fig.width=6}
+image_plot <-
+  list(
+    a = 1,
+    b = 750,
+    c = 1059
+  ) |>
+  purrr::map(function(i) {
+    
+    img <- deepspace:::asl$X[i, ]
+    
+    as.vector(img) |>
+      tibble::as_tibble() |>
+      dplyr::mutate(
+        i = dplyr::row_number(),
+        x = i %%  42,
+        y = 0 - i %/% 42
+      ) |>
+      dplyr::add_row(
+        x = 0, y = 0,
+        i = 0, value = 0.8
+      )
+    
+  }) |>
+  dplyr::bind_rows(
+    .id = "letter"
+  ) %>%
+  dplyr::mutate(
+    value = value
+  ) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = x,
+      y = y,
+      fill = value,
+      color = value
+    )
+  ) +
+  ggplot2::geom_tile() +
+  ggplot2::facet_wrap(
+    ~ toupper(letter)
+  ) +
+  ggplot2::coord_fixed() +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "none",
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank()
+  )
 
-Stemming from other assignments this semester, I *vectorized* all images captured by the webcam. I can point to a directory which corresponds to a given sign using `deepspace::load_images()`. This function loads, vectorizes, and labels all images as R matrices for use in training. The matrices of images were split into training and testing for validation.
+add_caption(
+  plot = image_plot,
+  text = "Example images pre-vectorization"
+)
+```
+
+Stemming from other assignments this semester, I *vectorized* all images captured by the webcam. I can point to a directory which corresponds to a given sign and loads, vectorize, and labels all images as R matrices for use in training. The matrices of images were split into training and testing for validation.
 
 ```{r, echo=FALSE, fig.align='center', fig.height=1.5, fig.width=6}
 images <-
@@ -139,13 +194,19 @@ add_caption(
 )
 ```
 
+Images were originally 3,024 pixels wide and tall. Because each pixel is mapped to an input neuron, this means that the model would have $3024^2$ weights and biases within the input layer. To balance computational efficiency and model complexity, I down scaled all images by a factor of 72 to create images 42 pixels wide and tall. This is still a sufficient level of detail for a total of $42^2$ weights and biases in the input layer.
+
+I captured 1,543 images to train and test my model. I recognize that deep learning models require large amounts of data to effectively learn complex relationships in data, especially images. For this reason, I used image augmentation to artificially increase the number of images to increase model robustness.
+
+I added 3 levels of Gaussian noise to the images for a 3x increase in the number of samples. I also applied 6 levels of brightness adjustment decrease in image brightness for a final 6x increase. There are now a total of 27,774 images in consideration with 20,000 used for training and 774 used for testing.
+
 # Methodology
 
-The process of capturing images as part of this process is fairly linear. In general, I captured images following the procedure described in *Data Sources* and stored them for model validation. However, the process of modeling the images was more iterative in nature. It involved making updates to the underlying algorithm while also tuning hyperparameters such as the number of hidden layer neurons, the learning rate, and preprocessing methodologies (i.e., normalization).
+The process of capturing images as part of this process is fairly linear. In general, I captured images following the procedure described in *Data Sources* and stored them for model validation. However, the process of modeling the images was more iterative in nature. It involved making updates to the underlying algorithm while also tuning hyperparameters such as the number of hidden layer neurons and the learning rate
 
 Post data collection, I constructed a tuning grid which considers all possible hyperparameter combinations. Completing the Cartesian product of all settings may not be feasible for larger machine learning models. However, my models trained in an acceptable amount of time such that all combinations could be tried. The results of these trials are discussed in detail in the next section.
 
-While the code package only contains four core functions used for image capture and model estimation, the package contains many other functions designed to aid the model estimation procedure written in C++. Most of these functions correspond to a specific linear algebra operation needed to fit and validate a neural network.
+While the code package only contains a few core functions used for model estimation, the package contains many other functions designed to aid the model estimation procedure written in C++. Most of these functions correspond to a specific linear algebra operation needed to fit and validate a neural network.
 
 #### `normal_matrix(row, col)`
 
