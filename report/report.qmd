@@ -9,11 +9,11 @@ editor: visual
 library(deepspace, quietly = TRUE)
 library(ggplot2, quietly = TRUE)
 
-add_caption <- function(plot, text) {
+add_fig_no <- function(plot, text) {
   
-  id <- as.numeric(Sys.getenv(".id"))
+  id <- as.numeric(Sys.getenv(".fig_id"))
   id <- dplyr::coalesce(id + 1, 1)
-  Sys.setenv(".id" = id)
+  Sys.setenv(".fig_id" = id)
 
   plot +
     ggplot2::labs(
@@ -61,7 +61,7 @@ image_plot <-
   }) |>
   dplyr::bind_rows(
     .id = "letter"
-  ) %>%
+  ) |>
   dplyr::mutate(
     value = value
   ) |>
@@ -86,7 +86,7 @@ image_plot <-
     panel.grid = element_blank()
   )
 
-add_caption(
+add_fig_no(
   plot = image_plot,
   text = "Example images pre-vectorization"
 )
@@ -188,7 +188,7 @@ matrix_plot <-
     )
   )
 
-add_caption(
+add_fig_no(
   plot = matrix_plot,
   text = "Image vectorization"
 )
@@ -196,15 +196,15 @@ add_caption(
 
 Images were originally 3,024 pixels wide and tall. Because each pixel is mapped to an input neuron, this means that the model would have $3024^2$ weights and biases within the input layer. To balance computational efficiency and model complexity, I down scaled all images by a factor of 72 to create images 42 pixels wide and tall. This is still a sufficient level of detail for a total of $42^2$ weights and biases in the input layer.
 
-I captured 1,543 images to train and test my model. I recognize that deep learning models require large amounts of data to effectively learn complex relationships in data, especially images. For this reason, I used image augmentation to artificially increase the number of images to increase model robustness.
+I captured 1,543 images to train and test my model. Because deep learning models (i.e., neural networks) require large amounts of data to learn complex relationships in data, I used image augmentation to artificially increase the number of samples. Specifically, I introduced two levels of Gaussian noise and two levels of brightness adjustment. Including the original samples, this produces a data set 9x larger than the original for a total of 13,887 observations with 60 percent used for training and 40 percent for testing.
 
-I added 3 levels of Gaussian noise to the images for a 3x increase in the number of samples. I also applied 6 levels of brightness adjustment decrease in image brightness for a final 6x increase. There are now a total of 27,774 images in consideration with 20,000 used for training and 774 used for testing.
+Pixel values represent the relative brightness of each pixel on a scale from 0 to 1. When both Gaussian noise and brightness adjustments are applied, I ensure that pixel values remain bounded between 0 and 1. Additionally, the data contains 603 As, 455 Bs, and 485 Cs.
 
 # Methodology
 
 The process of capturing images as part of this process is fairly linear. In general, I captured images following the procedure described in *Data Sources* and stored them for model validation. However, the process of modeling the images was more iterative in nature. It involved making updates to the underlying algorithm while also tuning hyperparameters such as the number of hidden layer neurons and the learning rate
 
-Post data collection, I constructed a tuning grid which considers all possible hyperparameter combinations. Completing the Cartesian product of all settings may not be feasible for larger machine learning models. However, my models trained in an acceptable amount of time such that all combinations could be tried. The results of these trials are discussed in detail in the next section.
+I have a total of 1,543 images which were artificially expanded to 13,887 images. Using a neural network with four layers (\$42\^2\$ input neurons, two hidden layers with 100 hidden neurons, and one output layer with 3 neurons) would generate over 180,000 weights and biases for adjustment and could take between 15 minutes to an hour to train depending on the hyperparameters. As such, I performed basic parameter tuning on the minimal 1,543 image data set (reserving 60% for training). Once the ideal set of parameters is found, I will train a final model using those hyperparameters on the full 13,887 image data and assess model performance.
 
 While the code package only contains a few core functions used for model estimation, the package contains many other functions designed to aid the model estimation procedure written in C++. Most of these functions correspond to a specific linear algebra operation needed to fit and validate a neural network.
 
@@ -394,7 +394,7 @@ graph <-
     plot.subtitle = element_blank()
   )
 
-add_caption(
+add_fig_no(
   plot = graph,
   text = "An example neural network"
 )
