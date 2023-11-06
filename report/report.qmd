@@ -202,15 +202,15 @@ Pixel values represent the relative brightness of each pixel on a scale from 0 t
 
 # Methodology
 
-The process of capturing images as part of this process is fairly linear. In general, I captured images following the procedure described in *Data Sources* and stored them for model validation. However, the process of modeling the images was more iterative in nature. It involved making updates to the underlying algorithm while also tuning hyperparameters such as the number of hidden layer neurons and the learning rate
+The process of capturing images as part of this process is fairly linear. In general, I captured images following the procedure described in *Data Sources* and stored them for model validation. However, the process of modeling the images was more iterative in nature. It involved making updates to the underlying algorithm while also tuning the number of hidden layer neurons.
 
-I have a total of 1,543 images which were artificially expanded to 13,887 images. Using a neural network with four layers (\$42\^2\$ input neurons, two hidden layers with 100 hidden neurons, and one output layer with 3 neurons) would generate over 180,000 weights and biases for adjustment and could take between 15 minutes to an hour to train depending on the hyperparameters. As such, I performed basic parameter tuning on the minimal 1,543 image data set (reserving 60% for training). Once the ideal set of parameters is found, I will train a final model using those hyperparameters on the full 13,887 image data and assess model performance.
+I have a total of 1,543 images which were artificially expanded to 13,887 images. Using a neural network with four layers (\$42\^2\$ input neurons, two hidden layers with 100 hidden neurons, and one output layer with 3 neurons) would generate over 180,000 weights and biases for adjustment and could take between 15 minutes to an hour to train. As such, I performed basic parameter tuning (number of neurons) on the minimal 1,543 image data set (reserving 60% for training). Once the ideal set of parameters is found, I will train a final model on the full 13,887 image data and assess model performance.
 
 While the code package only contains a few core functions used for model estimation, the package contains many other functions designed to aid the model estimation procedure written in C++. Most of these functions correspond to a specific linear algebra operation needed to fit and validate a neural network.
 
 #### `normal_matrix(row, col)`
 
-This function initializes a matrix with dimensions *row* and *col* such that each element is randomly drawn from a normal distribution with mean zero and a standard deviation of one. While other methods exist to initialize a neural network for training, I find that randomly distributed noise works well in many cases. I also supply a random seed which ensures I can reproduce random noise and achieve the same estimations given the same training data and hyperparameter configurations. Let $X$ be a matrix with $i$ rows and $j$ columns.
+This function initializes a matrix with dimensions *row* and *col* such that each element is randomly drawn from a normal distribution with mean zero and a standard deviation of one. While other methods exist to initialize a neural network for training, I find that randomly distributed noise works well in many cases. I also supply a random seed which ensures I can reproduce random noise and achieve the same estimations given the same training data and parameter configurations. Let $X$ be a matrix with $i$ rows and $j$ columns.
 
 $$
 f(i, j) = X
@@ -402,7 +402,7 @@ add_fig_no(
 
 # Hypothesis
 
-Before setting out on model estimations, I wanted to outline some key hypothesis statements to better my intuition for these models. First, I expect that there are diminishing marginal returns to model performance for an increase in the number of hidden layer neurons. Therefore, a network with 2 hidden layers each with 20 neurons may be sufficient. Additionally, I expect that the logistic activation function will be sufficient for model training.
+Before setting out on model estimations, I wanted to outline some key hypothesis statements to better my intuition for these models. First, I expect that there are diminishing marginal returns to model performance for an increase in the number of hidden layer neurons. Therefore, a network with 2 hidden layers each with 20 neurons will be sufficient.
 
 While an increased number of neurons, hidden layers, or training epochs may marginally improve performance, I expect that a fairly simple model will perform adequately for the purposes of image classification. I detailed the performance of each model training configuration and identified a candidate model in the section below.
 
