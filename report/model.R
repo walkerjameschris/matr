@@ -20,7 +20,7 @@ data <-
 #### Tune Neurons ####
 
 models <-
-  c(25, 50, 100, 200, 400, 800) |>
+  c(25, 50, 100, 200, 400) |>
   purrr::map(function(neurons) {
     
       deepspace::fit_network(

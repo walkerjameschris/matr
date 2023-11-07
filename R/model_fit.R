@@ -73,6 +73,7 @@ fit_network <- function(X, Y,
                         seed = 123) {
   
   start <- Sys.time()
+  loss_hist <- c()
   
   network <-
     withr::with_seed( 
@@ -89,6 +90,7 @@ fit_network <- function(X, Y,
   for (i in seq(epoch)) {
     network <- propagate_back(network, Y, learn_rate)
     cli::cli_progress_update(status = network$loss)
+    loss_hist <- c(network$loss, loss)
   }
   
   cli::cli_progress_done()
@@ -102,10 +104,8 @@ fit_network <- function(X, Y,
     as.numeric() |>
     round(2)
   
-  network$neurons <- neurons
-  network$epoch <- epoch
-  network$learn_rate <- learn_rate
-  network$seed <- seed
+  metrics <- tibble::lst(neurons, epoch, learn_rate, seed, loss_hist)
+  network <- append(network, metrics)
   
   attr(network, "class") <- "deepspace_network"
   network

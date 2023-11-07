@@ -3,8 +3,10 @@
 #' @method print deepspace_network
 print.deepspace_network <- function(x, ...) {
   
+  i <- c("before", "hide_a", "hide_b", "output")
+  
   dimensions <-
-    purrr::map(x[1:4], ncol) |>
+    purrr::map(x[x], ncol) |>
     glue::glue_collapse("-")
   
   details <-
@@ -12,7 +14,7 @@ print.deepspace_network <- function(x, ...) {
       "*" = "Final Loss: {x$loss}",
       "*" = "Elapsed Time: {x$time} Minutes",
       "*" = "Network Dimensions: {dimensions}",
-      "*" = "Learning RateL {x$learn_rate}",
+      "*" = "Learning Rate: {x$learn_rate}",
       "*" = "Number of Epochs: {x$epoch}"
     ) |>
     purrr::map_chr(~ glue::glue(.x, x = x))
@@ -27,7 +29,10 @@ print.deepspace_network <- function(x, ...) {
 #' @method plot deepspace_network
 plot.deepspace_network <- function(x, ...) {
   
-  purrr::set_names(x[2:4], NULL) |>
+  i <- c("hide_a", "hide_b", "output")
+  
+  x[i] |>
+    purrr::set_names(NULL) |>
     purrr::imap(function(layer, id) {
       as.data.frame(layer) |>
         dplyr::mutate(
