@@ -52,8 +52,8 @@ compute_loss <- function(X, Y) {
     .Call(`_deepspace_compute_loss`, X, Y)
 }
 
-converged <- function(loss_hist, loss) {
-    .Call(`_deepspace_converged`, loss_hist, loss)
+converge <- function(hist, current, tolerance = 0.001, min_epoch = 20L) {
+    .Call(`_deepspace_converge`, hist, current, tolerance, min_epoch)
 }
 
 gradient <- function(W, D, A) {

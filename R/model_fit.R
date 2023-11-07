@@ -91,6 +91,8 @@ fit_network <- function(X, Y,
     network <- propagate_back(network, Y, learn_rate)
     cli::cli_progress_update(status = round(network$loss))
     loss_hist <- c(loss_hist, network$loss)
+    converged <- converge(loss_hist, network$loss)
+    if (converged) break
   }
   
   cli::cli_progress_done()
@@ -104,7 +106,16 @@ fit_network <- function(X, Y,
     as.numeric() |>
     round(2)
   
-  metrics <- tibble::lst(neurons, epoch, learn_rate, seed, loss_hist)
+  metrics <-
+    tibble::lst(
+      neurons,
+      epoch,
+      learn_rate,
+      seed,
+      loss_hist,
+      converged
+    )
+  
   network <- append(network, metrics)
   
   attr(network, "class") <- "deepspace_network"

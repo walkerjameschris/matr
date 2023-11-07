@@ -11,11 +11,12 @@ print.deepspace_network <- function(x, ...) {
   
   details <-
     list(
-      "*" = "Final Loss: {x$loss}",
+      "*" = "Final Loss: {round(x$loss, 3)}",
       "*" = "Elapsed Time: {x$time} Minutes",
       "*" = "Network Dimensions: {dimensions}",
       "*" = "Learning Rate: {x$learn_rate}",
-      "*" = "Number of Epochs: {x$epoch}"
+      "*" = "Max Number of Epochs: {x$epoch}",
+      "*" = "Converged: {x$converged}"
     ) |>
     purrr::map_chr(~ glue::glue(.x, x = x))
   

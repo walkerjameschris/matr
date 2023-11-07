@@ -151,15 +151,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// converged
-bool converged(NumericVector loss_hist, double loss);
-RcppExport SEXP _deepspace_converged(SEXP loss_histSEXP, SEXP lossSEXP) {
+// converge
+bool converge(NumericVector hist, double current, double tolerance, int min_epoch);
+RcppExport SEXP _deepspace_converge(SEXP histSEXP, SEXP currentSEXP, SEXP toleranceSEXP, SEXP min_epochSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type loss_hist(loss_histSEXP);
-    Rcpp::traits::input_parameter< double >::type loss(lossSEXP);
-    rcpp_result_gen = Rcpp::wrap(converged(loss_hist, loss));
+    Rcpp::traits::input_parameter< NumericVector >::type hist(histSEXP);
+    Rcpp::traits::input_parameter< double >::type current(currentSEXP);
+    Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
+    Rcpp::traits::input_parameter< int >::type min_epoch(min_epochSEXP);
+    rcpp_result_gen = Rcpp::wrap(converge(hist, current, tolerance, min_epoch));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -203,7 +205,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_deepspace_initialize", (DL_FUNC) &_deepspace_initialize, 3},
     {"_deepspace_feed_forward", (DL_FUNC) &_deepspace_feed_forward, 1},
     {"_deepspace_compute_loss", (DL_FUNC) &_deepspace_compute_loss, 2},
-    {"_deepspace_converged", (DL_FUNC) &_deepspace_converged, 2},
+    {"_deepspace_converge", (DL_FUNC) &_deepspace_converge, 4},
     {"_deepspace_gradient", (DL_FUNC) &_deepspace_gradient, 3},
     {"_deepspace_propagate_back", (DL_FUNC) &_deepspace_propagate_back, 3},
     {NULL, NULL, 0}

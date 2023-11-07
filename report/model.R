@@ -20,8 +20,8 @@ data <-
 #### Tune Neurons ####
 
 models <-
-  c(25, 50, 100, 200, 400) |>
-  purrr::map(function(neurons) {
+  # c(25, 50, 100, 200, 400) |>
+  purrr::map(25, function(neurons) {
     
       deepspace::fit_network(
         X = data$train$X,
@@ -56,7 +56,7 @@ neurons_df <-
 
 models |>
   purrr::map(function(model) {
-    
+   
     tibble::tibble(
       loss = model$loss_hist,
       neurons = as.character(model$neurons)
@@ -74,4 +74,11 @@ models |>
       color = neurons
     )
   ) +
-  ggplot2::geom_line()
+  ggplot2::geom_line() +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(
+    x = "Epoch",
+    y = "Loss",
+    title = "Loss Curves for Neural Networks",
+    color = "Neurons"
+  )

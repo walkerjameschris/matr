@@ -231,6 +231,33 @@ double compute_loss(NumericMatrix X, NumericMatrix Y) {
 }
 
 // [[Rcpp::export]]
+bool converge(NumericVector hist,
+              double current,
+              double tolerance = 0.001,
+              int min_epoch = 20) {
+  
+  int epoch = hist.length();
+  double last = hist[epoch - 1];
+  double avg = 0;
+  
+  if (epoch < min_epoch) {
+    return false;
+  }
+  
+  for (int i = 1; i <= min_epoch; i++) {
+    avg += hist[epoch - i] / min_epoch;
+  }
+  
+  double diff = pow(pow((last / avg) - 1, 2), 0.5);
+  
+  if (diff < tolerance) {
+    return true;
+  } 
+  
+  return false;
+}
+
+// [[Rcpp::export]]
 NumericMatrix gradient(NumericMatrix W,
                        NumericMatrix D,
                        NumericMatrix A) {
