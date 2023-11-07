@@ -227,10 +227,7 @@ double compute_loss(NumericMatrix X, NumericMatrix Y) {
     }
   }
   
-  result = pow(result, 0.5);
-  result = round(result);
-  
-  return result;
+  return pow(result, 0.5);
 }
 
 // [[Rcpp::export]]

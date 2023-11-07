@@ -54,4 +54,24 @@ neurons_df <-
   }) |>
   dplyr::bind_rows()
 
-models
+models |>
+  purrr::map(function(model) {
+    
+    tibble::tibble(
+      loss = rev(model$loss_hist),
+      neurons = as.character(model$neurons)
+    ) |>
+      dplyr::mutate(
+        epoch = dplyr::row_number()
+      )
+    
+  }) |>
+  dplyr::bind_rows() |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = epoch,
+      y = loss,
+      color = neurons
+    )
+  ) +
+  ggplot2::geom_line()
