@@ -90,7 +90,7 @@ fit_network <- function(X, Y,
   for (i in seq(epoch)) {
     network <- propagate_back(network, Y, learn_rate)
     cli::cli_progress_update(status = network$loss)
-    loss_hist <- c(network$loss, loss)
+    loss_hist <- c(network$loss, loss_hist)
   }
   
   cli::cli_progress_done()
