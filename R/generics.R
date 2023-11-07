@@ -6,7 +6,7 @@ print.deepspace_network <- function(x, ...) {
   i <- c("before", "hide_a", "hide_b", "output")
   
   dimensions <-
-    purrr::map(x[x], ncol) |>
+    purrr::map(x[i], ncol) |>
     glue::glue_collapse("-")
   
   details <-
