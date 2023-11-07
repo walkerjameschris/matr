@@ -20,7 +20,7 @@ data <-
 #### Tune Neurons ####
 
 models <-
-  seq(20, 200, 20) |>
+  c(25, 50, 100, 200, 400, 800) |>
   purrr::map(function(neurons) {
     
       deepspace::fit_network(
@@ -53,13 +53,3 @@ neurons_df <-
     )
   }) |>
   dplyr::bind_rows()
-
-neurons_df |>
-  ggplot2::ggplot(
-    ggplot2::aes(
-      x = neurons,
-      y = time
-    )
-  ) +
-  ggplot2::geom_line()
-
