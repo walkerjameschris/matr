@@ -58,7 +58,7 @@ models |>
   purrr::map(function(model) {
     
     tibble::tibble(
-      loss = rev(model$loss_hist),
+      loss = model$loss_hist,
       neurons = as.character(model$neurons)
     ) |>
       dplyr::mutate(

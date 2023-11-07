@@ -151,6 +151,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// converged
+bool converged(NumericVector loss_hist, double loss);
+RcppExport SEXP _deepspace_converged(SEXP loss_histSEXP, SEXP lossSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type loss_hist(loss_histSEXP);
+    Rcpp::traits::input_parameter< double >::type loss(lossSEXP);
+    rcpp_result_gen = Rcpp::wrap(converged(loss_hist, loss));
+    return rcpp_result_gen;
+END_RCPP
+}
 // gradient
 NumericMatrix gradient(NumericMatrix W, NumericMatrix D, NumericMatrix A);
 RcppExport SEXP _deepspace_gradient(SEXP WSEXP, SEXP DSEXP, SEXP ASEXP) {
@@ -191,6 +203,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_deepspace_initialize", (DL_FUNC) &_deepspace_initialize, 3},
     {"_deepspace_feed_forward", (DL_FUNC) &_deepspace_feed_forward, 1},
     {"_deepspace_compute_loss", (DL_FUNC) &_deepspace_compute_loss, 2},
+    {"_deepspace_converged", (DL_FUNC) &_deepspace_converged, 2},
     {"_deepspace_gradient", (DL_FUNC) &_deepspace_gradient, 3},
     {"_deepspace_propagate_back", (DL_FUNC) &_deepspace_propagate_back, 3},
     {NULL, NULL, 0}
