@@ -52,7 +52,7 @@ compute_loss <- function(X, Y) {
     .Call(`_deepspace_compute_loss`, X, Y)
 }
 
-converge <- function(hist, current, tolerance = 0.001, min_epoch = 20L) {
+converge <- function(hist, current, tolerance = 0.001, min_epoch = 30L) {
     .Call(`_deepspace_converge`, hist, current, tolerance, min_epoch)
 }
 

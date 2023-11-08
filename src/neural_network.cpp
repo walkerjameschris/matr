@@ -234,21 +234,21 @@ double compute_loss(NumericMatrix X, NumericMatrix Y) {
 bool converge(NumericVector hist,
               double current,
               double tolerance = 0.001,
-              int min_epoch = 20) {
+              int min_epoch = 30) {
   
-  int epoch = hist.length();
-  double last = hist[epoch - 1];
-  double avg = 0;
+  int epochs = hist.length();
+  double last = hist[epochs - 1];
+  double mean = 0.0;
   
-  if (epoch < min_epoch) {
+  if (epochs < min_epoch) {
     return false;
   }
   
   for (int i = 1; i <= min_epoch; i++) {
-    avg += hist[epoch - i] / min_epoch;
+    mean += hist[epochs - i] / min_epoch;
   }
   
-  double diff = pow(pow((last / avg) - 1, 2), 0.5);
+  double diff = pow(pow((last / mean) - 1, 2), 0.5);
   
   if (diff < tolerance) {
     return true;
