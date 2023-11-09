@@ -165,6 +165,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// matrix_min_max
+NumericMatrix matrix_min_max(NumericMatrix X, double min_val, double max_val);
+RcppExport SEXP _deepspace_matrix_min_max(SEXP XSEXP, SEXP min_valSEXP, SEXP max_valSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< double >::type min_val(min_valSEXP);
+    Rcpp::traits::input_parameter< double >::type max_val(max_valSEXP);
+    rcpp_result_gen = Rcpp::wrap(matrix_min_max(X, min_val, max_val));
+    return rcpp_result_gen;
+END_RCPP
+}
 // gradient
 NumericMatrix gradient(NumericMatrix W, NumericMatrix D, NumericMatrix A);
 RcppExport SEXP _deepspace_gradient(SEXP WSEXP, SEXP DSEXP, SEXP ASEXP) {
@@ -206,6 +219,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_deepspace_feed_forward", (DL_FUNC) &_deepspace_feed_forward, 1},
     {"_deepspace_compute_loss", (DL_FUNC) &_deepspace_compute_loss, 2},
     {"_deepspace_converge", (DL_FUNC) &_deepspace_converge, 4},
+    {"_deepspace_matrix_min_max", (DL_FUNC) &_deepspace_matrix_min_max, 3},
     {"_deepspace_gradient", (DL_FUNC) &_deepspace_gradient, 3},
     {"_deepspace_propagate_back", (DL_FUNC) &_deepspace_propagate_back, 3},
     {NULL, NULL, 0}

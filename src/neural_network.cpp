@@ -258,6 +258,38 @@ bool converge(NumericVector hist,
 }
 
 // [[Rcpp::export]]
+NumericMatrix matrix_min_max(NumericMatrix X,
+                             double min_val = 0.0,
+                             double max_val = 1.0) {
+  
+  int row = X.nrow();
+  int col = X.ncol();
+  
+  NumericMatrix result(row, col);
+  
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      
+      double value = X(i, j);
+      
+      if (value > max_val) {
+        result(i, j) = max_val;
+        continue;
+      }
+      
+      if (value < min_val) {
+        result(i, j) = min_val;
+        continue;
+      }
+      
+      result(i, j) = value;
+    }
+  }
+  
+  return result;
+}
+
+// [[Rcpp::export]]
 NumericMatrix gradient(NumericMatrix W,
                        NumericMatrix D,
                        NumericMatrix A) {

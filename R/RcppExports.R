@@ -56,6 +56,10 @@ converge <- function(hist, current, tolerance = 0.001, min_epoch = 30L) {
     .Call(`_deepspace_converge`, hist, current, tolerance, min_epoch)
 }
 
+matrix_min_max <- function(X, min_val = 0.0, max_val = 1.0) {
+    .Call(`_deepspace_matrix_min_max`, X, min_val, max_val)
+}
+
 gradient <- function(W, D, A) {
     .Call(`_deepspace_gradient`, W, D, A)
 }

@@ -37,15 +37,17 @@ models <-
 
 readr::write_rds(models, "~/Documents/models.Rds")
 
-real <- apply(data$test$Y, 1, which.max)
+real <- apply(data$train$Y, 1, which.max)
 
 neurons_df <-
   models |>
   purrr::map(function(model) {
     
     pred <-
-      model |>
-      predict(data$test$X) |>
+      predict(
+        model,
+        newdata = data$train$X
+      ) |>
       as.matrix() |>
       apply(
         MARGIN = 1,
@@ -61,25 +63,14 @@ neurons_df <-
   }) |>
   dplyr::bind_rows()
 
+
 neurons_df |>
-  ggplot2::ggplot(
-    ggplot2::aes(
-      x = neurons,
-      y = accuracy
-    )
-  ) +
-  ggplot2::geom_line() +
-  ggplot2::theme_minimal() +
-  ggplot2::labs(
-    x = "Neurons",
-    y = "Training Accuracy",
-    title = "Neurons vs Accuracy"
-  ) +
-  ggplot2::scale_y_continuous(
-    labels = scales::label_percent(1)
+  readr::write_csv(
+    here::here("report/neurons_df.csv") 
   )
 
-models |>
+loss_df <-
+  models |>
   purrr::map(function(model) {
    
     tibble::tibble(
@@ -91,19 +82,59 @@ models |>
       )
     
   }) |>
-  dplyr::bind_rows() |>
-  ggplot2::ggplot(
-    ggplot2::aes(
-      x = epoch,
-      y = loss,
-      color = factor(neurons)
-    )
-  ) +
-  ggplot2::geom_line() +
-  ggplot2::theme_minimal() +
-  ggplot2::labs(
-    x = "Epoch",
-    y = "Loss",
-    title = "Loss Curves for Neural Networks",
-    color = "Neurons"
+  dplyr::bind_rows()
+
+loss_df |>
+  readr::write_csv(
+    here::here("report/loss_df.csv") 
   )
+
+#### Create Modified Data ####
+
+mod_grid <-
+  tidyr::expand_grid(
+    normal = c(0.00, 0.02, 0.04, 0.06, 0.08),
+    bright = c(0.70, 1.00, 1.30)
+  )
+
+mod_X <-
+  mod_grid |>
+  purrr::pmap(function(normal, bright) {
+    
+    x_df <- data$test$X
+    vals <- prod(dim(x_df))
+    rows <- nrow(x_df)
+
+    norm_val <-
+      rnorm(vals, 0, normal) |>
+      matrix(nrow = rows)
+
+    temp <- x_df * bright + norm_val
+    deepspace:::matrix_min_max(temp)
+  }) |>
+  do.call(
+    what = rbind,
+    args = _
+  ) |>
+  withr::with_seed(
+    seed = 123
+  )
+
+mod_real <- rep(real, nrow(mod_grid))
+
+#### Test Randomized Samples ####
+
+model_200 <- purrr::pluck(models, 4)
+
+preds <-
+  predict(
+    model_200,
+    newdata = mod_X
+  ) |>
+  as.matrix() |>
+  apply(
+    MARGIN = 1,
+    FUN = which.max
+  )
+
+mean(preds == mod_real)

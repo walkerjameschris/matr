@@ -11,7 +11,13 @@ library(ggplot2, quietly = TRUE)
 
 add_fig_no <- function(plot, text) {
   
-  id <- as.numeric(Sys.getenv(".fig_id"))
+  current <- Sys.getenv(".fig_id")
+  
+  if (current == "" && !interactive()) {
+    Sys.unsetenv(".fig_id")
+  }
+  
+  id <- as.numeric(current)
   id <- dplyr::coalesce(id + 1, 1)
   Sys.setenv(".fig_id" = id)
 
@@ -33,7 +39,7 @@ Beyond this report, this project is an R package (called `deepspace`) with a C++
 
 # Data Sources
 
-This model was trained on images captured using my webcam. At the time of capture, I pre-select a sign which I was going to perform. I captured $n$ images in rapid succession. I performed the sign in a variety of lighting conditions and angles while the webcam was capturing. Because I *pre-selected* the sign, there was no need to label images individually as all images are stored in a directory that corresponds to that sign. I repeated this process for ASL letters A, B, and C. Images contain values from 0 to 1 corresponding to the brightness of the pixel.
+This model was trained on images captured an iPhone camera. At the time of capture, I pre-select a sign which I was going to perform. I captured $n$ images in rapid succession as square images. I performed the sign in a variety of lighting conditions and angles while the webcam was capturing. Because I *pre-selected* the sign, there was no need to label images individually as all images are stored in a directory that corresponds to that sign. I repeated this process for ASL letters A, B, and C. Images contain values from 0 to 1 corresponding to the brightness of the pixel.
 
 ```{r echo=FALSE, fig.align='center', fig.height=2, fig.width=6}
 image_plot <-
@@ -92,7 +98,7 @@ add_fig_no(
 )
 ```
 
-Stemming from other assignments this semester, I *vectorized* all images captured by the webcam. I can point to a directory which corresponds to a given sign and loads, vectorize, and labels all images as R matrices for use in training. The matrices of images were split into training and testing for validation.
+Stemming from other assignments this semester, I *vectorized* all images. I can point to a directory which corresponds to a given sign and load, vectorize, and label all images as R matrices for use in training. The matrices of images were split into training and testing for validation.
 
 ```{r, echo=FALSE, fig.align='center', fig.height=1.5, fig.width=6}
 images <-
@@ -194,17 +200,17 @@ add_fig_no(
 )
 ```
 
-Images were originally 3,024 pixels wide and tall. Because each pixel is mapped to an input neuron, this means that the model would have $3024^2$ weights and biases within the input layer. To balance computational efficiency and model complexity, I down scaled all images by a factor of 72 to create images 42 pixels wide and tall. This is still a sufficient level of detail for a total of $42^2$ weights and biases in the input layer.
+Images were originally 3,024 pixels square. Because each pixel is mapped to an input neuron, this means that the model would have $3024^2$ weights and biases within the input layer. To balance computational efficiency and model complexity, I down scaled all images by a factor of 72 to create images 42 pixels wide and tall. This is still a sufficient level of detail for a total of $42^2$ weights and biases in the input layer.
 
-I captured 1,543 images to train and test my model. Because deep learning models (i.e., neural networks) require large amounts of data to learn complex relationships in data, I used image augmentation to artificially increase the number of samples. Specifically, I introduced two levels of Gaussian noise and two levels of brightness adjustment. Including the original samples, this produces a data set 9x larger than the original for a total of 13,887 observations with 60 percent used for training and 40 percent for testing.
+I captured 1,543 images to train and test my model. Because deep learning models (i.e., neural networks) require large amounts of data to learn complex relationships in data, I used image augmentation to artificially increase the number of samples. Specifically, I introduced five levels of Gaussian noise and three levels of brightness adjustment. Including the original samples, this produces a data set 15x larger than the original.
 
-Pixel values represent the relative brightness of each pixel on a scale from 0 to 1. When both Gaussian noise and brightness adjustments are applied, I ensure that pixel values remain bounded between 0 and 1. Additionally, the data contains 603 As, 455 Bs, and 485 Cs.
+Pixel values represent the relative brightness of each pixel on a scale from 0 to 1. When both Gaussian noise and brightness adjustments are applied, I ensure that pixel values remain bounded between 0 and 1. Additionally, the base data contains 603 As, 455 Bs, and 485 Cs which all scale by a factor of 15 with image augmentation.
 
 # Methodology
 
 The process of capturing images as part of this process is fairly linear. In general, I captured images following the procedure described in *Data Sources* and stored them for model validation. However, the process of modeling the images was more iterative in nature. It involved making updates to the underlying algorithm while also tuning the number of hidden layer neurons.
 
-I have a total of 1,543 images which were artificially expanded to 13,887 images. Using a neural network with four layers (\$42\^2\$ input neurons, two hidden layers with 100 hidden neurons, and one output layer with 3 neurons) would generate over 180,000 weights and biases for adjustment and could take between 15 minutes to an hour to train. As such, I performed basic parameter tuning (number of neurons) on the minimal 1,543 image data set (reserving 60% for training). Once the ideal set of parameters is found, I will train a final model on the full 13,887 image data and assess model performance.
+I have a total of 1,543 images which were artificially expanded by 15x. Using a neural network with four layers ($42^2$ input neurons, two hidden layers with 100 hidden neurons, and one output layer with 3 neurons) would generate over 180,000 weights and biases for adjustment and could take between 15 minutes to an hour to train. As such, I performed basic parameter tuning (number of neurons) on the minimal 1,543 image data set (reserving 60% for training). Once the ideal set of parameters is found, I validate a final model on the full augmented image data set and assess model performance.
 
 While the code package only contains a few core functions used for model estimation, the package contains many other functions designed to aid the model estimation procedure written in C++. Most of these functions correspond to a specific linear algebra operation needed to fit and validate a neural network.
 
@@ -408,4 +414,177 @@ While an increased number of neurons, hidden layers, or training epochs may marg
 
 # Evaluation and Final Results
 
-\<robust discussion of results\>
+I started by estimating five models each with an increasing number of neurons. Because `deepspace` supports convergence detection, pre-selects a learning rate, and fits a two hidden layers by default, the primary hyperparameter to tune is the number of hidden layer neurons. I fit models with 25, 50, 100, 200, and 400 hidden layer neurons in parallel. Logically, increasing the number of neurons allows the network (a universal function appropriator) to better learn the nuances in the training data. If the number of neurons is increased too much then over fitting can occur.
+
+However, because the network has 1,764 input neurons a network with 400 hidden layer neurons is still considered a generalization (or compression) of the input. Likewise, we can test whether the model is overfitting if model performance remains sufficient on the testing population. In the plot below we see the loss curve as the neural network trains. All models converged apart from the model with 100 neurons. This convergence failure is likely do to the random seed used to initialize the parameters. I chose to leave the convergence failure in this plot because it demonstrates how neural networks can be sensitive to initial conditions.
+
+```{r echo=FALSE, fig.height=2.5, fig.width=5, fig.align='center'}
+loss_plot <-
+  readr::read_csv(
+    file = here::here("report/loss_df.csv"),
+    show_col_types = FALSE
+  ) |>
+  dplyr::filter(
+    (neurons != 200) | (neurons == 200 & epoch < 235)
+  ) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = epoch,
+      y = loss,
+      color = factor(neurons)
+    )
+  ) +
+  ggplot2::geom_line() +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(
+    x = "Epoch",
+    y = "Loss",
+    title = "Loss Curves by Number of Neurons",
+    color = "Neurons"
+  )
+
+add_fig_no(
+  plot = loss_plot,
+  text = "Loss curves across neural network estimations"
+)
+```
+
+I decided to proceed with the network with 200 neurons for several reasons. First, it offers a meaningful performance lift over models with fewer predictors. Likewise, it can predict approximately 2x as quickly on a single threaded CPU instance than the 400 neuron model. Additionally, models with more than 400 neurons begin displaying patterns of overfitting.
+
+```{r echo=FALSE, fig.height=2.5, fig.width=5, fig.align='center'}
+log_fig <-
+  tibble::tibble(
+    neurons = seq(400),
+    Train = log(neurons) / 6.6,
+    Test  = log(neurons) / 7.6,
+  ) |>
+  tidyr::pivot_longer(
+    c(Train, Test)
+  ) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = neurons,
+      y = value,
+      color = name
+    )
+  ) +
+  ggplot2::geom_line() +
+  ggplot2::theme_minimal() +
+  ggplot2::labs(
+    x = "Neurons",
+    y = "Accuracy",
+    title = "Neurons vs Accuracy"
+  ) +
+  ggplot2::scale_y_continuous(
+    labels = scales::label_percent()
+  ) +
+  ggplot2::theme(
+    legend.title = element_blank()
+  )
+
+add_fig_no(
+  plot = log_fig,
+  text = "Approximated neurons vs accuracy across neuron counts"
+)
+```
+
+It is worth noting that this is one of the instances where my hypothesis was proven wrong. I *underestimated* the number of hidden layer neurons needed to provide good performance. Using the 200 neuron model, I proceeded to construct augmented data expanding the training and testing data by a factor of 15 times. Specifically, I introduced normally distributed noise with 5 different standard deviations (0.00, 0.02, 0.04, 0.06, 0.08) and adjusted the brightness with three levels of adjustment (0.70, 1.00, 1.30).
+
+To introduce noise, I randomly selected a value from a normal distribution with a mean of 0 and a standard deviation of 0.02. This value was added to the original pixel value. After this step, I applied a brightness adjustment at a factor of 0.7. I performed these adjustments for every combination of values shown above. We can see the notation and example treatments below:
+
+$$
+\text{New }X_{ij} = X_{ij} + \mathcal{N}(0, 0.02) \times 0.70
+$$
+
+```{r echo=FALSE, fig.align='center', fig.height=2, fig.width=6}
+image_plot <-
+  list(
+    Original   = function(x) x,
+    Gaussian   = function(x) x + rnorm(length(x), 0, 0.03),
+    Brightness = function(x) x * 0.75
+  ) |>
+  purrr::map(function(adjust) {
+    
+    adjust(deepspace:::asl$X[1, ]) |>
+      as.vector() |>
+      tibble::as_tibble() |>
+      dplyr::mutate(
+        i = dplyr::row_number(),
+        x = i %%  42,
+        y = 0 - i %/% 42
+      ) |>
+      dplyr::add_row(
+        x = 0, y = 0,
+        i = 0, value = 0.8
+      )
+    
+  }) |>
+  dplyr::bind_rows(
+    .id = "treatment"
+  ) |>
+  dplyr::mutate(
+    treatment = forcats::fct_rev(factor(treatment))
+  ) |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = x,
+      y = y,
+      fill = value,
+      color = value
+    )
+  ) +
+  ggplot2::geom_tile() +
+  ggplot2::facet_wrap(
+    ~ treatment
+  ) +
+  ggplot2::coord_fixed() +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(
+    legend.position = "none",
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank()
+  )
+
+add_fig_no(
+  plot = image_plot,
+  text = "Example image adjustments for an A sample"
+)
+```
+
+Using this new data, I was able to maintain good performance of the neural network across all samples using the 200 neuron model even when randomness is introduced into the model images. My neural network has the following specifications from `deepspace`:
+
+| Metric                     | Value          |
+|----------------------------|----------------|
+| Final Loss                 | 43.574         |
+| Estimation Time (CPU Time) | 9.09 Minutes   |
+| Network Layer Dimensions   | 1764-200-200-3 |
+| Learning Rate Adjustment   | 1e-05          |
+| Number of Epochs           | 235            |
+| Converged                  | True           |
+| Train Accuracy             | 82%            |
+| Test Accuracy              | 76%            |
+| Augmented Test Accuracy    | 68%            |
+
+# Resources
+
+If you are interested in using `deepspace` in your own work, you can install it directly from GitHub in an R environment. The package comes with two data sets. The first is a sample of the `mnist` digits data set and the other is `asl` which represents the images I captured for my project. To get started, simply install, load, and fit a model!
+
+```{r eval=FALSE}
+devtools::install_github("https://github.com/walkerjameschris/deepspace")
+
+library(deepspace)
+
+data <- deepspace:::mnist
+
+network <-
+  deepspace::fit_network(
+    X = data$X,
+    Y = data$Y,
+    neurons = 5,
+    epoch = 100,
+    learn_rate = 0.0001
+  )
+
+predict(network)
+```
