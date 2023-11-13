@@ -1,14 +1,29 @@
 # deepspace <img src='img/logo.png' align="right" height="140" />
 
-###  A Simple R Package for Estimating Neural Network Clasifiers
+###  A Simple R Package for Estimating Classification Algorithims
 
 ## Introduction
 
-This R package provides a simple API for estimating neural network classifiers
-in R. The neural network itself is implemented using a C++ backend and is linked
-to R via Rcpp. While this implementation can be used for a wide variety of
-classification problems, this package was originally designed as my project for
-ISYE 6740 and was used to classify images of ASL signs.
+This R package provides a simple API for estimating machine learning classifiers
+in R. This repo began as a from scratch implementation of a neural network in
+for my class project for ISYE 6740. The algorithms are implemented using a C++
+backed and are linked to R via Rcpp. Here is a list of algorithms implemented
+in this package in addition to several methods planned for the future:
+
+| Model | Status |
+| ----- | ------ |
+| Neural Network | Implemented |
+| Decision Tree | Implemented |
+| Boosted Tree | Planned |
+| KNN | Planned |
+| K-Means | Planned |
+
+## Disclaimer
+
+These algorithms are primarily implemented for educational purposes and should
+not be used in production code. However, I think the simplistic nature of this 
+package makes it easy to distill the mechanics of these models while retaining
+the performance of C++.
 
 ## Getting Started
 
@@ -18,10 +33,10 @@ To get started simply install the package from GitHub:
 devtools::install_github("https://github.com/walkerjameschris/deepspace")
 ```
 
-To train a network, load the package and data. The `fit_network()` function
+To train a model, load the package and data. The `fit_network()` function
 accepts the training data and labels (one hot encoded) as matrices. You can tune
 the number of hidden layer neurons (`neurons`) in addition to the learning rate
-(`alpha`) , max number of iterations (`epoch`), and a random seed.
+(`learn_rate`), the max number of iterations (`epoch`), and a random seed.
 
 ```r
 data <- deepspace:::mnist
@@ -41,4 +56,3 @@ plot(network)
 ```
 
 <img src='img/nn_plot.jpg' height="350"/>
-
