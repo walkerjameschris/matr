@@ -12,11 +12,11 @@ in this package in addition to several methods planned for the future:
 
 | Model | Status |
 | ----- | ------ |
-| Neural Network | Implemented |
-| Decision Tree | Implemented |
-| Boosted Tree | Planned |
-| KNN | Planned |
-| K-Means | Planned |
+| Neural Network | ![Implemented](https://img.shields.io/badge/Implemented-green) |
+| Decision Tree | ![In Progress](https://img.shields.io/badge/In Progress-yellow) |
+| Boosted Tree | ![Planned](https://img.shields.io/badge/Planned-red)
+| KNN | ![Planned](https://img.shields.io/badge/Planned-red)
+| K-Means | ![Planned](https://img.shields.io/badge/Planned-red)
 
 **Disclaimer:** These algorithms are primarily implemented for educational
 purposes and should not be used in production code. However, I think the
