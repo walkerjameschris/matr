@@ -10,6 +10,70 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// gini_impurity
+double gini_impurity(NumericVector y_lo, NumericVector y_hi);
+RcppExport SEXP _deepspace_gini_impurity(SEXP y_loSEXP, SEXP y_hiSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type y_lo(y_loSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y_hi(y_hiSEXP);
+    rcpp_result_gen = Rcpp::wrap(gini_impurity(y_lo, y_hi));
+    return rcpp_result_gen;
+END_RCPP
+}
+// split_data
+List split_data(NumericMatrix X, NumericVector y, int index, double split, bool include_X);
+RcppExport SEXP _deepspace_split_data(SEXP XSEXP, SEXP ySEXP, SEXP indexSEXP, SEXP splitSEXP, SEXP include_XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type index(indexSEXP);
+    Rcpp::traits::input_parameter< double >::type split(splitSEXP);
+    Rcpp::traits::input_parameter< bool >::type include_X(include_XSEXP);
+    rcpp_result_gen = Rcpp::wrap(split_data(X, y, index, split, include_X));
+    return rcpp_result_gen;
+END_RCPP
+}
+// best_split
+List best_split(NumericMatrix X, NumericVector y, int n_split);
+RcppExport SEXP _deepspace_best_split(SEXP XSEXP, SEXP ySEXP, SEXP n_splitSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type n_split(n_splitSEXP);
+    rcpp_result_gen = Rcpp::wrap(best_split(X, y, n_split));
+    return rcpp_result_gen;
+END_RCPP
+}
+// make_pred
+int make_pred(NumericVector y);
+RcppExport SEXP _deepspace_make_pred(SEXP ySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(make_pred(y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// initialize_tree
+List initialize_tree(NumericMatrix X, NumericVector y, int min_split);
+RcppExport SEXP _deepspace_initialize_tree(SEXP XSEXP, SEXP ySEXP, SEXP min_splitSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< int >::type min_split(min_splitSEXP);
+    rcpp_result_gen = Rcpp::wrap(initialize_tree(X, y, min_split));
+    return rcpp_result_gen;
+END_RCPP
+}
 // normal_matrix
 NumericMatrix normal_matrix(int row, int col);
 RcppExport SEXP _deepspace_normal_matrix(SEXP rowSEXP, SEXP colSEXP) {
@@ -206,6 +270,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_deepspace_gini_impurity", (DL_FUNC) &_deepspace_gini_impurity, 2},
+    {"_deepspace_split_data", (DL_FUNC) &_deepspace_split_data, 5},
+    {"_deepspace_best_split", (DL_FUNC) &_deepspace_best_split, 3},
+    {"_deepspace_make_pred", (DL_FUNC) &_deepspace_make_pred, 1},
+    {"_deepspace_initialize_tree", (DL_FUNC) &_deepspace_initialize_tree, 3},
     {"_deepspace_normal_matrix", (DL_FUNC) &_deepspace_normal_matrix, 2},
     {"_deepspace_mul", (DL_FUNC) &_deepspace_mul, 2},
     {"_deepspace_transpose", (DL_FUNC) &_deepspace_transpose, 1},
