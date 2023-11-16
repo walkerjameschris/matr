@@ -1,40 +1,28 @@
+#include <cmath>
 #include <Rcpp.h>
 using namespace Rcpp;
  
 //// Helper Functions ////
 
 // [[Rcpp::export]]
-double gini_impurity(NumericVector y_lo,
-                     NumericVector y_hi) {
+double info_gain(NumericVector a,
+                 NumericVector b) {
   
-  double y_lo_len = y_lo.length();
-  double y_hi_len = y_hi.length();
+  double a_len = a.length();
+  double b_len = b.length();
   
-  double y_lo_0 = 0;
-  double y_lo_1 = 0;
-  double y_hi_0 = 0;
-  double y_hi_1 = 0;
+  double a_avg = 0;
+  double b_avg = 0;
   
-  for (int i = 0; i < y_lo_len; i++) {
-    if (y_lo[i] == 1) {
-      y_lo_1 += 1;
-    } else {
-      y_lo_0 += 1;
-    }
+  for (int i = 0; i < a_len; i++) {
+    a_avg += a[i] / a_len;
   }
   
-  for (int i = 0; i < y_hi_len; i++) {
-    if (y_hi[i] == 1) {
-      y_hi_1 += 1;
-    } else {
-      y_hi_0 += 1;
-    }
+  for (int i = 0; i < b_len; i++) {
+    b_avg += a[i] / b_len;
   }
   
-  double lo = pow(y_lo_0 / y_lo_len, 2) + pow(y_lo_1 / y_lo_len, 2);
-  double hi = pow(y_hi_0 / y_hi_len, 2) + pow(y_hi_1 / y_hi_len, 2);
-  
-  return ((lo * y_lo_len) + (hi * y_hi_len)) / (y_lo_len + y_hi_len);
+  return 0 - a_avg - b_avg;
 }
 
 // [[Rcpp::export]]
@@ -121,14 +109,15 @@ List split_data(NumericMatrix X,
 // [[Rcpp::export]]
 List best_split(NumericMatrix X,
                 NumericVector y,
-                int n_split = 5) {
+                int n_split = 5,
+                int min_split = 100) {
   
   int X_col = X.ncol();
   int X_row = X.nrow();
   
-  int best_index = 0;
-  double best_split = 0;
-  double best_gini = 1;
+  int best_index = -1;
+  double best_split = -1;
+  double best_info = 1;
   
   for (int j = 0; j < X_col; j++) {
     
@@ -156,10 +145,13 @@ List best_split(NumericMatrix X,
       
       List data = split_data(X, y, j, split, false);
       
-      double gini = gini_impurity(data["y_lo"], data["y_hi"]);
+      double info = info_gain(data["y_lo"], data["y_hi"]);
       
-      if (gini < best_gini) {
-        best_gini = gini;
+      int n_lo = data["lower"];
+      int n_hi = data["upper"];
+      
+      if (info < best_info && n_lo > min_split && n_hi > min_split) {
+        best_info = info;
         best_index = j;
         best_split = split;
       }
@@ -177,7 +169,7 @@ int make_pred(NumericVector y) {
   
   int len = y.length();
   int y_0 = 0;
-  int y_1 = 1;
+  int y_1 = 0;
   
   for (int i = 0; i < len; i++) {
     if (y[i] == 0) {
@@ -201,24 +193,23 @@ List initialize_tree(NumericMatrix X,
                      NumericVector y,
                      int min_split = 100) {
   
-  List split = best_split(X, y);
+  List split = best_split(X, y, min_split);
   
-  List data = split_data(
-    X, y,
-    split["index"],
-    split["split"]           
-  );
-
-  bool n_lo = data["lower"];
-  bool n_hi = data["upper"];
+  int best_split = split["split"];
   
-  if (n_lo < min_split || n_hi < min_split) {
+  if (best_split == -1) {
     return List::create(
       Named("split") = -1,
       Named("index") = -1,
       Named("pred") = make_pred(y)
     );
   }
+  
+  List data = split_data(
+    X, y,
+    split["index"],
+    split["split"]           
+  );
   
   data["index"] = split["index"];
   data["split"] = split["split"];

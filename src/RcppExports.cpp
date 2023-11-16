@@ -10,15 +10,15 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// gini_impurity
-double gini_impurity(NumericVector y_lo, NumericVector y_hi);
-RcppExport SEXP _deepspace_gini_impurity(SEXP y_loSEXP, SEXP y_hiSEXP) {
+// info_gain
+double info_gain(NumericVector a, NumericVector b);
+RcppExport SEXP _deepspace_info_gain(SEXP aSEXP, SEXP bSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type y_lo(y_loSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y_hi(y_hiSEXP);
-    rcpp_result_gen = Rcpp::wrap(gini_impurity(y_lo, y_hi));
+    Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
+    rcpp_result_gen = Rcpp::wrap(info_gain(a, b));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -38,15 +38,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // best_split
-List best_split(NumericMatrix X, NumericVector y, int n_split);
-RcppExport SEXP _deepspace_best_split(SEXP XSEXP, SEXP ySEXP, SEXP n_splitSEXP) {
+List best_split(NumericMatrix X, NumericVector y, int n_split, int min_split);
+RcppExport SEXP _deepspace_best_split(SEXP XSEXP, SEXP ySEXP, SEXP n_splitSEXP, SEXP min_splitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type n_split(n_splitSEXP);
-    rcpp_result_gen = Rcpp::wrap(best_split(X, y, n_split));
+    Rcpp::traits::input_parameter< int >::type min_split(min_splitSEXP);
+    rcpp_result_gen = Rcpp::wrap(best_split(X, y, n_split, min_split));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -270,9 +271,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_deepspace_gini_impurity", (DL_FUNC) &_deepspace_gini_impurity, 2},
+    {"_deepspace_info_gain", (DL_FUNC) &_deepspace_info_gain, 2},
     {"_deepspace_split_data", (DL_FUNC) &_deepspace_split_data, 5},
-    {"_deepspace_best_split", (DL_FUNC) &_deepspace_best_split, 3},
+    {"_deepspace_best_split", (DL_FUNC) &_deepspace_best_split, 4},
     {"_deepspace_make_pred", (DL_FUNC) &_deepspace_make_pred, 1},
     {"_deepspace_initialize_tree", (DL_FUNC) &_deepspace_initialize_tree, 3},
     {"_deepspace_normal_matrix", (DL_FUNC) &_deepspace_normal_matrix, 2},
