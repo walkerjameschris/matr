@@ -9,7 +9,7 @@ fit_tree(X, y, min_split = 100)
 \arguments{
 \item{X}{Matrix of training data}
 
-\item{y}{Matrix of training labels}
+\item{y}{Vector of training labels}
 
 \item{min_split}{Min number of samples to split}
 }

@@ -188,8 +188,10 @@ int make_pred(NumericVector y) {
   return pred;
 }
 
+//// Recursive Functions for Fit and Prediction ////
+
 // [[Rcpp::export]]
-List recurse_tree_fit(NumericMatrix X,
+List recurse_fit_tree(NumericMatrix X,
                       NumericVector y,
                       int min_split = 100) {
   
@@ -212,8 +214,8 @@ List recurse_tree_fit(NumericMatrix X,
     split_list["split"]           
   );
   
-  List lo = recurse_tree_fit(data["X_lo"], data["y_lo"], min_split);
-  List hi = recurse_tree_fit(data["X_hi"], data["y_hi"], min_split);
+  List lo = recurse_fit_tree(data["X_lo"], data["y_lo"], min_split);
+  List hi = recurse_fit_tree(data["X_hi"], data["y_hi"], min_split);
 
   return List::create(
     Named("split") = split,

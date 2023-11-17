@@ -17,8 +17,8 @@ make_pred <- function(y) {
     .Call(`_deepspace_make_pred`, y)
 }
 
-recurse_tree_fit <- function(X, y, min_split = 100L) {
-    .Call(`_deepspace_recurse_tree_fit`, X, y, min_split)
+recurse_fit_tree <- function(X, y, min_split = 100L) {
+    .Call(`_deepspace_recurse_fit_tree`, X, y, min_split)
 }
 
 recurse_pred_tree <- function(tree, x) {
@@ -27,6 +27,14 @@ recurse_pred_tree <- function(tree, x) {
 
 recurse_pred_tree_all <- function(tree, X) {
     .Call(`_deepspace_recurse_pred_tree_all`, tree, X)
+}
+
+not_in <- function(val, max_ind, x) {
+    .Call(`_deepspace_not_in`, val, max_ind, x)
+}
+
+knn_singular <- function(X, y, obs, k) {
+    .Call(`_deepspace_knn_singular`, X, y, obs, k)
 }
 
 #' @useDynLib deepspace, .registration=TRUE

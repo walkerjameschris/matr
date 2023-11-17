@@ -62,16 +62,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// recurse_tree_fit
-List recurse_tree_fit(NumericMatrix X, NumericVector y, int min_split);
-RcppExport SEXP _deepspace_recurse_tree_fit(SEXP XSEXP, SEXP ySEXP, SEXP min_splitSEXP) {
+// recurse_fit_tree
+List recurse_fit_tree(NumericMatrix X, NumericVector y, int min_split);
+RcppExport SEXP _deepspace_recurse_fit_tree(SEXP XSEXP, SEXP ySEXP, SEXP min_splitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type min_split(min_splitSEXP);
-    rcpp_result_gen = Rcpp::wrap(recurse_tree_fit(X, y, min_split));
+    rcpp_result_gen = Rcpp::wrap(recurse_fit_tree(X, y, min_split));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -96,6 +96,33 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< List >::type tree(treeSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     rcpp_result_gen = Rcpp::wrap(recurse_pred_tree_all(tree, X));
+    return rcpp_result_gen;
+END_RCPP
+}
+// not_in
+bool not_in(int val, int max_ind, NumericVector x);
+RcppExport SEXP _deepspace_not_in(SEXP valSEXP, SEXP max_indSEXP, SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type val(valSEXP);
+    Rcpp::traits::input_parameter< int >::type max_ind(max_indSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(not_in(val, max_ind, x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// knn_singular
+int knn_singular(NumericMatrix X, NumericVector y, NumericVector obs, int k);
+RcppExport SEXP _deepspace_knn_singular(SEXP XSEXP, SEXP ySEXP, SEXP obsSEXP, SEXP kSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type obs(obsSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    rcpp_result_gen = Rcpp::wrap(knn_singular(X, y, obs, k));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -299,9 +326,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_deepspace_split_data", (DL_FUNC) &_deepspace_split_data, 5},
     {"_deepspace_best_split", (DL_FUNC) &_deepspace_best_split, 4},
     {"_deepspace_make_pred", (DL_FUNC) &_deepspace_make_pred, 1},
-    {"_deepspace_recurse_tree_fit", (DL_FUNC) &_deepspace_recurse_tree_fit, 3},
+    {"_deepspace_recurse_fit_tree", (DL_FUNC) &_deepspace_recurse_fit_tree, 3},
     {"_deepspace_recurse_pred_tree", (DL_FUNC) &_deepspace_recurse_pred_tree, 2},
     {"_deepspace_recurse_pred_tree_all", (DL_FUNC) &_deepspace_recurse_pred_tree_all, 2},
+    {"_deepspace_not_in", (DL_FUNC) &_deepspace_not_in, 3},
+    {"_deepspace_knn_singular", (DL_FUNC) &_deepspace_knn_singular, 4},
     {"_deepspace_normal_matrix", (DL_FUNC) &_deepspace_normal_matrix, 2},
     {"_deepspace_mul", (DL_FUNC) &_deepspace_mul, 2},
     {"_deepspace_transpose", (DL_FUNC) &_deepspace_transpose, 1},

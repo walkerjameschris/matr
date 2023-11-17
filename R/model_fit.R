@@ -127,7 +127,7 @@ fit_network <- function(X, Y,
 #' Fits a decision tree using C++ backend.
 #'
 #' @param X Matrix of training data
-#' @param y Matrix of training labels
+#' @param y Vector of training labels
 #' @param min_split Min number of samples to split
 #' 
 #' @import cli
@@ -150,13 +150,11 @@ fit_network <- function(X, Y,
 #' @export
 fit_tree <- function(X, y, min_split = 100) {
   
-  y_check <- all(sort(unique(y)) == c(0, 1))
-  
-  if (!y_check) {
-    cli::cli_abort("y must be a column vector with only 0s and 1s")
+  if (!is.null(dim(y)) || any(!(y %in% c(0, 1)))) {
+    cli::cli_abort("`y` must be a vector with only 0s and 1s")
   }
   
-  tree <- recurse_tree_fit(X, y, min_split)
+  tree <- recurse_fit_tree(X, y, min_split)
   tree$train <- X
   tree$min_split = min_split
   
