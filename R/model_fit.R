@@ -121,3 +121,45 @@ fit_network <- function(X, Y,
   attr(network, "class") <- "deepspace_network"
   network
 }
+
+#' Fit a Binary Decision Tree Classifier
+#' 
+#' Fits a decision tree using C++ backend.
+#'
+#' @param X Matrix of training data
+#' @param y Matrix of training labels
+#' @param min_split Min number of samples to split
+#' 
+#' @import cli
+#' @return A list as class deepspace decision tree
+#' @examples
+#' 
+#' data <- ggplot2::diamonds
+#' 
+#' y <- 1 * matrix(data$price > 2400)
+#' X <- as.matrix(dplyr::select(data, carat, table))
+#' 
+#' tree <-
+#'   deepspace::fit_tree(
+#'     X = X,
+#'     y = y,
+#'     min_split = 100
+#'   )
+#' 
+#' predict(tree)
+#' @export
+fit_tree <- function(X, y, min_split = 100) {
+  
+  y_check <- all(sort(unique(y)) == c(0, 1))
+  
+  if (!y_check) {
+    cli::cli_abort("y must be a column vector with only 0s and 1s")
+  }
+  
+  tree <- recurse_tree_fit(X, y, min_split)
+  tree$train <- X
+  tree$min_split = min_split
+  
+  attr(tree, "class") <- "deepspace_tree"
+  tree
+}

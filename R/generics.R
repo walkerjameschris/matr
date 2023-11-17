@@ -109,3 +109,32 @@ predict.deepspace_network <- function(x, newdata, ...) {
     as.data.frame() |>
     tibble::as_tibble()
 }
+
+#' @export
+#' @import tibble cli
+#' @method print deepspace_tree
+print.deepspace_tree <- function(x, ...) {
+  
+  cli::cli_h1("A Deepspace Decision Tree")
+  cli::cli_h2("Binary Classification")
+  cli::cli_inform(c(
+    "*" = glue::glue("Min Split: {x$min_split}"),
+    "i" = "Call `predict()` to make predictions."
+  ))
+}
+
+#' @export
+#' @import tibble
+#' @method predict deepspace_tree
+predict.deepspace_tree <- function(x, newdata, ...) {
+  
+  if (missing(newdata)) {
+    newdata <- x$train
+  }
+  
+  recurse_pred_tree_all(
+    tree = x,
+    X = newdata
+  ) |>
+    tibble::as_tibble()
+}

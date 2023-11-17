@@ -5,8 +5,8 @@ info_gain <- function(a, b) {
     .Call(`_deepspace_info_gain`, a, b)
 }
 
-split_data <- function(X, y, index, split, include_X = TRUE) {
-    .Call(`_deepspace_split_data`, X, y, index, split, include_X)
+split_data <- function(X, y, col, split, include_X = TRUE) {
+    .Call(`_deepspace_split_data`, X, y, col, split, include_X)
 }
 
 best_split <- function(X, y, n_split = 5L, min_split = 100L) {
@@ -17,8 +17,16 @@ make_pred <- function(y) {
     .Call(`_deepspace_make_pred`, y)
 }
 
-initialize_tree <- function(X, y, min_split = 100L) {
-    .Call(`_deepspace_initialize_tree`, X, y, min_split)
+recurse_tree_fit <- function(X, y, min_split = 100L) {
+    .Call(`_deepspace_recurse_tree_fit`, X, y, min_split)
+}
+
+recurse_pred_tree <- function(tree, x) {
+    .Call(`_deepspace_recurse_pred_tree`, tree, x)
+}
+
+recurse_pred_tree_all <- function(tree, X) {
+    .Call(`_deepspace_recurse_pred_tree_all`, tree, X)
 }
 
 #' @useDynLib deepspace, .registration=TRUE

@@ -13,7 +13,7 @@ in this package in addition to several methods planned for the future:
 | Model | Status |
 | ----- | ------ |
 | Neural Network | ![Implemented](https://img.shields.io/badge/Implemented-green) |
-| Decision Tree | ![Developing](https://img.shields.io/badge/Developing-yellow) |
+| Decision Tree | ![Implemented](https://img.shields.io/badge/Implemented-green) |
 | Boosted Tree | ![Planned](https://img.shields.io/badge/Planned-red)
 | KNN | ![Planned](https://img.shields.io/badge/Planned-red)
 | K-Means | ![Planned](https://img.shields.io/badge/Planned-red)

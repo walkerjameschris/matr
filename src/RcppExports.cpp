@@ -23,17 +23,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // split_data
-List split_data(NumericMatrix X, NumericVector y, int index, double split, bool include_X);
-RcppExport SEXP _deepspace_split_data(SEXP XSEXP, SEXP ySEXP, SEXP indexSEXP, SEXP splitSEXP, SEXP include_XSEXP) {
+List split_data(NumericMatrix X, NumericVector y, int col, double split, bool include_X);
+RcppExport SEXP _deepspace_split_data(SEXP XSEXP, SEXP ySEXP, SEXP colSEXP, SEXP splitSEXP, SEXP include_XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type index(indexSEXP);
+    Rcpp::traits::input_parameter< int >::type col(colSEXP);
     Rcpp::traits::input_parameter< double >::type split(splitSEXP);
     Rcpp::traits::input_parameter< bool >::type include_X(include_XSEXP);
-    rcpp_result_gen = Rcpp::wrap(split_data(X, y, index, split, include_X));
+    rcpp_result_gen = Rcpp::wrap(split_data(X, y, col, split, include_X));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -62,16 +62,40 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// initialize_tree
-List initialize_tree(NumericMatrix X, NumericVector y, int min_split);
-RcppExport SEXP _deepspace_initialize_tree(SEXP XSEXP, SEXP ySEXP, SEXP min_splitSEXP) {
+// recurse_tree_fit
+List recurse_tree_fit(NumericMatrix X, NumericVector y, int min_split);
+RcppExport SEXP _deepspace_recurse_tree_fit(SEXP XSEXP, SEXP ySEXP, SEXP min_splitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
     Rcpp::traits::input_parameter< int >::type min_split(min_splitSEXP);
-    rcpp_result_gen = Rcpp::wrap(initialize_tree(X, y, min_split));
+    rcpp_result_gen = Rcpp::wrap(recurse_tree_fit(X, y, min_split));
+    return rcpp_result_gen;
+END_RCPP
+}
+// recurse_pred_tree
+int recurse_pred_tree(List tree, NumericVector x);
+RcppExport SEXP _deepspace_recurse_pred_tree(SEXP treeSEXP, SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type tree(treeSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(recurse_pred_tree(tree, x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// recurse_pred_tree_all
+NumericVector recurse_pred_tree_all(List tree, NumericMatrix X);
+RcppExport SEXP _deepspace_recurse_pred_tree_all(SEXP treeSEXP, SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type tree(treeSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(recurse_pred_tree_all(tree, X));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -275,7 +299,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_deepspace_split_data", (DL_FUNC) &_deepspace_split_data, 5},
     {"_deepspace_best_split", (DL_FUNC) &_deepspace_best_split, 4},
     {"_deepspace_make_pred", (DL_FUNC) &_deepspace_make_pred, 1},
-    {"_deepspace_initialize_tree", (DL_FUNC) &_deepspace_initialize_tree, 3},
+    {"_deepspace_recurse_tree_fit", (DL_FUNC) &_deepspace_recurse_tree_fit, 3},
+    {"_deepspace_recurse_pred_tree", (DL_FUNC) &_deepspace_recurse_pred_tree, 2},
+    {"_deepspace_recurse_pred_tree_all", (DL_FUNC) &_deepspace_recurse_pred_tree_all, 2},
     {"_deepspace_normal_matrix", (DL_FUNC) &_deepspace_normal_matrix, 2},
     {"_deepspace_mul", (DL_FUNC) &_deepspace_mul, 2},
     {"_deepspace_transpose", (DL_FUNC) &_deepspace_transpose, 1},

@@ -2,8 +2,11 @@
 
 S3method(plot,deepspace_network)
 S3method(predict,deepspace_network)
+S3method(predict,deepspace_tree)
 S3method(print,deepspace_network)
+S3method(print,deepspace_tree)
 export(fit_network)
+export(fit_tree)
 export(train_test)
 import(cli)
 import(dplyr)

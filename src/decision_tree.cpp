@@ -28,7 +28,7 @@ double info_gain(NumericVector a,
 // [[Rcpp::export]]
 List split_data(NumericMatrix X,
                 NumericVector y,
-                int index,
+                int col,
                 double split,
                 bool include_X = true) {
    
@@ -37,7 +37,7 @@ List split_data(NumericMatrix X,
   int lower = 0;
   int upper = 0;
   
-  NumericVector split_col = X(_, index);
+  NumericVector split_col = X(_, col);
   
   for (int i = 0; i < X_row; i++) {
     
@@ -115,7 +115,7 @@ List best_split(NumericMatrix X,
   int X_col = X.ncol();
   int X_row = X.nrow();
   
-  int best_index = -1;
+  int best_col = -1;
   double best_split = -1;
   double best_info = 1;
   
@@ -152,14 +152,14 @@ List best_split(NumericMatrix X,
       
       if (info < best_info && n_lo > min_split && n_hi > min_split) {
         best_info = info;
-        best_index = j;
+        best_col = j;
         best_split = split;
       }
     }
   }
   
   return List::create(
-    Named("index") = best_index,
+    Named("col") = best_col,
     Named("split") = best_split
   );
 }
@@ -189,29 +189,68 @@ int make_pred(NumericVector y) {
 }
 
 // [[Rcpp::export]]
-List initialize_tree(NumericMatrix X,
-                     NumericVector y,
-                     int min_split = 100) {
+List recurse_tree_fit(NumericMatrix X,
+                      NumericVector y,
+                      int min_split = 100) {
   
-  List split = best_split(X, y, min_split);
+  List split_list = best_split(X, y, min_split);
   
-  int best_split = split["split"];
+  double split = split_list["split"];
+  int col = split_list["col"];
   
-  if (best_split == -1) {
+  if (col == -1) {
     return List::create(
       Named("split") = -1,
-      Named("index") = -1,
+      Named("col") = -1,
       Named("pred") = make_pred(y)
     );
   }
   
   List data = split_data(
     X, y,
-    split["index"],
-    split["split"]           
+    split_list["col"],
+    split_list["split"]           
   );
   
-  data["index"] = split["index"];
-  data["split"] = split["split"];
-  return data;
+  List lo = recurse_tree_fit(data["X_lo"], data["y_lo"], min_split);
+  List hi = recurse_tree_fit(data["X_hi"], data["y_hi"], min_split);
+
+  return List::create(
+    Named("split") = split,
+    Named("col") = col,
+    Named("lo") = lo,
+    Named("hi") = hi
+  );
+}
+
+// [[Rcpp::export]]
+int recurse_pred_tree(List tree,
+                      NumericVector x) {
+  
+  int col = tree["col"];
+  double split = tree["split"];
+  
+  if (col == -1) {
+    return tree["pred"];
+  }
+  
+  if (x[col] < split) {
+    return recurse_pred_tree(tree["lo"], x);
+  } else {
+    return recurse_pred_tree(tree["hi"], x);
+  }
+}
+
+// [[Rcpp::export]]
+NumericVector recurse_pred_tree_all(List tree,
+                                    NumericMatrix X) {
+  
+  int X_row = X.nrow();
+  NumericVector result(X_row);
+  
+  for (int i = 0; i < X_row; i++) {
+    result[i] = recurse_pred_tree(tree, X(i, _));
+  }
+  
+  return result;
 }
