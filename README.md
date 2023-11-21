@@ -1,6 +1,6 @@
 # matr <img src='img/logo.png' align="right" height="140" />
 
-###  A Simple R Package for Estimating Classification Algorithims
+###  Tools for Matrices and Machine Learning Models
 
 ## Introduction
 
