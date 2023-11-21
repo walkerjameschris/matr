@@ -7,6 +7,10 @@
 This R package provides a consistent NumPy inspired API for working with.
 matrices in R. It contains the most common matrix operations and implementations
 for many machine learning models designed to operate over R matrices.
+**Disclaimer:** These algorithms are primarily implemented for educational
+purposes and should not be used in production code. However, I think the
+simplistic nature of this  package makes it easy to distill the mechanics of
+these models while retaining the performance of C++.
 
 | Model | Status |
 | ----- | ------ |
@@ -15,11 +19,6 @@ for many machine learning models designed to operate over R matrices.
 | Boosted Tree | ![Planned](https://img.shields.io/badge/Planned-red)
 | KNN | ![Planned](https://img.shields.io/badge/Planned-red)
 | K-Means | ![Planned](https://img.shields.io/badge/Planned-red)
-
-**Disclaimer:** These algorithms are primarily implemented for educational
-purposes and should not be used in production code. However, I think the
-simplistic nature of this  package makes it easy to distill the mechanics of
-these models while retaining the performance of C++.
 
 ## Navigating this Repo
 
