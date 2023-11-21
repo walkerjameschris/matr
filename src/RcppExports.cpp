@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // info_gain
 double info_gain(NumericVector a, NumericVector b);
-RcppExport SEXP _deepspace_info_gain(SEXP aSEXP, SEXP bSEXP) {
+RcppExport SEXP _matr_info_gain(SEXP aSEXP, SEXP bSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -24,7 +24,7 @@ END_RCPP
 }
 // split_data
 List split_data(NumericMatrix X, NumericVector y, int col, double split, bool include_X);
-RcppExport SEXP _deepspace_split_data(SEXP XSEXP, SEXP ySEXP, SEXP colSEXP, SEXP splitSEXP, SEXP include_XSEXP) {
+RcppExport SEXP _matr_split_data(SEXP XSEXP, SEXP ySEXP, SEXP colSEXP, SEXP splitSEXP, SEXP include_XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -39,7 +39,7 @@ END_RCPP
 }
 // best_split
 List best_split(NumericMatrix X, NumericVector y, int n_split, int min_split);
-RcppExport SEXP _deepspace_best_split(SEXP XSEXP, SEXP ySEXP, SEXP n_splitSEXP, SEXP min_splitSEXP) {
+RcppExport SEXP _matr_best_split(SEXP XSEXP, SEXP ySEXP, SEXP n_splitSEXP, SEXP min_splitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -53,7 +53,7 @@ END_RCPP
 }
 // make_pred
 int make_pred(NumericVector y);
-RcppExport SEXP _deepspace_make_pred(SEXP ySEXP) {
+RcppExport SEXP _matr_make_pred(SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -64,7 +64,7 @@ END_RCPP
 }
 // recurse_fit_tree
 List recurse_fit_tree(NumericMatrix X, NumericVector y, int min_split);
-RcppExport SEXP _deepspace_recurse_fit_tree(SEXP XSEXP, SEXP ySEXP, SEXP min_splitSEXP) {
+RcppExport SEXP _matr_recurse_fit_tree(SEXP XSEXP, SEXP ySEXP, SEXP min_splitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -77,7 +77,7 @@ END_RCPP
 }
 // recurse_pred_tree
 int recurse_pred_tree(List tree, NumericVector x);
-RcppExport SEXP _deepspace_recurse_pred_tree(SEXP treeSEXP, SEXP xSEXP) {
+RcppExport SEXP _matr_recurse_pred_tree(SEXP treeSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -89,7 +89,7 @@ END_RCPP
 }
 // recurse_pred_tree_all
 NumericVector recurse_pred_tree_all(List tree, NumericMatrix X);
-RcppExport SEXP _deepspace_recurse_pred_tree_all(SEXP treeSEXP, SEXP XSEXP) {
+RcppExport SEXP _matr_recurse_pred_tree_all(SEXP treeSEXP, SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -101,7 +101,7 @@ END_RCPP
 }
 // not_in
 bool not_in(int val, int max_ind, NumericVector x);
-RcppExport SEXP _deepspace_not_in(SEXP valSEXP, SEXP max_indSEXP, SEXP xSEXP) {
+RcppExport SEXP _matr_not_in(SEXP valSEXP, SEXP max_indSEXP, SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -114,7 +114,7 @@ END_RCPP
 }
 // knn_singular
 int knn_singular(NumericMatrix X, NumericVector y, NumericVector obs, int k);
-RcppExport SEXP _deepspace_knn_singular(SEXP XSEXP, SEXP ySEXP, SEXP obsSEXP, SEXP kSEXP) {
+RcppExport SEXP _matr_knn_singular(SEXP XSEXP, SEXP ySEXP, SEXP obsSEXP, SEXP kSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -128,7 +128,7 @@ END_RCPP
 }
 // normal_matrix
 NumericMatrix normal_matrix(int row, int col);
-RcppExport SEXP _deepspace_normal_matrix(SEXP rowSEXP, SEXP colSEXP) {
+RcppExport SEXP _matr_normal_matrix(SEXP rowSEXP, SEXP colSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -140,7 +140,7 @@ END_RCPP
 }
 // mul
 NumericMatrix mul(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _deepspace_mul(SEXP XSEXP, SEXP YSEXP) {
+RcppExport SEXP _matr_mul(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -152,7 +152,7 @@ END_RCPP
 }
 // transpose
 NumericMatrix transpose(NumericMatrix X);
-RcppExport SEXP _deepspace_transpose(SEXP XSEXP) {
+RcppExport SEXP _matr_transpose(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -163,7 +163,7 @@ END_RCPP
 }
 // multiply
 NumericMatrix multiply(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _deepspace_multiply(SEXP XSEXP, SEXP YSEXP) {
+RcppExport SEXP _matr_multiply(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -175,7 +175,7 @@ END_RCPP
 }
 // subtract
 NumericMatrix subtract(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _deepspace_subtract(SEXP XSEXP, SEXP YSEXP) {
+RcppExport SEXP _matr_subtract(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -187,7 +187,7 @@ END_RCPP
 }
 // sub_scalar
 NumericMatrix sub_scalar(double x, NumericMatrix Y);
-RcppExport SEXP _deepspace_sub_scalar(SEXP xSEXP, SEXP YSEXP) {
+RcppExport SEXP _matr_sub_scalar(SEXP xSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -199,7 +199,7 @@ END_RCPP
 }
 // mul_scalar
 NumericMatrix mul_scalar(double x, NumericMatrix Y);
-RcppExport SEXP _deepspace_mul_scalar(SEXP xSEXP, SEXP YSEXP) {
+RcppExport SEXP _matr_mul_scalar(SEXP xSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -211,7 +211,7 @@ END_RCPP
 }
 // add_ones
 NumericMatrix add_ones(NumericMatrix X);
-RcppExport SEXP _deepspace_add_ones(SEXP XSEXP) {
+RcppExport SEXP _matr_add_ones(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -222,7 +222,7 @@ END_RCPP
 }
 // activation
 NumericMatrix activation(NumericMatrix X);
-RcppExport SEXP _deepspace_activation(SEXP XSEXP) {
+RcppExport SEXP _matr_activation(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -233,7 +233,7 @@ END_RCPP
 }
 // initialize
 List initialize(NumericMatrix X, NumericMatrix Y, int neurons);
-RcppExport SEXP _deepspace_initialize(SEXP XSEXP, SEXP YSEXP, SEXP neuronsSEXP) {
+RcppExport SEXP _matr_initialize(SEXP XSEXP, SEXP YSEXP, SEXP neuronsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -246,7 +246,7 @@ END_RCPP
 }
 // feed_forward
 List feed_forward(List network);
-RcppExport SEXP _deepspace_feed_forward(SEXP networkSEXP) {
+RcppExport SEXP _matr_feed_forward(SEXP networkSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -257,7 +257,7 @@ END_RCPP
 }
 // compute_loss
 double compute_loss(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _deepspace_compute_loss(SEXP XSEXP, SEXP YSEXP) {
+RcppExport SEXP _matr_compute_loss(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -269,7 +269,7 @@ END_RCPP
 }
 // converge
 bool converge(NumericVector hist, double current, double tolerance, int min_epoch);
-RcppExport SEXP _deepspace_converge(SEXP histSEXP, SEXP currentSEXP, SEXP toleranceSEXP, SEXP min_epochSEXP) {
+RcppExport SEXP _matr_converge(SEXP histSEXP, SEXP currentSEXP, SEXP toleranceSEXP, SEXP min_epochSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -283,7 +283,7 @@ END_RCPP
 }
 // matrix_min_max
 NumericMatrix matrix_min_max(NumericMatrix X, double min_val, double max_val);
-RcppExport SEXP _deepspace_matrix_min_max(SEXP XSEXP, SEXP min_valSEXP, SEXP max_valSEXP) {
+RcppExport SEXP _matr_matrix_min_max(SEXP XSEXP, SEXP min_valSEXP, SEXP max_valSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -296,7 +296,7 @@ END_RCPP
 }
 // gradient
 NumericMatrix gradient(NumericMatrix W, NumericMatrix D, NumericMatrix A);
-RcppExport SEXP _deepspace_gradient(SEXP WSEXP, SEXP DSEXP, SEXP ASEXP) {
+RcppExport SEXP _matr_gradient(SEXP WSEXP, SEXP DSEXP, SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -309,7 +309,7 @@ END_RCPP
 }
 // propagate_back
 List propagate_back(List network, NumericMatrix Y, double learn_rate);
-RcppExport SEXP _deepspace_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP learn_rateSEXP) {
+RcppExport SEXP _matr_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP learn_rateSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -322,35 +322,35 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_deepspace_info_gain", (DL_FUNC) &_deepspace_info_gain, 2},
-    {"_deepspace_split_data", (DL_FUNC) &_deepspace_split_data, 5},
-    {"_deepspace_best_split", (DL_FUNC) &_deepspace_best_split, 4},
-    {"_deepspace_make_pred", (DL_FUNC) &_deepspace_make_pred, 1},
-    {"_deepspace_recurse_fit_tree", (DL_FUNC) &_deepspace_recurse_fit_tree, 3},
-    {"_deepspace_recurse_pred_tree", (DL_FUNC) &_deepspace_recurse_pred_tree, 2},
-    {"_deepspace_recurse_pred_tree_all", (DL_FUNC) &_deepspace_recurse_pred_tree_all, 2},
-    {"_deepspace_not_in", (DL_FUNC) &_deepspace_not_in, 3},
-    {"_deepspace_knn_singular", (DL_FUNC) &_deepspace_knn_singular, 4},
-    {"_deepspace_normal_matrix", (DL_FUNC) &_deepspace_normal_matrix, 2},
-    {"_deepspace_mul", (DL_FUNC) &_deepspace_mul, 2},
-    {"_deepspace_transpose", (DL_FUNC) &_deepspace_transpose, 1},
-    {"_deepspace_multiply", (DL_FUNC) &_deepspace_multiply, 2},
-    {"_deepspace_subtract", (DL_FUNC) &_deepspace_subtract, 2},
-    {"_deepspace_sub_scalar", (DL_FUNC) &_deepspace_sub_scalar, 2},
-    {"_deepspace_mul_scalar", (DL_FUNC) &_deepspace_mul_scalar, 2},
-    {"_deepspace_add_ones", (DL_FUNC) &_deepspace_add_ones, 1},
-    {"_deepspace_activation", (DL_FUNC) &_deepspace_activation, 1},
-    {"_deepspace_initialize", (DL_FUNC) &_deepspace_initialize, 3},
-    {"_deepspace_feed_forward", (DL_FUNC) &_deepspace_feed_forward, 1},
-    {"_deepspace_compute_loss", (DL_FUNC) &_deepspace_compute_loss, 2},
-    {"_deepspace_converge", (DL_FUNC) &_deepspace_converge, 4},
-    {"_deepspace_matrix_min_max", (DL_FUNC) &_deepspace_matrix_min_max, 3},
-    {"_deepspace_gradient", (DL_FUNC) &_deepspace_gradient, 3},
-    {"_deepspace_propagate_back", (DL_FUNC) &_deepspace_propagate_back, 3},
+    {"_matr_info_gain", (DL_FUNC) &_matr_info_gain, 2},
+    {"_matr_split_data", (DL_FUNC) &_matr_split_data, 5},
+    {"_matr_best_split", (DL_FUNC) &_matr_best_split, 4},
+    {"_matr_make_pred", (DL_FUNC) &_matr_make_pred, 1},
+    {"_matr_recurse_fit_tree", (DL_FUNC) &_matr_recurse_fit_tree, 3},
+    {"_matr_recurse_pred_tree", (DL_FUNC) &_matr_recurse_pred_tree, 2},
+    {"_matr_recurse_pred_tree_all", (DL_FUNC) &_matr_recurse_pred_tree_all, 2},
+    {"_matr_not_in", (DL_FUNC) &_matr_not_in, 3},
+    {"_matr_knn_singular", (DL_FUNC) &_matr_knn_singular, 4},
+    {"_matr_normal_matrix", (DL_FUNC) &_matr_normal_matrix, 2},
+    {"_matr_mul", (DL_FUNC) &_matr_mul, 2},
+    {"_matr_transpose", (DL_FUNC) &_matr_transpose, 1},
+    {"_matr_multiply", (DL_FUNC) &_matr_multiply, 2},
+    {"_matr_subtract", (DL_FUNC) &_matr_subtract, 2},
+    {"_matr_sub_scalar", (DL_FUNC) &_matr_sub_scalar, 2},
+    {"_matr_mul_scalar", (DL_FUNC) &_matr_mul_scalar, 2},
+    {"_matr_add_ones", (DL_FUNC) &_matr_add_ones, 1},
+    {"_matr_activation", (DL_FUNC) &_matr_activation, 1},
+    {"_matr_initialize", (DL_FUNC) &_matr_initialize, 3},
+    {"_matr_feed_forward", (DL_FUNC) &_matr_feed_forward, 1},
+    {"_matr_compute_loss", (DL_FUNC) &_matr_compute_loss, 2},
+    {"_matr_converge", (DL_FUNC) &_matr_converge, 4},
+    {"_matr_matrix_min_max", (DL_FUNC) &_matr_matrix_min_max, 3},
+    {"_matr_gradient", (DL_FUNC) &_matr_gradient, 3},
+    {"_matr_propagate_back", (DL_FUNC) &_matr_propagate_back, 3},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_deepspace(DllInfo *dll) {
+RcppExport void R_init_matr(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

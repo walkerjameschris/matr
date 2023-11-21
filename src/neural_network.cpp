@@ -1,7 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-//' @useDynLib deepspace, .registration=TRUE
+//' @useDynLib matr, .registration=TRUE
 
 //// Linear Algebra Operations ////
 

@@ -10,10 +10,10 @@
 #' @import purrr withr
 #' @return A list of matrices
 #' @examples
-#' data <- deepspace:::mnist
+#' data <- matr:::mnist
 #' 
 #' data_split <-
-#'   deepspace::train_test(
+#'   matr::train_test(
 #'     X = data$X,
 #'     Y = data$Y
 #'   )
@@ -50,12 +50,12 @@ train_test <- function(X, Y, train_prop = 0.6, seed = 123) {
 #' @param seed Random seed value
 #' 
 #' @import cli withr
-#' @return A list as class deepspace neural network
+#' @return A list as class matr neural network
 #' @examples
-#' data <- deepspace:::mnist
+#' data <- matr:::mnist
 #' 
 #' network <-
-#'   deepspace::fit_network(
+#'   matr::fit_network(
 #'     X = data$X,
 #'     Y = data$Y,
 #'     neurons = 5,
@@ -77,7 +77,7 @@ fit_network <- function(X, Y,
   
   network <-
     withr::with_seed( 
-      code = deepspace:::initialize(X, Y, neurons),
+      code = matr:::initialize(X, Y, neurons),
       seed = seed
     )
   
@@ -118,7 +118,7 @@ fit_network <- function(X, Y,
   
   network <- append(network, metrics)
   
-  attr(network, "class") <- "deepspace_network"
+  attr(network, "class") <- "matr_network"
   network
 }
 
@@ -131,7 +131,7 @@ fit_network <- function(X, Y,
 #' @param min_split Min number of samples to split
 #' 
 #' @import cli
-#' @return A list as class deepspace decision tree
+#' @return A list as class matr decision tree
 #' @examples
 #' 
 #' data <- ggplot2::diamonds
@@ -140,7 +140,7 @@ fit_network <- function(X, Y,
 #' X <- as.matrix(dplyr::select(data, carat, table))
 #' 
 #' tree <-
-#'   deepspace::fit_tree(
+#'   matr::fit_tree(
 #'     X = X,
 #'     y = y,
 #'     min_split = 100
@@ -158,6 +158,6 @@ fit_tree <- function(X, y, min_split = 100) {
   tree$train <- X
   tree$min_split = min_split
   
-  attr(tree, "class") <- "deepspace_tree"
+  attr(tree, "class") <- "matr_tree"
   tree
 }

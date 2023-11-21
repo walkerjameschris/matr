@@ -14,7 +14,7 @@ fit_tree(X, y, min_split = 100)
 \item{min_split}{Min number of samples to split}
 }
 \value{
-A list as class deepspace decision tree
+A list as class matr decision tree
 }
 \description{
 Fits a decision tree using C++ backend.
@@ -27,7 +27,7 @@ y <- 1 * matrix(data$price > 2400)
 X <- as.matrix(dplyr::select(data, carat, table))
 
 tree <-
-  deepspace::fit_tree(
+  matr::fit_tree(
     X = X,
     y = y,
     min_split = 100

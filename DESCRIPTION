@@ -1,29 +1,25 @@
-Package: deepspace
+Package: matr
 Type: Package
-Title: Perform Image Classification using a C++ Based Neural Network
+Title: Tools for Matrices and Machine Learning Models
 Version: 0.1.0
 Authors@R: c(person(
             "Chris", "Walker",
             role = c("aut", "cre", "cph"),
             email = "walkerjameschris@gmail.com"
           ))
-Description: A from-scratch implementation of a neural network in C++ and R used
-    for image classification. Created for ISYE 6740 at Georgia Tech. Allows for
-    live video streaming classification using Rcpp and fswebcam.
+Description: A consistent NumPy inspired API for working with matrices in R.
+  Contains the most common matrix operations. Incluces implementations for many
+  machine learning models designed to operate over R matrices.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:
   Rcpp (>= 1.0.11)
 Imports:
-  ggplot2,
   tibble,
-  tidyr,
-  dplyr,
   purrr,
   withr,
-  jpeg,
-  cli,
-  fs
+  glue,
+  cli
 LinkingTo: Rcpp
 LazyData: true
 RoxygenNote: 7.2.3

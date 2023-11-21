@@ -20,16 +20,16 @@ fit_network(X, Y, neurons = 3L, epoch = 250L, learn_rate = 1e-05, seed = 123)
 \item{seed}{Random seed value}
 }
 \value{
-A list as class deepspace neural network
+A list as class matr neural network
 }
 \description{
 Fits a neural network using C++ backend.
 }
 \examples{
-data <- deepspace:::mnist
+data <- matr:::mnist
 
 network <-
-  deepspace::fit_network(
+  matr::fit_network(
     X = data$X,
     Y = data$Y,
     neurons = 5,

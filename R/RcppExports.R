@@ -2,105 +2,105 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 info_gain <- function(a, b) {
-    .Call(`_deepspace_info_gain`, a, b)
+    .Call(`_matr_info_gain`, a, b)
 }
 
 split_data <- function(X, y, col, split, include_X = TRUE) {
-    .Call(`_deepspace_split_data`, X, y, col, split, include_X)
+    .Call(`_matr_split_data`, X, y, col, split, include_X)
 }
 
 best_split <- function(X, y, n_split = 5L, min_split = 100L) {
-    .Call(`_deepspace_best_split`, X, y, n_split, min_split)
+    .Call(`_matr_best_split`, X, y, n_split, min_split)
 }
 
 make_pred <- function(y) {
-    .Call(`_deepspace_make_pred`, y)
+    .Call(`_matr_make_pred`, y)
 }
 
 recurse_fit_tree <- function(X, y, min_split = 100L) {
-    .Call(`_deepspace_recurse_fit_tree`, X, y, min_split)
+    .Call(`_matr_recurse_fit_tree`, X, y, min_split)
 }
 
 recurse_pred_tree <- function(tree, x) {
-    .Call(`_deepspace_recurse_pred_tree`, tree, x)
+    .Call(`_matr_recurse_pred_tree`, tree, x)
 }
 
 recurse_pred_tree_all <- function(tree, X) {
-    .Call(`_deepspace_recurse_pred_tree_all`, tree, X)
+    .Call(`_matr_recurse_pred_tree_all`, tree, X)
 }
 
 not_in <- function(val, max_ind, x) {
-    .Call(`_deepspace_not_in`, val, max_ind, x)
+    .Call(`_matr_not_in`, val, max_ind, x)
 }
 
 knn_singular <- function(X, y, obs, k) {
-    .Call(`_deepspace_knn_singular`, X, y, obs, k)
+    .Call(`_matr_knn_singular`, X, y, obs, k)
 }
 
-#' @useDynLib deepspace, .registration=TRUE
+#' @useDynLib matr, .registration=TRUE
 NULL
 
 normal_matrix <- function(row, col) {
-    .Call(`_deepspace_normal_matrix`, row, col)
+    .Call(`_matr_normal_matrix`, row, col)
 }
 
 mul <- function(X, Y) {
-    .Call(`_deepspace_mul`, X, Y)
+    .Call(`_matr_mul`, X, Y)
 }
 
 transpose <- function(X) {
-    .Call(`_deepspace_transpose`, X)
+    .Call(`_matr_transpose`, X)
 }
 
 multiply <- function(X, Y) {
-    .Call(`_deepspace_multiply`, X, Y)
+    .Call(`_matr_multiply`, X, Y)
 }
 
 subtract <- function(X, Y) {
-    .Call(`_deepspace_subtract`, X, Y)
+    .Call(`_matr_subtract`, X, Y)
 }
 
 sub_scalar <- function(x, Y) {
-    .Call(`_deepspace_sub_scalar`, x, Y)
+    .Call(`_matr_sub_scalar`, x, Y)
 }
 
 mul_scalar <- function(x, Y) {
-    .Call(`_deepspace_mul_scalar`, x, Y)
+    .Call(`_matr_mul_scalar`, x, Y)
 }
 
 add_ones <- function(X) {
-    .Call(`_deepspace_add_ones`, X)
+    .Call(`_matr_add_ones`, X)
 }
 
 activation <- function(X) {
-    .Call(`_deepspace_activation`, X)
+    .Call(`_matr_activation`, X)
 }
 
 initialize <- function(X, Y, neurons) {
-    .Call(`_deepspace_initialize`, X, Y, neurons)
+    .Call(`_matr_initialize`, X, Y, neurons)
 }
 
 feed_forward <- function(network) {
-    .Call(`_deepspace_feed_forward`, network)
+    .Call(`_matr_feed_forward`, network)
 }
 
 compute_loss <- function(X, Y) {
-    .Call(`_deepspace_compute_loss`, X, Y)
+    .Call(`_matr_compute_loss`, X, Y)
 }
 
 converge <- function(hist, current, tolerance = 0.001, min_epoch = 30L) {
-    .Call(`_deepspace_converge`, hist, current, tolerance, min_epoch)
+    .Call(`_matr_converge`, hist, current, tolerance, min_epoch)
 }
 
 matrix_min_max <- function(X, min_val = 0.0, max_val = 1.0) {
-    .Call(`_deepspace_matrix_min_max`, X, min_val, max_val)
+    .Call(`_matr_matrix_min_max`, X, min_val, max_val)
 }
 
 gradient <- function(W, D, A) {
-    .Call(`_deepspace_gradient`, W, D, A)
+    .Call(`_matr_gradient`, W, D, A)
 }
 
 propagate_back <- function(network, Y, learn_rate) {
-    .Call(`_deepspace_propagate_back`, network, Y, learn_rate)
+    .Call(`_matr_propagate_back`, network, Y, learn_rate)
 }
 

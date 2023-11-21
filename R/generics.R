@@ -1,7 +1,7 @@
 #' @export
 #' @import purrr cli glue
-#' @method print deepspace_network
-print.deepspace_network <- function(x, ...) {
+#' @method print matr_network
+print.matr_network <- function(x, ...) {
   
   i <- c("before", "hide_a", "hide_b", "output")
   
@@ -20,15 +20,15 @@ print.deepspace_network <- function(x, ...) {
     ) |>
     purrr::map_chr(~ glue::glue(.x, x = x))
   
-  cli::cli_h1("A Deepspace Neural Network")
+  cli::cli_h1("A matr Neural Network")
   cli::cli_h2("Network Information:")
   cli::cli_inform(details)
 }
 
 #' @export
 #' @import tibble
-#' @method predict deepspace_network
-predict.deepspace_network <- function(x, newdata, ...) {
+#' @method predict matr_network
+predict.matr_network <- function(x, newdata, ...) {
   
   if (!missing(newdata)) {
     x$before <- add_ones(newdata)
@@ -42,10 +42,10 @@ predict.deepspace_network <- function(x, newdata, ...) {
 
 #' @export
 #' @import tibble cli
-#' @method print deepspace_tree
-print.deepspace_tree <- function(x, ...) {
+#' @method print matr_tree
+print.matr_tree <- function(x, ...) {
   
-  cli::cli_h1("A Deepspace Decision Tree")
+  cli::cli_h1("A matr Decision Tree")
   cli::cli_h2("Binary Classification")
   cli::cli_inform(c(
     "*" = glue::glue("Min Split: {x$min_split}"),
@@ -55,8 +55,8 @@ print.deepspace_tree <- function(x, ...) {
 
 #' @export
 #' @import tibble
-#' @method predict deepspace_tree
-predict.deepspace_tree <- function(x, newdata, ...) {
+#' @method predict matr_tree
+predict.matr_tree <- function(x, newdata, ...) {
   
   if (missing(newdata)) {
     newdata <- x$train

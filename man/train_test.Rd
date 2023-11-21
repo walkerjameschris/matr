@@ -22,10 +22,10 @@ A list of matrices
 Splits X and Y data matrices into train and test
 }
 \examples{
-data <- deepspace:::mnist
+data <- matr:::mnist
 
 data_split <-
-  deepspace::train_test(
+  matr::train_test(
     X = data$X,
     Y = data$Y
   )
