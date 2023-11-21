@@ -10,143 +10,15 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// info_gain
-double info_gain(NumericVector a, NumericVector b);
-RcppExport SEXP _matr_info_gain(SEXP aSEXP, SEXP bSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type a(aSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type b(bSEXP);
-    rcpp_result_gen = Rcpp::wrap(info_gain(a, b));
-    return rcpp_result_gen;
-END_RCPP
-}
-// split_data
-List split_data(NumericMatrix X, NumericVector y, int col, double split, bool include_X);
-RcppExport SEXP _matr_split_data(SEXP XSEXP, SEXP ySEXP, SEXP colSEXP, SEXP splitSEXP, SEXP include_XSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type col(colSEXP);
-    Rcpp::traits::input_parameter< double >::type split(splitSEXP);
-    Rcpp::traits::input_parameter< bool >::type include_X(include_XSEXP);
-    rcpp_result_gen = Rcpp::wrap(split_data(X, y, col, split, include_X));
-    return rcpp_result_gen;
-END_RCPP
-}
-// best_split
-List best_split(NumericMatrix X, NumericVector y, int n_split, int min_split);
-RcppExport SEXP _matr_best_split(SEXP XSEXP, SEXP ySEXP, SEXP n_splitSEXP, SEXP min_splitSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type n_split(n_splitSEXP);
-    Rcpp::traits::input_parameter< int >::type min_split(min_splitSEXP);
-    rcpp_result_gen = Rcpp::wrap(best_split(X, y, n_split, min_split));
-    return rcpp_result_gen;
-END_RCPP
-}
-// make_pred
-int make_pred(NumericVector y);
-RcppExport SEXP _matr_make_pred(SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(make_pred(y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// recurse_fit_tree
-List recurse_fit_tree(NumericMatrix X, NumericVector y, int min_split);
-RcppExport SEXP _matr_recurse_fit_tree(SEXP XSEXP, SEXP ySEXP, SEXP min_splitSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    Rcpp::traits::input_parameter< int >::type min_split(min_splitSEXP);
-    rcpp_result_gen = Rcpp::wrap(recurse_fit_tree(X, y, min_split));
-    return rcpp_result_gen;
-END_RCPP
-}
-// recurse_pred_tree
-int recurse_pred_tree(List tree, NumericVector x);
-RcppExport SEXP _matr_recurse_pred_tree(SEXP treeSEXP, SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type tree(treeSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(recurse_pred_tree(tree, x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// recurse_pred_tree_all
-NumericVector recurse_pred_tree_all(List tree, NumericMatrix X);
-RcppExport SEXP _matr_recurse_pred_tree_all(SEXP treeSEXP, SEXP XSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type tree(treeSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
-    rcpp_result_gen = Rcpp::wrap(recurse_pred_tree_all(tree, X));
-    return rcpp_result_gen;
-END_RCPP
-}
-// not_in
-bool not_in(int val, int max_ind, NumericVector x);
-RcppExport SEXP _matr_not_in(SEXP valSEXP, SEXP max_indSEXP, SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type val(valSEXP);
-    Rcpp::traits::input_parameter< int >::type max_ind(max_indSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(not_in(val, max_ind, x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// knn_singular
-int knn_singular(NumericMatrix X, NumericVector y, NumericVector obs, int k);
-RcppExport SEXP _matr_knn_singular(SEXP XSEXP, SEXP ySEXP, SEXP obsSEXP, SEXP kSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type obs(obsSEXP);
-    Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    rcpp_result_gen = Rcpp::wrap(knn_singular(X, y, obs, k));
-    return rcpp_result_gen;
-END_RCPP
-}
-// normal_matrix
-NumericMatrix normal_matrix(int row, int col);
-RcppExport SEXP _matr_normal_matrix(SEXP rowSEXP, SEXP colSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type row(rowSEXP);
-    Rcpp::traits::input_parameter< int >::type col(colSEXP);
-    rcpp_result_gen = Rcpp::wrap(normal_matrix(row, col));
-    return rcpp_result_gen;
-END_RCPP
-}
-// mul
-NumericMatrix mul(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _matr_mul(SEXP XSEXP, SEXP YSEXP) {
+// multiply
+NumericMatrix multiply(NumericMatrix X, NumericMatrix Y);
+RcppExport SEXP _matr_multiply(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type Y(YSEXP);
-    rcpp_result_gen = Rcpp::wrap(mul(X, Y));
+    rcpp_result_gen = Rcpp::wrap(multiply(X, Y));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -161,15 +33,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// multiply
-NumericMatrix multiply(NumericMatrix X, NumericMatrix Y);
-RcppExport SEXP _matr_multiply(SEXP XSEXP, SEXP YSEXP) {
+// times
+NumericMatrix times(NumericMatrix X, NumericMatrix Y);
+RcppExport SEXP _matr_times(SEXP XSEXP, SEXP YSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type Y(YSEXP);
-    rcpp_result_gen = Rcpp::wrap(multiply(X, Y));
+    rcpp_result_gen = Rcpp::wrap(times(X, Y));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -182,6 +54,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type Y(YSEXP);
     rcpp_result_gen = Rcpp::wrap(subtract(X, Y));
+    return rcpp_result_gen;
+END_RCPP
+}
+// normal_matrix
+NumericMatrix normal_matrix(int row, int col);
+RcppExport SEXP _matr_normal_matrix(SEXP rowSEXP, SEXP colSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type row(rowSEXP);
+    Rcpp::traits::input_parameter< int >::type col(colSEXP);
+    rcpp_result_gen = Rcpp::wrap(normal_matrix(row, col));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -322,20 +206,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_matr_info_gain", (DL_FUNC) &_matr_info_gain, 2},
-    {"_matr_split_data", (DL_FUNC) &_matr_split_data, 5},
-    {"_matr_best_split", (DL_FUNC) &_matr_best_split, 4},
-    {"_matr_make_pred", (DL_FUNC) &_matr_make_pred, 1},
-    {"_matr_recurse_fit_tree", (DL_FUNC) &_matr_recurse_fit_tree, 3},
-    {"_matr_recurse_pred_tree", (DL_FUNC) &_matr_recurse_pred_tree, 2},
-    {"_matr_recurse_pred_tree_all", (DL_FUNC) &_matr_recurse_pred_tree_all, 2},
-    {"_matr_not_in", (DL_FUNC) &_matr_not_in, 3},
-    {"_matr_knn_singular", (DL_FUNC) &_matr_knn_singular, 4},
-    {"_matr_normal_matrix", (DL_FUNC) &_matr_normal_matrix, 2},
-    {"_matr_mul", (DL_FUNC) &_matr_mul, 2},
-    {"_matr_transpose", (DL_FUNC) &_matr_transpose, 1},
     {"_matr_multiply", (DL_FUNC) &_matr_multiply, 2},
+    {"_matr_transpose", (DL_FUNC) &_matr_transpose, 1},
+    {"_matr_times", (DL_FUNC) &_matr_times, 2},
     {"_matr_subtract", (DL_FUNC) &_matr_subtract, 2},
+    {"_matr_normal_matrix", (DL_FUNC) &_matr_normal_matrix, 2},
     {"_matr_sub_scalar", (DL_FUNC) &_matr_sub_scalar, 2},
     {"_matr_mul_scalar", (DL_FUNC) &_matr_mul_scalar, 2},
     {"_matr_add_ones", (DL_FUNC) &_matr_add_ones, 1},

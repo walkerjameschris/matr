@@ -6,7 +6,7 @@ editor: visual
 ---
 
 ```{r setup, echo=FALSE}
-library(deepspace, quietly = TRUE)
+library(matr, quietly = TRUE)
 library(ggplot2, quietly = TRUE)
 
 add_fig_no <- function(plot, text) {
@@ -35,7 +35,7 @@ add_fig_no <- function(plot, text) {
 
 Machine learning plays a unique role in improving accessibility in digital communication with capabilities including text-to-speech, language translation, and alt-text generation. Machine learning can also be used to detect American Sign Language (ASL) signs and convert them to text data. **Sign language detection is not currently implemented into the modern ecosystem of video call tools.** Imagine if FaceTime was able to convert signs to text in real time. An ASL recognition system could convert a video feed of signs, convert the message to text, and read back as text-to-speech to the recipient. This would create more natural telecommunication for people with a hearing disability. With this concept in mind, I set out to create a primitive sign language detection model by implementing the learning algorithms from scratch.
 
-Beyond this report, this project is an R package (called `deepspace`) with a C++ back end which aids in the collection, preprocessing, and modeling of images for the purpose of classification. I hosted and documented this package on my [personal GitHub profile here](https://github.com/walkerjameschris/deepspace). Additionally, it is important to set reasonable expectations for this class project; while a fully featured model would capture the entirety of ASL, this model classifies several letters of the ASL alphabet as a proof of concept. Users can install this package on their system and develop their own classification models (more details on this in the *Resources* section).
+Beyond this report, this project is an R package (called `matr`) with a C++ back end which aids in the collection, preprocessing, and modeling of images for the purpose of classification. I hosted and documented this package on my [personal GitHub profile here](https://github.com/walkerjameschris/matr). Additionally, it is important to set reasonable expectations for this class project; while a fully featured model would capture the entirety of ASL, this model classifies several letters of the ASL alphabet as a proof of concept. Users can install this package on their system and develop their own classification models (more details on this in the *Resources* section).
 
 # Data Sources
 
@@ -50,7 +50,7 @@ image_plot <-
   ) |>
   purrr::map(function(i) {
     
-    img <- deepspace:::asl$X[i, ]
+    img <- matr:::asl$X[i, ]
     
     as.vector(img) |>
       tibble::as_tibble() |>
@@ -226,7 +226,7 @@ $$
 X_{ij} \approx \mathcal{N}(0, 1)
 $$
 
-#### `mul(X, Y)`
+#### `multiply(X, Y)`
 
 Matrix multiplication is an extremely common operation in machine learning and fitting a neural network is no exception. This function considers two matrices where matrix $X$ must have the same number of rows as matrix $Y$ has columns. It returns a matrix with the number of rows of $X$ and the number of columns as $Y$. This function is highly optimized and benchmarks at speeds equal to or faster than R's base matrix multiplication implementation.
 
@@ -242,7 +242,7 @@ $$
 X^T
 $$
 
-#### `multiply(X, Y)`
+#### `times(X, Y)`
 
 Unlike matrix multiplication, this function performs element-wise multiplication of two matrices (Hadamard product). Because this is an element level multiplication, matrices $X$ and $Y$ must share the same dimensions. As such, this function returns a new matrix with the same dimensions as the input matrices.
 
@@ -312,7 +312,7 @@ $$
 
 #### `feed_forward(X)`
 
-The concept of *feeding forward* is an important concept in neural network fitting and prediction. The core concept it is to multiply the result of the prior step with the weight matrix at the current step. The resulting matrix will have the same rows as the input matrix and the same number of columns as there are classes in our training label matrix (one-hot encoded). The `deepspace` package fits neural networks with two hidden layers each with an arbitrary number of neurons.
+The concept of *feeding forward* is an important concept in neural network fitting and prediction. The core concept it is to multiply the result of the prior step with the weight matrix at the current step. The resulting matrix will have the same rows as the input matrix and the same number of columns as there are classes in our training label matrix (one-hot encoded). The `matr` package fits neural networks with two hidden layers each with an arbitrary number of neurons.
 
 Let our training data be denoted as $X$, the weights for hidden layer one as $H_1$, the weights for hidden layer two as $H_2$, the weight for the final layer as $W$. Where $f()$ corresponds to `add_ones()` from above.
 
@@ -332,7 +332,7 @@ $$
 
 #### Model Fitting Procedure
 
-The core function of this package is `deepspace::fit_network()`. This function accepts training data and labels and fits a neural network. During initialization, all weight matrices are constructed using `normal_matrix()` in accordance with network design criteria. Suppose we have a matrix of training data denoted as $X$ with 6 predictors and $n$ observations. Additionally, we will be fitting a binary classification outcome (which is one hot encoded in the label matrix $Y$ with 2 columns). The network will have two hidden layers each with 3 neurons. Matrix $X_T$ represents the training matrix $X$ with an intercept column vector added. All $W$ matrices represent weights for the hidden layers and the output layer. Here $f()$ refers to the `normal_matrix()` function.
+The core function of this package is `matr::fit_network()`. This function accepts training data and labels and fits a neural network. During initialization, all weight matrices are constructed using `normal_matrix()` in accordance with network design criteria. Suppose we have a matrix of training data denoted as $X$ with 6 predictors and $n$ observations. Additionally, we will be fitting a binary classification outcome (which is one hot encoded in the label matrix $Y$ with 2 columns). The network will have two hidden layers each with 3 neurons. Matrix $X_T$ represents the training matrix $X$ with an intercept column vector added. All $W$ matrices represent weights for the hidden layers and the output layer. Here $f()$ refers to the `normal_matrix()` function.
 
 $$
 X_T =\begin{bmatrix}
@@ -368,7 +368,7 @@ $$
 D_1 = W_2D_2^T \times (A_1 \times(1 - A_1))
 $$
 
-We can now apply these matrices to update the three weight matrices. An additional parameter is introduced here as $\gamma$ which represents the learning rate. Currently, `deepspace` supports only a constant learning rate across all three weight matrix computations.
+We can now apply these matrices to update the three weight matrices. An additional parameter is introduced here as $\gamma$ which represents the learning rate. Currently, `matr` supports only a constant learning rate across all three weight matrix computations.
 
 $$
 W_1 = W_1 - \gamma X^TD_1
@@ -388,7 +388,7 @@ The package allows for printing of neural networks such that each weight is enco
 X <- matrix(seq(6), nrow = 1)
 Y <- matrix(seq(2), nrow = 1)
 
-nx <- deepspace::fit_network(X, Y)
+nx <- matr::fit_network(X, Y)
 
 graph <-
     purrr::set_names(
@@ -443,7 +443,7 @@ graph <-
       plot.title = ggplot2::element_text(face = "bold")
     ) +
     ggplot2::labs(
-      title = "A Deepspace Neural Network",
+      title = "A matr Neural Network",
       subtitle = "4-Layer Deep Learning Network",
       y = "Neuron",
       x = "Layer",
@@ -474,7 +474,7 @@ While an increased number of neurons, hidden layers, or training epochs may marg
 
 # Evaluation and Final Results
 
-I started by estimating five models each with an increasing number of neurons. Because `deepspace` supports convergence detection, pre-selects a learning rate, and fits a two hidden layers by default, the primary hyperparameter to tune is the number of hidden layer neurons. I fit models with 25, 50, 100, 200, and 400 hidden layer neurons in parallel. Logically, increasing the number of neurons allows the network (a universal function appropriator) to better learn the nuances in the training data. If the number of neurons is increased too much then over fitting can occur.
+I started by estimating five models each with an increasing number of neurons. Because `matr` supports convergence detection, pre-selects a learning rate, and fits a two hidden layers by default, the primary hyperparameter to tune is the number of hidden layer neurons. I fit models with 25, 50, 100, 200, and 400 hidden layer neurons in parallel. Logically, increasing the number of neurons allows the network (a universal function appropriator) to better learn the nuances in the training data. If the number of neurons is increased too much then over fitting can occur.
 
 However, because the network has 1,764 input neurons a network with 400 hidden layer neurons is still considered a generalization (or compression) of the input. Likewise, we can test whether the model is overfitting if model performance remains sufficient on the testing population. In the plot below we see the loss curve as the neural network learns. All models converged apart from the model with 100 neurons. This convergence failure is likely do to the random seed used to initialize the parameters. I chose to leave the convergence failure in this plot because it demonstrates how neural networks can be sensitive to initial conditions.
 
@@ -565,7 +565,7 @@ image_plot <-
   ) |>
   purrr::map(function(adjust) {
     
-    adjust(deepspace:::asl$X[1, ]) |>
+    adjust(matr:::asl$X[1, ]) |>
       as.vector() |>
       tibble::as_tibble() |>
       dplyr::mutate(
@@ -612,7 +612,7 @@ add_fig_no(
 )
 ```
 
-Using this new data, I was able to maintain good performance of the neural network across all samples using the 200 neuron model even when randomness is introduced into the model images. My neural network has the following specifications from `deepspace`:
+Using this new data, I was able to maintain good performance of the neural network across all samples using the 200 neuron model even when randomness is introduced into the model images. My neural network has the following specifications from `matr`:
 
 | Metric                     | Value          |
 |----------------------------|----------------|
@@ -628,17 +628,17 @@ Using this new data, I was able to maintain good performance of the neural netwo
 
 # Resources
 
-If you are interested in using `deepspace` in your own work, you can install it directly from GitHub in an R environment. The package comes with two data sets. The first is a sample of the `mnist` digits data set and the other is `asl` which represents the images I captured for my project. To get started, simply install, load, and fit a model!
+If you are interested in using `matr` in your own work, you can install it directly from GitHub in an R environment. The package comes with two data sets. The first is a sample of the `mnist` digits data set and the other is `asl` which represents the images I captured for my project. To get started, simply install, load, and fit a model!
 
 ```{r eval=FALSE}
-devtools::install_github("https://github.com/walkerjameschris/deepspace")
+devtools::install_github("https://github.com/walkerjameschris/matr")
 
-library(deepspace)
+library(matr)
 
-data <- deepspace:::mnist
+data <- matr:::mnist
 
 network <-
-  deepspace::fit_network(
+  matr::fit_network(
     X = data$X,
     Y = data$Y,
     neurons = 5,

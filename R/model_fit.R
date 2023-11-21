@@ -77,7 +77,7 @@ fit_network <- function(X, Y,
   
   network <-
     withr::with_seed( 
-      code = matr:::initialize(X, Y, neurons),
+      code = initialize(X, Y, neurons),
       seed = seed
     )
   
@@ -120,44 +120,4 @@ fit_network <- function(X, Y,
   
   attr(network, "class") <- "matr_network"
   network
-}
-
-#' Fit a Binary Decision Tree Classifier
-#' 
-#' Fits a decision tree using C++ backend.
-#'
-#' @param X Matrix of training data
-#' @param y Vector of training labels
-#' @param min_split Min number of samples to split
-#' 
-#' @import cli
-#' @return A list as class matr decision tree
-#' @examples
-#' 
-#' data <- ggplot2::diamonds
-#' 
-#' y <- 1 * matrix(data$price > 2400)
-#' X <- as.matrix(dplyr::select(data, carat, table))
-#' 
-#' tree <-
-#'   matr::fit_tree(
-#'     X = X,
-#'     y = y,
-#'     min_split = 100
-#'   )
-#' 
-#' predict(tree)
-#' @export
-fit_tree <- function(X, y, min_split = 100) {
-  
-  if (!is.null(dim(y)) || any(!(y %in% c(0, 1)))) {
-    cli::cli_abort("`y` must be a vector with only 0s and 1s")
-  }
-  
-  tree <- recurse_fit_tree(X, y, min_split)
-  tree$train <- X
-  tree$min_split = min_split
-  
-  attr(tree, "class") <- "matr_tree"
-  tree
 }

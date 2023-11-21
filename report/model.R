@@ -3,9 +3,9 @@
 # model.R
 # Chris Walker
 
-# Fits a deepspace model using captured images
+# Fits a matr model using captured images
 
-library(deepspace)
+library(matr)
 library(dplyr)
 library(withr)
 library(foreach)
@@ -13,10 +13,10 @@ library(doParallel)
 
 doParallel::registerDoParallel(cores = 4)
 
-data <- deepspace:::asl
+data <- matr:::asl
 
 data <-
-  deepspace::train_test(
+  matr::train_test(
     X = data$X,
     Y = data$Y
   )
@@ -27,7 +27,7 @@ models <-
   c(25, 50, 100, 200, 400) |>
   foreach::foreach(x = _) %dopar% {
     
-    deepspace::fit_network(
+    matr::fit_network(
       X = data$train$X,
       Y = data$train$Y,
       neurons = x
@@ -110,7 +110,7 @@ mod_X <-
       matrix(nrow = rows)
 
     temp <- x_df * bright + norm_val
-    deepspace:::matrix_min_max(temp)
+    matr:::matrix_min_max(temp)
   }) |>
   do.call(
     what = rbind,
