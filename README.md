@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This R package provides a consistent NumPy inspired API for working with.
+This R package provides a consistent NumPy inspired API for working with
 matrices in R. It contains the most common matrix operations and implementations
 for many machine learning models designed to operate over R matrices.
 **Disclaimer:** These algorithms are primarily implemented for educational
