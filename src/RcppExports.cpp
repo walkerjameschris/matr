@@ -191,6 +191,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// strip_last
+NumericMatrix strip_last(NumericMatrix X);
+RcppExport SEXP _matr_strip_last(SEXP XSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    rcpp_result_gen = Rcpp::wrap(strip_last(X));
+    return rcpp_result_gen;
+END_RCPP
+}
 // propagate_back
 List propagate_back(List network, NumericMatrix Y, double learn_rate);
 RcppExport SEXP _matr_propagate_back(SEXP networkSEXP, SEXP YSEXP, SEXP learn_rateSEXP) {
@@ -221,6 +232,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_matr_converge", (DL_FUNC) &_matr_converge, 4},
     {"_matr_matrix_min_max", (DL_FUNC) &_matr_matrix_min_max, 3},
     {"_matr_gradient", (DL_FUNC) &_matr_gradient, 3},
+    {"_matr_strip_last", (DL_FUNC) &_matr_strip_last, 1},
     {"_matr_propagate_back", (DL_FUNC) &_matr_propagate_back, 3},
     {NULL, NULL, 0}
 };

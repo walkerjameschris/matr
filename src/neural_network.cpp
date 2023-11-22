@@ -1,11 +1,150 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-#include "linear_algebra.h"
+//' @useDynLib matr, .registration=TRUE
+
+//// Linear Algebra ////
+
+// [[Rcpp::export]]
+NumericMatrix multiply(NumericMatrix X, NumericMatrix Y) {
+ 
+ int X_row = X.nrow();
+ int X_col = X.ncol();
+ int Y_row = Y.nrow();
+ int Y_col = Y.ncol();
+ 
+ if (Y_row != X_col) {
+   Rcpp::stop("Y must have as many rows as X as columns");
+ }
+ 
+ NumericMatrix result(X_row, Y_col);
+ 
+ for (int i = 0; i < X_row; i++) {
+   for (int j = 0; j < Y_col; j++) {
+     for (int k = 0; k < X_col; k++) {
+       result(i, j) += X(i, k) * Y(k, j);
+     }
+   }
+ }
+ 
+ return result;
+}
+
+// [[Rcpp::export]]
+NumericMatrix transpose(NumericMatrix X) {
+  
+  int row = X.nrow();
+  int col = X.ncol();
+  
+  NumericMatrix result(col, row);
+  
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      result(j, i) = X(i, j);
+    }
+  }
+  
+  return result;
+}
+
+// [[Rcpp::export]]
+NumericMatrix times(NumericMatrix X, NumericMatrix Y) {
+  
+  int X_row = X.nrow();
+  int X_col = X.ncol();
+  int Y_row = Y.nrow();
+  int Y_col = Y.ncol();
+  
+  if (X_row != Y_row || X_col != Y_col) {
+    Rcpp::stop("Matrices must share the same dimensions");
+  }
+  
+  NumericMatrix result(X_row, X_col);
+  
+  for (int i = 0; i < X_row; i++) {
+    for (int j = 0; j < X_col; j++) {
+      result(i, j) = X(i, j) * Y(i, j);
+    }
+  }
+  
+  return result;
+}
+
+// [[Rcpp::export]]
+NumericMatrix subtract(NumericMatrix X, NumericMatrix Y) {
+  
+  int X_row = X.nrow();
+  int X_col = X.ncol();
+  int Y_row = Y.nrow();
+  int Y_col = Y.ncol();
+  
+  if (X_row != Y_row || X_col != Y_col) {
+    Rcpp::stop("Matrices must share the same dimensions");
+  }
+  
+  NumericMatrix result(X_row, X_col);
+  
+  for (int i = 0; i < X_row; i++) {
+    for (int j = 0; j < X_col; j++) {
+      result(i, j) = X(i, j) - Y(i, j);
+    }
+  }
+  
+  return result;
+}
+
+// [[Rcpp::export]]
+NumericMatrix normal_matrix(int row, int col) {
+  
+  NumericMatrix result(row, col);
+  
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      result(i, j) = R::rnorm(0, 1);
+    }
+  }
+  
+  return result;
+}
+
+// [[Rcpp::export]]
+NumericMatrix sub_scalar(double x, NumericMatrix Y) {
+  
+  int row = Y.nrow();
+  int col = Y.ncol();
+  
+  NumericMatrix result(row, col);
+  
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      result(i, j) = x - Y(i, j);
+    }
+  }
+  
+  return result;
+}
+
+// [[Rcpp::export]]
+NumericMatrix mul_scalar(double x, NumericMatrix Y) {
+  
+  int row = Y.nrow();
+  int col = Y.ncol();
+  
+  NumericMatrix result(row, col);
+  
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      result(i, j) = x * Y(i, j);
+    }
+  }
+  
+  return result;
+}
+
 
 // [[Rcpp::export]]
 NumericMatrix add_ones(NumericMatrix X) {
-  
+ 
   int row = X.nrow();
   int col = X.ncol() + 1;
   
@@ -13,7 +152,7 @@ NumericMatrix add_ones(NumericMatrix X) {
   
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < col; j++) {
-      
+    
       if ((j + 1) == col) {
         result(i, j) = 1;
         continue;
@@ -36,12 +175,12 @@ NumericMatrix activation(NumericMatrix X) {
   
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < col; j++) {
-      
+    
       double base = X(i, j);
       
       if (base > 500) {
-        result(i, j) = 1;
-        continue;
+         result(i, j) = 1;
+         continue;
       }
       
       double value = exp(base);
@@ -62,7 +201,7 @@ List initialize(NumericMatrix X, NumericMatrix Y, int neurons) {
   NumericMatrix hide_a = normal_matrix(X_col, neurons);
   NumericMatrix hide_b = normal_matrix(neurons + 1, neurons);
   NumericMatrix output = normal_matrix(neurons + 1, Y_col);
-  
+ 
   return List::create(
     Named("before") = before,
     Named("hide_a") = hide_a,
@@ -92,7 +231,7 @@ List feed_forward(List network) {
 
 // [[Rcpp::export]]
 double compute_loss(NumericMatrix X, NumericMatrix Y) {
-  
+ 
   int row = X.nrow();
   int col = X.ncol();
   
@@ -112,7 +251,7 @@ bool converge(NumericVector hist,
               double current,
               double tolerance = 0.001,
               int min_epoch = 30) {
-  
+ 
   int epochs = hist.length();
   double last = hist[epochs - 1];
   double mean = 0.0;
@@ -138,7 +277,7 @@ bool converge(NumericVector hist,
 NumericMatrix matrix_min_max(NumericMatrix X,
                              double min_val = 0.0,
                              double max_val = 1.0) {
-  
+ 
   int row = X.nrow();
   int col = X.ncol();
   
@@ -146,7 +285,7 @@ NumericMatrix matrix_min_max(NumericMatrix X,
   
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < col; j++) {
-      
+    
       double value = X(i, j);
       
       if (value > max_val) {
@@ -170,7 +309,7 @@ NumericMatrix matrix_min_max(NumericMatrix X,
 NumericMatrix gradient(NumericMatrix W,
                        NumericMatrix D,
                        NumericMatrix A) {
-  
+ 
   // (W @ D.T).T * (A * (1 - A))
   return times(
     transpose(multiply(W, transpose(D))),
@@ -179,10 +318,28 @@ NumericMatrix gradient(NumericMatrix W,
 }
 
 // [[Rcpp::export]]
+NumericMatrix strip_last(NumericMatrix X) {
+  
+  int X_row = X.nrow();
+  int X_col = X.ncol();
+  int N_col = X_col - 1;
+  
+  NumericMatrix result(X_row, N_col);
+  
+  for (int i = 0; i < X_row; i++) {
+    for (int j = 0; j < N_col; j++) {
+      result(i, j) = X(i, j);
+    }
+  }
+  
+  return result;
+}
+
+// [[Rcpp::export]]
 List propagate_back(List network,
                     NumericMatrix Y,
                     double learn_rate) {
-  
+ 
   List feed = feed_forward(network);
   
   NumericMatrix X  = network["before"];
@@ -195,19 +352,19 @@ List propagate_back(List network,
   NumericMatrix a3 = feed["a3"];
   
   NumericMatrix d3 = subtract(a3, Y);
-  NumericMatrix d2 = gradient(w3, d3, a2);
+  NumericMatrix d2 = strip_last(gradient(w3, d3, a2));
   NumericMatrix d1 = gradient(w2, d2, a1);
   
-  NumericMatrix w1_adj = multiply(transpose(X),  d1);
+  NumericMatrix w1_adj = strip_last(multiply(transpose(X),  d1));
   NumericMatrix w2_adj = multiply(transpose(a1), d2);
   NumericMatrix w3_adj = multiply(transpose(a2), d3);
-    
-  NumericMatrix w1_new = subtract(w1, times(learn_rate, w1_adj));
-  NumericMatrix w2_new = subtract(w2, times(learn_rate, w2_adj));
-  NumericMatrix w3_new = subtract(w3, times(learn_rate, w3_adj));
-  
+   
+  NumericMatrix w1_new = subtract(w1, mul_scalar(learn_rate, w1_adj));
+  NumericMatrix w2_new = subtract(w2, mul_scalar(learn_rate, w2_adj));
+  NumericMatrix w3_new = subtract(w3, mul_scalar(learn_rate, w3_adj));
+ 
   double loss = compute_loss(d3, Y);
-  
+ 
   return List::create(
     Named("before") = X,
     Named("hide_a") = w1_new,

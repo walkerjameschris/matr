@@ -4,37 +4,30 @@
 #' @useDynLib matr, .registration=TRUE
 NULL
 
-#' @export
 multiply <- function(X, Y) {
     .Call(`_matr_multiply`, X, Y)
 }
 
-#' @export
 transpose <- function(X) {
     .Call(`_matr_transpose`, X)
 }
 
-#' @export
 times <- function(X, Y) {
     .Call(`_matr_times`, X, Y)
 }
 
-#' @export
 subtract <- function(X, Y) {
     .Call(`_matr_subtract`, X, Y)
 }
 
-#' @export
 normal_matrix <- function(row, col) {
     .Call(`_matr_normal_matrix`, row, col)
 }
 
-#' @export
 sub_scalar <- function(x, Y) {
     .Call(`_matr_sub_scalar`, x, Y)
 }
 
-#' @export
 mul_scalar <- function(x, Y) {
     .Call(`_matr_mul_scalar`, x, Y)
 }
@@ -69,6 +62,10 @@ matrix_min_max <- function(X, min_val = 0.0, max_val = 1.0) {
 
 gradient <- function(W, D, A) {
     .Call(`_matr_gradient`, W, D, A)
+}
+
+strip_last <- function(X) {
+    .Call(`_matr_strip_last`, X)
 }
 
 propagate_back <- function(network, Y, learn_rate) {
