@@ -1,4 +1,4 @@
-# matr <img src='img/logo.png' align="right" height="140" />
+# matr <img src='img/logo.png' align="right" height="240" />
 
 ### A Simple R Package for Estimating Neural Network Clasifiers
 
