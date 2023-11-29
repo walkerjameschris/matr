@@ -39,3 +39,39 @@ predict.matr_network <- function(x, newdata, ...) {
     as.data.frame() |>
     tibble::as_tibble()
 }
+
+#' @export
+#' @import tibble
+#' @method print matr_knn
+print.matr_knn <- function(x, ...) {
+  
+  details <-
+    list(
+      "*" = "Training Points: {nrow(x$X)}",
+      "*" = "Neighbors (k): {x$k}"
+    ) |>
+    purrr::map_chr(~ glue::glue(.x, x = x))
+  
+  cli::cli_h1("A matr KNN Classifier")
+  cli::cli_h2("Model Information:")
+  cli::cli_inform(details)
+}
+
+#' @export
+#' @import tibble
+#' @method predict matr_knn
+predict.matr_knn <- function(x, values, ...) {
+  
+  
+  values_rows <- seq(nrow(values))
+  
+  values_rows |>
+    purrr::map_dbl(function(i) {
+      
+      classes <-
+        get_distances(x$X, values[i, ]) |>
+        get_k_class(x$y, x$k)
+      
+      as.numeric(names(which.max(table(classes))))
+    })
+}

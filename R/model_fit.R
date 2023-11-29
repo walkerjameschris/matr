@@ -121,3 +121,21 @@ fit_network <- function(X, Y,
   attr(network, "class") <- "matr_network"
   network
 }
+
+
+#' Create a KNN Instance
+#' 
+#' Set up a KNN instance which bundles the training data
+#'
+#' @param X Training matrix
+#' @param y Training classes
+#' @param k Number of neighbors to consider
+#'
+#' @return A KNN instance
+#' @export
+fit_knn <- function(X, y, k = 6) {
+  
+  data <- tibble::lst(X, y, k)
+  attr(data, "class") <- "matr_knn"
+  data
+}
