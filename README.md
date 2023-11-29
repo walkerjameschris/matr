@@ -1,37 +1,18 @@
-# matr <img src='img/logo.png' align="right" height="150" />
+# matr <img src='img/logo.png' align="right" height="160" />
 
-### A Simple R Package for Estimating Neural Network Clasifiers
+### A Simple R Package for Estimating Machine Learning Models using a C++ Backend
 
 ## Introduction
 
-This R package provides a simple API for estimating neural network classifiers
-in R. The neural network itself is implemented using a C++ backend and is linked
-to R via Rcpp. The package was originally designed as my project for ISYE 6740.
+This R package provides a simple API for estimating machine learning models in R
+using a C++ backend via Rcpp. The package was originally designed as my project
+for ISYE 6740. There are plans to implement the following methods:
 
-## Navigating this Repo
-
-* `DESCRIPTION`: Package build information
-* `NAMESPACE`: Defines exported object
-* `R/`
-  * `RcppExports.R`: Defines C++ exports
-  * `generics.R`: Generic functions for printing
-  * `model_fit.R`: Functions for fitting a network
-  * `sysdata.rda`: Bundled data with the package
-* `README.md`: Information about this repo
-* `img/`
-  * `logo.png`: The package logo
-* `man/`
-  * `fit_network.Rd`: Documentation for fitting a network
-  * `train_test.Rd`: Documentation for train/test split
-* `matr.Rproj`: Sets working directory
-* `report/`
-  * `loss_df.csv`: Data for final models
-  * `model.R`: Script which fits models
-  * `neurons_df.csv`: Data for neuron experiments
-  * `report.qmd`: Report as a Qmd
-* `src/`
-    * `RcppExports.cpp`: Automatically defines C++ exports
-    * `neural_network.cpp`: Neural network in C++
+* Nerual Networks
+* Decision Trees
+* Random Forests
+* Boosted Trees
+* KNN
 
 ## Getting Started
 
