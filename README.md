@@ -1,33 +1,30 @@
-# matr <img src='img/logo.png' align="right" height="160" />
+# matr <img src="img/logo.png" align="right" height="160"/>
 
 ### A Simple R Package for Estimating Machine Learning Models using a C++ Backend
 
 ## Introduction
 
-This R package provides a simple API for estimating machine learning models in R
-using a C++ backend via Rcpp. The package was originally designed as my project
-for ISYE 6740. There are plans to implement the following methods:
+This R package provides a simple API for estimating machine learning models in R using a C++ backend via Rcpp. The package was originally designed as my project for ISYE 6740. There are plans to implement the following methods:
 
-* Nerual Networks
-* Decision Trees
-* Random Forests
-* Boosted Trees
-* KNN
+-   Nerual Networks
+-   Decision Trees
+-   Random Forests
+-   Boosted Trees
+-   KNN
+
+$x = 1$
 
 ## Getting Started
 
 To get started simply install the package from GitHub:
 
-```r
+``` r
 devtools::install_github("https://github.com/walkerjameschris/matr")
 ```
 
-To train a model, load the package and data. The `fit_network()` function
-accepts the training data and labels (one hot encoded) as matrices. You can tune
-the number of hidden layer neurons (`neurons`) in addition to the learning rate
-(`learn_rate`), the max number of iterations (`epoch`), and a random seed.
+To train a model, load the package and data. The `fit_network()` function accepts the training data and labels (one hot encoded) as matrices. You can tune the number of hidden layer neurons (`neurons`) in addition to the learning rate (`learn_rate`), the max number of iterations (`epoch`), and a random seed.
 
-```r
+``` r
 data <- matr:::mnist
 
 network <-

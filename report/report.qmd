@@ -33,13 +33,13 @@ add_fig_no <- function(plot, text) {
 
 # Problem Statement and Introduction
 
-Machine learning plays a unique role in improving accessibility in digital communication with capabilities including text-to-speech, language translation, and alt-text generation. Machine learning can also be used to detect American Sign Language (ASL) signs and convert them to text data. **Sign language detection is not currently implemented into the modern ecosystem of video call tools.** Imagine if FaceTime was able to convert signs to text in real time. An ASL recognition system could convert a video feed of signs, convert the message to text, and read back as text-to-speech to the recipient. This would create more natural telecommunication for people with a hearing disability. With this concept in mind, I set out to create a primitive sign language detection model by implementing the learning algorithms from scratch.
+Machine learning plays a unique role in improving digital communication accessibility. Potential capabilities include text-to-speech, language translation, and alt-text generation. Machine learning can also be used to detect American Sign Language (ASL) signs and convert them to text data. **Sign language detection is not currently implemented into the modern ecosystem of video call tools.** Imagine if FaceTime was able to convert signs to text in real time. An ASL recognition system could take a video feed of signs, convert the message to text, and read the text to the recipient. This would create more natural telecommunication for people with a hearing disability. With this concept in mind, I set out to create a primitive sign language detection model by implementing the learning algorithms from scratch.
 
 Beyond this report, this project is an R package (called `matr`) with a C++ back end which aids in the collection, preprocessing, and modeling of images for the purpose of classification. I hosted and documented this package on my [personal GitHub profile here](https://github.com/walkerjameschris/matr). Additionally, it is important to set reasonable expectations for this class project; while a fully featured model would capture the entirety of ASL, this model classifies several letters of the ASL alphabet as a proof of concept. Users can install this package on their system and develop their own classification models (more details on this in the *Resources* section).
 
 # Data Sources
 
-This model was trained on images captured using an iPhone camera. At the time of capture, I pre-select a sign which I was going to perform. I captured $n$ square images (3024 x 3024) in rapid succession. I performed the sign in a variety of lighting conditions and angles while the camera was capturing. Because I *pre-selected* the sign, there was no need to label images individually as a burst which corresponds to either A, B, or C. Pixel values are taken as grayscale and range between values of 0 to 1 which corresponds to black to white.
+This model was trained on images captured using an iPhone camera. At the time of capture, I pre-select a sign which I was going to perform. I captured $n$ square images (3024 x 3024) in rapid succession. I performed signs across a variety of lighting conditions and angles while the camera was capturing. Because I *pre-selected* the sign, there was no need to label images individually. Each burst of images corresponds to either A, B, or C. Pixel values are converted to gray scale and range between 0 and 1 corresponding to black and white, respectively.
 
 ```{r echo=FALSE, fig.align='center', fig.height=2, fig.width=6}
 image_plot <-
@@ -98,7 +98,7 @@ add_fig_no(
 )
 ```
 
-Stemming from other assignments this semester, I *vectorized* all images. I can point to a directory which corresponds to a given sign and load, vectorize, and label all images as R matrices for use in training. The matrices of images were split into training and testing.
+Stemming from other assignments this semester, I *vectorized* all images in the training data. I point to a directory which corresponds to a given sign to load, vectorize, and label all images as R matrices for use in model development. The matrices of images were split into training and testing.
 
 ```{r, echo=FALSE, fig.align='center', fig.height=1.5, fig.width=6}
 images <-
@@ -202,15 +202,15 @@ add_fig_no(
 
 Images were originally 3,024 pixels square. Because each pixel is mapped to an input neuron, this means that the model would have $3024^2$ weights and biases within the input layer. To balance computational efficiency and model complexity, I down scaled all images by a factor of 72 to create images 42 pixels wide and tall. This is still a sufficient level of detail for a total of $42^2$ weights and biases in the input layer.
 
-I captured 1,543 images to train and test my model. Because deep learning models (i.e., neural networks) require large amounts of data to learn complex relationships in data, I used image augmentation to artificially increase the number of samples. Specifically, I introduced five levels of Gaussian noise and three levels of brightness adjustment. Including the original samples, this produces a data set with 15x the number of observations.
+I captured 1,543 images to train and test my model. Because deep learning models (i.e., neural networks) require large amounts of data to learn complex relationships, I used image augmentation to artificially increase the number of samples. Specifically, I introduced five levels of Gaussian noise and three levels of brightness adjustment. Including the original samples, this produces a data set with 15x the number of observations.
 
 Pixel values represent the relative brightness of each pixel on a scale from 0 to 1. When both Gaussian noise and brightness adjustments are applied, I ensure that pixel values remain bounded between 0 and 1. Additionally, the base data contains 603 As, 455 Bs, and 485 Cs which all scale by a factor of 15 with image augmentation.
 
 # Methodology
 
-The process of capturing images as part of this process is fairly linear. In general, I captured images following the procedure described in *Data Sources* and stored them for model validation. However, the process of modeling the images was more iterative in nature. It involved making updates to the underlying algorithm while tuning the number of hidden layer neurons.
+The process of capturing images is fairly linear. In general, I captured images following the procedure described in *Data Sources* and stored them for model training and validation. However, the process of modeling the images was more iterative in nature. It involved making updates to the underlying algorithm while tuning the number of hidden layer neurons.
 
-I have a total of 1,543 images which were artificially expanded with image augmentation. Using a neural network with four layers ($42^2$ input neurons, two hidden layers with 100 hidden neurons, and one output layer with 3 neurons) would generate over 180,000 weights and biases for adjustment and could take between 15 minutes to an hour to train. As such, I performed basic parameter tuning (number of neurons) on the minimal 1,543 image data set (reserving 60% for training). Once the ideal set of parameters is found, I validate a final model on the full augmented image data set and assess model performance.
+I have a total of 1,543 images which were artificially expanded with image augmentation. Using a neural network with four layers ($42^2$ input neurons, two hidden layers with 100 hidden neurons each, and one output layer with 3 neurons) would generate over 180,000 weights and biases for adjustment and could take several hours to train. As such, I performed basic parameter tuning (number of neurons) on the minimal 1,543 image data set (reserving 60% for training). Once the ideal set of parameters is found, I validate a final model on the full augmented image data set and assess model performance.
 
 While the code package only contains a few main functions used for model estimation, the package contains many other functions designed to aid the model estimation procedure written in C++. Most of these functions correspond to a specific linear algebra operation needed to fit and validate a neural network.
 
@@ -260,7 +260,7 @@ $$
 
 #### `sub_scalar(x, Y)`
 
-Unlike `subtract()`, this function allows for the subtraction of a matrix *from* a scalar value. Because C++ is highly procedural, this function is needed to define behavior separately from element-wise subtraction. It accepts a scalar parameter $x$ and a matrix *Y* and returns a new matrix with the same dimensions as $Y$.
+Unlike `subtract()`, this function allows for the subtraction of a matrix *from* a scalar value. Because C++ is highly procedural, this function is needed to define behavior separately from element-wise subtraction. It accepts a scalar parameter $x$ and a matrix $Y$ and returns a new matrix with the same dimensions as $Y$.
 
 $$
 X =\begin{bmatrix}
@@ -284,7 +284,7 @@ $$
 
 #### `add_ones(X)`
 
-This function does not implement a standard linear algebra operation but is rather a convenience functionality used during network feed-forward to introduce a new column vector of ones to a matrix of arbitrary dimensions. This is needed to allow for a *bias* to be estimated for each layer in the network as we will see in later sections. Let $X$ be a matrix with $i$ rows and $j$ columns. Matrix $Y$ represents matrix $X$ with a column vector of ones appended to the right side.
+This function does not implement a standard linear algebra operation but is rather a convenience function used during network feed-forward to introduce a new column vector of ones to a matrix of arbitrary dimensions. This is needed to allow for a *bias* to be estimated for each layer in the network as we will see in later sections. Let $X$ be a matrix with $i$ rows and $j$ columns. Matrix $Y$ represents matrix $X$ with a column vector of ones appended to the right side.
 
 $$
 Y =\begin{bmatrix}
@@ -382,7 +382,7 @@ $$
 W_3 = W_3 - \gamma A_2^TD_3
 $$
 
-The package allows for printing of neural networks such that each weight is encoded as a line and each bias is encoded as a circle. In the example above we defined a 7-3-3-2 matrix. While we have 6 predictors, the network has one additional predictor (the bias) moving to 7 predictors.
+This is a plot representation of a simple neural networks. Each weight is encoded as a line and each bias is encoded as a circle. In the example above we defined a 7-3-3-2 matrix. While we have 6 predictors, the network has one additional predictor (the bias) moving to 7 predictors.
 
 ```{r, echo=FALSE, fig.height=3, fig.width=4, fig.align='center'}
 X <- matrix(seq(6), nrow = 1)
@@ -468,7 +468,7 @@ add_fig_no(
 
 # Hypothesis
 
-Before setting out on model estimations, I wanted to outline some key hypothesis statements to better my intuition for these models. First, I expect that there are diminishing marginal returns to model performance for an increase in the number of hidden layer neurons. Therefore, a network with 2 hidden layers each with 20 neurons will be sufficient.
+Before setting out on model estimations, I wanted to outline some key hypothesis statements to better my intuition for these models. First, I expect that there are diminishing marginal returns to model performance for an increase in the number of hidden layer neurons. Therefore, I expect a network with 2 hidden layers each with 20 neurons will be sufficient.
 
 While an increased number of neurons, hidden layers, or training epochs may marginally improve performance, I expect that a fairly simple model will perform adequately for the purposes of image classification. I detailed the performance of each model training configuration and identified a candidate model in the section below.
 
@@ -476,7 +476,7 @@ While an increased number of neurons, hidden layers, or training epochs may marg
 
 I started by estimating five models each with an increasing number of neurons. Because `matr` supports convergence detection, pre-selects a learning rate, and fits a two hidden layers by default, the primary hyperparameter to tune is the number of hidden layer neurons. I fit models with 25, 50, 100, 200, and 400 hidden layer neurons in parallel. Logically, increasing the number of neurons allows the network (a universal function appropriator) to better learn the nuances in the training data. If the number of neurons is increased too much then over fitting can occur.
 
-However, because the network has 1,764 input neurons a network with 400 hidden layer neurons is still considered a generalization (or compression) of the input. Likewise, we can test whether the model is overfitting if model performance remains sufficient on the testing population. In the plot below we see the loss curve as the neural network learns. All models converged apart from the model with 100 neurons. This convergence failure is likely do to the random seed used to initialize the parameters. I chose to leave the convergence failure in this plot because it demonstrates how neural networks can be sensitive to initial conditions.
+However, because the network has 1,764 input neurons a network with 400 hidden layer neurons is still considered a good generalization (or compression) of the input. Likewise, we can test whether the model is overfitting if model performance remains sufficient on the testing population. In the plot below we see the loss curve as the neural network learns. All models converged apart from the model with 100 neurons. This convergence failure is likely do to the random seed used to initialize the parameters. I chose to leave the convergence failure in this plot because it demonstrates how neural networks can be sensitive to initial conditions.
 
 ```{r echo=FALSE, fig.height=2.5, fig.width=5, fig.align='center'}
 loss_plot <-
@@ -617,7 +617,7 @@ Using this new data, I was able to maintain good performance of the neural netwo
 | Metric                     | Value          |
 |----------------------------|----------------|
 | Final Loss                 | 43.574         |
-| Estimation Time (CPU Time) | 9.09 Minutes   |
+| Estimation Time (CPU Time) | 49.09 Minutes  |
 | Network Layer Dimensions   | 1764-200-200-3 |
 | Learning Rate Adjustment   | 1e-05          |
 | Number of Epochs           | 235            |
@@ -626,14 +626,22 @@ Using this new data, I was able to maintain good performance of the neural netwo
 | Test Accuracy              | 76%            |
 | Augmented Test Accuracy    | 68%            |
 
+# Future Research
+
+If I were to continue this research, I would focus on two key areas. First, I would focus on expanding the diversity of the training dataset. While existing ASL data sets exist, they serve a similar purpose to the MNIST digits data which is to say they are used for teaching and education. A productionalized ASL model would need many more (maybe thousands of times more) photos from a wider variety of skin colors, lighting conditions, and camera angles.
+
+This would require significantly more computational resources, but would improve model robustness. Much like how Face ID accurately identifies your identity, an ASL model would need to be both robust and efficient enough to run on lightweight hardware reliably.
+
+The second area of focus is on the `matr` package itself. I would like to test a wider variety of activation functions (i.e., ReLU and softmax) in addition to expanding the range of hyperparameters. Specifically, altering the number of hidden layers and the number of neurons in each layer specifically. I would also want to enhance the performance of linear algebra operations (i.e., parallel matrix multiplication) so model prediction and fitting would be more performant.
+
 # Resources
+
+**Using `matr`:**
 
 If you are interested in using `matr` in your own work, you can install it directly from GitHub in an R environment. The package comes with two data sets. The first is a sample of the `mnist` digits data set and the other is `asl` which represents the images I captured for my project. To get started, simply install, load, and fit a model!
 
 ```{r eval=FALSE}
 devtools::install_github("https://github.com/walkerjameschris/matr")
-
-library(matr)
 
 data <- matr:::mnist
 
@@ -649,7 +657,7 @@ network <-
 predict(network)
 ```
 
-**References:**
+**Useful Links:**
 
 -   [3B1B Neural Network Guide](https://www.3blue1brown.com/topics/neural-networks)
 -   [IEEE Explore ASL Neural Networks](https://ieeexplore.ieee.org/abstract/document/8650241)
