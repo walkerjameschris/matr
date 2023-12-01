@@ -1,6 +1,6 @@
 ---
 title: "Using Neural Networks to Classify American Sign Language (ASL) Signs"
-author: "Chris Walker"
+author: "Chris Walker (cwalker333)"
 format: pdf
 editor: visual
 ---

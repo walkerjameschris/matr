@@ -12,8 +12,6 @@ This R package provides a simple API for estimating machine learning models in R
 -   Boosted Trees
 -   KNN
 
-$x = 1$
-
 ## Getting Started
 
 To get started simply install the package from GitHub:
