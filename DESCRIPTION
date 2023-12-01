@@ -1,15 +1,13 @@
 Package: matr
 Type: Package
-Title: Tools for Matrices and Machine Learning Models
+Title: Fit Neural Network Classifiers in R using C++ Backend
 Version: 0.1.0
 Authors@R: c(person(
             "Chris", "Walker",
             role = c("aut", "cre", "cph"),
             email = "walkerjameschris@gmail.com"
           ))
-Description: A consistent NumPy inspired API for working with matrices in R.
-  Contains the most common matrix operations. Incluces implementations for many
-  machine learning models designed to operate over R matrices.
+Description: A simple package for Neural Network estimation.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends:

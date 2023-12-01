@@ -10,43 +10,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// is_in
-bool is_in(double x, NumericVector values);
-RcppExport SEXP _matr_is_in(SEXP xSEXP, SEXP valuesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type values(valuesSEXP);
-    rcpp_result_gen = Rcpp::wrap(is_in(x, values));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_distances
-NumericVector get_distances(NumericMatrix X, NumericVector y);
-RcppExport SEXP _matr_get_distances(SEXP XSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(get_distances(X, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_k_class
-NumericVector get_k_class(NumericVector distances, NumericVector classes, int k);
-RcppExport SEXP _matr_get_k_class(SEXP distancesSEXP, SEXP classesSEXP, SEXP kSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type distances(distancesSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type classes(classesSEXP);
-    Rcpp::traits::input_parameter< int >::type k(kSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_k_class(distances, classes, k));
-    return rcpp_result_gen;
-END_RCPP
-}
 // multiply
 NumericMatrix multiply(NumericMatrix X, NumericMatrix Y);
 RcppExport SEXP _matr_multiply(SEXP XSEXP, SEXP YSEXP) {
@@ -254,9 +217,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_matr_is_in", (DL_FUNC) &_matr_is_in, 2},
-    {"_matr_get_distances", (DL_FUNC) &_matr_get_distances, 2},
-    {"_matr_get_k_class", (DL_FUNC) &_matr_get_k_class, 3},
     {"_matr_multiply", (DL_FUNC) &_matr_multiply, 2},
     {"_matr_transpose", (DL_FUNC) &_matr_transpose, 1},
     {"_matr_times", (DL_FUNC) &_matr_times, 2},

@@ -1,16 +1,10 @@
 # matr <img src="img/logo.png" align="right" height="160"/>
 
-### A Simple R Package for Estimating Machine Learning Models using a C++ Backend
+### A Simple R Package for Estimating Neural Network Models using a C++ Backend
 
 ## Introduction
 
-This R package provides a simple API for estimating machine learning models in R using a C++ backend via Rcpp. The package was originally designed as my project for ISYE 6740. There are plans to implement the following methods:
-
--   Nerual Networks
--   Decision Trees
--   Random Forests
--   Boosted Trees
--   KNN
+This R package provides a simple API for estimating neural network models in R using a C++ backend via Rcpp. The package was originally designed as my project for ISYE 6740.
 
 ## Getting Started
 
